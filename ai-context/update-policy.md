@@ -38,6 +38,12 @@
 - `ai-context/update-policy.md`
 - `ai-context/.gitignore`
 - `ai-context/ai-rules/**/*`
+- `ai-context/parameters/README.md`
+- `ai-context/parameters/repository/README.md`
+- `ai-context/parameters/repository/_template/**/*`
+- `ai-context/parameters/local-machine/README.md`
+- `ai-context/parameters/local-machine/.gitignore`
+- `ai-context/parameters/local-machine/local-machine.example.yaml`
 - `ai-context/scripts/**/*`
 - `ai-context/promts/**/*`
 - `ai-context/tasks/README.md`
@@ -56,6 +62,8 @@
 должны перезаписываться из шаблона:
 
 - `ai-context/content/**/*`
+- `ai-context/parameters/repository/repository-parameters.yaml`
+- `ai-context/parameters/local-machine/**/*`, кроме `README.md`, `.gitignore` и `local-machine.example.yaml`
 - `ai-context/tasks/task-list.md`
 - `ai-context/tasks/task-draft.txt`
 - `ai-context/tasks/task-details/**/*`, кроме `ai-context/tasks/task-details/_template/**/*`
@@ -71,6 +79,7 @@
 1. скопируй весь baseline;
 2. создай пустые project-local файлы и директории, если их нет:
    - `content/.gitkeep`
+   - `parameters/repository/repository-parameters.yaml`
    - `tasks/task-list.md`
    - `tasks/task-draft.txt`
 3. не добавляй вымышленные project-specific правила в `rules/` без анализа
@@ -94,6 +103,10 @@
 ## 6. Что запрещено
 
 - Перезаписывать `task-list.md` шаблонной версией поверх живого backlog.
+- Перезаписывать `parameters/repository/repository-parameters.yaml` шаблонной
+  версией поверх настроек конкретного репозитория.
+- Коммитить реальные local-machine параметры и секреты из
+  `ai-context/parameters/local-machine/`.
 - Удалять `content/` при обновлении правил.
 - Затирать существующие changelog-файлы.
 - Массово переписывать project-specific `rules/`, если они уже описывают

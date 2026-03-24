@@ -19,6 +19,8 @@
 - `ai-rules/` - постоянные межпроектные правила поведения AI-агента.
 - `rules/` - project-specific архитектурные и предметные правила конкретного
   репозитория.
+- `parameters/` - параметры использования `ai-context` в двух scope:
+  repository-level и local-machine-level.
 - `tasks/` - рабочий task-flow: список задач, детализация и execution-правила.
 - `changelog/` - append-only журнал изменений по принципу «одно изменение =
   один файл».

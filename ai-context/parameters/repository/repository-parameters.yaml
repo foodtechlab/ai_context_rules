@@ -1,0 +1,22 @@
+ai_context:
+  usage_modes:
+    default: developer
+    allowed:
+      - developer
+      - project-manager
+  task_codes:
+    allowed_sources:
+      - local
+      - jira
+      - bitrix
+    default_source: local
+  task_details:
+    structure: directory
+    root_readme: README.md
+    allow_subtasks: true
+    allow_context: true
+  source_of_truth:
+    repo: https://github.com/foodtechlab/ai_context_rules
+    branch_priority:
+      - main
+      - master

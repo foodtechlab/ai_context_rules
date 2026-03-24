@@ -34,3 +34,5 @@
 - `007_ai-manifest-it-contour-v1.md` - первая версия AI-манифеста для
   IT-контура компании, перенесенная из `ceo-ai` как отдельный опорный
   документ.
+- `008_ai-context-parameters-scope.md` - параметры `ai-context` разделяются на
+  repository-level и local-machine-level с разными правилами хранения.

@@ -1,0 +1,6 @@
+integrations:
+  bitrix:
+    login: "<your-login>"
+    password: "<your-password>"
+  jira:
+    token: "<your-token>"

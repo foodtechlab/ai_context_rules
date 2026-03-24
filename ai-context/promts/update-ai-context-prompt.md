@@ -26,6 +26,8 @@
 
 4. Не перезаписывай project-local данные:
 - `ai-context/content/**/*`
+- `ai-context/parameters/repository/repository-parameters.yaml`
+- `ai-context/parameters/local-machine/**/*`, кроме `README.md`, `.gitignore` и `local-machine.example.yaml`
 - `ai-context/tasks/task-list.md`
 - `ai-context/tasks/task-draft.txt`
 - `ai-context/tasks/task-details/**/*`, кроме `ai-context/tasks/task-details/_template/**/*`
@@ -41,6 +43,8 @@
 
 Не делай:
 - перезапись живого backlog;
+- перезапись repository-level параметров проекта;
+- коммит или удаление local-machine секретов;
 - удаление локального changelog;
 - уничтожение project-specific правил репозитория.
 ```

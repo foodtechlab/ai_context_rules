@@ -27,12 +27,15 @@
 4. При первой установке:
 - скопируй baseline;
 - создай недостающие project-local файлы и директории;
+- создай `ai-context/parameters/repository/repository-parameters.yaml` на основе шаблона, если его еще нет;
 - не придумывай project-specific правила в `ai-context/rules` без анализа кода проекта.
 
 5. При обновлении:
 - обнови baseline-файлы;
 - не перезаписывай:
   - `ai-context/content/**/*`
+  - `ai-context/parameters/repository/repository-parameters.yaml`
+  - `ai-context/parameters/local-machine/**/*`, кроме `README.md`, `.gitignore` и `local-machine.example.yaml`
   - `ai-context/tasks/task-list.md`
   - `ai-context/tasks/task-draft.txt`
   - `ai-context/tasks/task-details/**/*`, кроме `ai-context/tasks/task-details/_template/**/*`
@@ -47,6 +50,8 @@
 
 Не делай:
 - перезапись живого backlog в `task-list.md`;
+- перезапись repository-level параметров конкретного проекта;
+- коммит или перезапись local-machine секретов;
 - удаление `content/` и дневных файлов `changelog`;
 - уничтожение project-specific архитектурных правил в `ai-context/rules`.
 ```
