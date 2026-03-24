@@ -1,0 +1,7 @@
+# В git хранится читаемый markdown-контекст и versioned metadata.
+content/*.html
+content/*.tmp
+content/*.tmp.*
+
+# Markdown-снимки контекста сохраняются.
+!content/*.md
