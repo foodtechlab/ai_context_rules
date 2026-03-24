@@ -14,7 +14,7 @@
 - `tasks/task-list.md` - короткий рабочий список;
 - `tasks/task-details/*.md` - prompt-like детализация задачи;
 - `tasks/task-rules.md` - execution-правила;
-- `tasks/task.txt` - сырой или исторический источник задач.
+- `tasks/task-draft.txt` - сырой или исторический источник задач.
 
 ## Карта статусов
 

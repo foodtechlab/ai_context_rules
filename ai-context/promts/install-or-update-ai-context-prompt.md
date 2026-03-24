@@ -30,7 +30,7 @@
 - не перезаписывай:
   - `ai-context/content/**/*`
   - `ai-context/tasks/task-list.md`
-  - `ai-context/tasks/task.txt`
+  - `ai-context/tasks/task-draft.txt`
   - `ai-context/tasks/task-details/*.md`, кроме `_template.md`
   - `ai-context/changelog/*.md`, кроме `README.md`
   - `ai-context/rules/*.md`, кроме `README.md` и `_template.md`

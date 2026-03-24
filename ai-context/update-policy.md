@@ -45,7 +45,7 @@
 
 - `ai-context/content/**/*`
 - `ai-context/tasks/task-list.md`
-- `ai-context/tasks/task.txt`
+- `ai-context/tasks/task-draft.txt`
 - `ai-context/tasks/task-details/*.md`, кроме `_template.md`
 - `ai-context/changelog/*.md`, кроме `README.md`
 - `ai-context/rules/*.md`, кроме `README.md` и `_template.md`
@@ -60,7 +60,7 @@
 2. создай пустые project-local файлы и директории, если их нет:
    - `content/.gitkeep`
    - `tasks/task-list.md`
-   - `tasks/task.txt`
+   - `tasks/task-draft.txt`
 3. не добавляй вымышленные project-specific правила в `rules/` без анализа
    реального кода и архитектуры проекта.
 
