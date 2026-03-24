@@ -19,9 +19,9 @@
 ```text
 Построй в этом репозитории стандарт `ai-context` по образцу `https://github.com/foodtechlab/ai_context_rules` из ветки `main` или `master`.
 
-Установи или обнови baseline `ai-context`, не перезаписывай project-local backlog, task-details, changelog, project-specific rules и локальные секреты.
+Установи или обнови baseline `ai-context`, не перезаписывай project-local backlog AI, `task-details`, `changelog`, рабочие данные в корневой директории `epics`, project-specific rules и локальные секреты.
 
-В `ai-context/parameters/repository/repository-parameters.yaml` зафиксируй режим `project-manager`, чтобы `task-details` поддерживал детализацию эпиков, подзадач и дополнительного контекста для разработки.
+В `ai-context/parameters/repository/repository-parameters.yaml` зафиксируй режим `project-manager`. Считай `ai-context/tasks` очередью задач для самого AI, а задачи и эпики для команды веди в корневой директории `epics/` с отдельным `epic-list.md` и детализацией по каждому эпику. Саму директорию `epics/` из этого source-of-truth репозитория копируй в реальный проект только как документацию и только в режиме `project-manager`.
 
 После завершения перечисли, что обновлено, какие project-local области сохранены и какие локальные machine-параметры должны быть заполнены вручную.
 ```
@@ -52,6 +52,11 @@
 - [`ai-context/promts`](./ai-context/promts) - переиспользуемые prompt-like
   команды.
 
+Дополнительно в режиме `project-manager` используется корневая директория
+[`epics`](./epics). В этом source-of-truth репозитории она хранится как
+документационный шаблон и пример структуры, а в реальном проекте используется
+как backlog задач и эпиков для команды.
+
 ## Как использовать
 
 Если в рабочем проекте нужно установить или обновить `ai-context`, актуальную
@@ -74,6 +79,7 @@
 - Как обновлять baseline: [`ai-context/promts/update-ai-context-prompt.md`](./ai-context/promts/update-ai-context-prompt.md)
 - Как устанавливать baseline: [`ai-context/promts/install-or-update-ai-context-prompt.md`](./ai-context/promts/install-or-update-ai-context-prompt.md)
 - Как работать с задачами: [`ai-context/tasks/README.md`](./ai-context/tasks/README.md)
+- Как вести эпики команды в `project-manager` режиме: [`epics/README.md`](./epics/README.md)
 - Как устроены параметры: [`ai-context/parameters/README.md`](./ai-context/parameters/README.md)
 
 ## Статус

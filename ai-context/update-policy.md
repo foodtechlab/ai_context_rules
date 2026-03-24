@@ -29,6 +29,12 @@
 
 При обновлении агент обязан различать эти две группы.
 
+Если репозиторий работает в режиме `project-manager`, корневая директория
+`epics/` делится на две части:
+
+- документационный baseline из source-of-truth;
+- project-local backlog команды, который нельзя затирать.
+
 ## 2. Что считать baseline
 
 Эти файлы и директории можно копировать или обновлять из source-of-truth
@@ -52,6 +58,13 @@
 - `ai-context/rules/README.md`
 - `ai-context/rules/_template.md`
 
+Если в целевом проекте выбран режим `project-manager`, дополнительно можно
+копировать только документационную baseline-часть корневой директории
+`epics/`:
+
+- `epics/README.md`
+- `epics/_example/**/*`
+
 Если в целевом проекте baseline-файл уже изменялся вручную под локальные нужды,
 агент не должен слепо перезаписывать его. Нужно сделать merge по смыслу и
 сохранить локальные адаптации, если они осознанные.
@@ -69,6 +82,7 @@
 - `ai-context/tasks/task-details/**/*`, кроме `ai-context/tasks/task-details/_template/**/*`
 - `ai-context/changelog/*.md`, кроме `README.md`
 - `ai-context/rules/*.md`, кроме `README.md` и `_template.md`
+- `epics/**/*`, кроме `epics/README.md` и `epics/_example/**/*`
 - любые project-specific API-материалы, интеграционные дампы и вспомогательные
   скрипты, если они были добавлены поверх baseline
 
@@ -82,7 +96,16 @@
    - `parameters/repository/repository-parameters.yaml`
    - `tasks/task-list.md`
    - `tasks/task-draft.txt`
-3. не добавляй вымышленные project-specific правила в `rules/` без анализа
+3. если в `repository-parameters.yaml` выбран режим `project-manager`, скопируй
+   из source-of-truth только документационную часть `epics/`:
+   - `epics/README.md`
+   - `epics/_example/**/*`
+4. если в `repository-parameters.yaml` выбран режим `project-manager`, создай
+   корневую директорию `epics/` и минимальный project-local каркас:
+   - `epics/epic-list.md`
+5. если режим `project-manager` не выбран, не копируй `epics/` из
+   source-of-truth в рабочий проект.
+6. не добавляй вымышленные project-specific правила в `rules/` без анализа
    реального кода и архитектуры проекта.
 
 ## 5. Правило обновления
@@ -91,11 +114,14 @@
 
 1. обнови baseline-файлы;
 2. не затирай project-local артефакты;
-3. не удаляй существующие `task-details`, `changelog` и project-specific
-   `rules`;
-4. если структура baseline изменилась, добавь недостающие каталоги и шаблоны,
+3. если в проекте выбран режим `project-manager`, внутри `epics/` обновляй
+   только документационные baseline-файлы `README.md` и `_example/**/*`;
+4. не удаляй существующие `task-details`, `changelog` и project-specific
+   `rules`, а в режиме `project-manager` также не удаляй и не переписывай
+   `epics/epic-list.md` и рабочие директории эпиков;
+5. если структура baseline изменилась, добавь недостающие каталоги и шаблоны,
    но не очищай локальное содержимое;
-5. в отчете явно перечисли:
+6. в отчете явно перечисли:
    - какие baseline-файлы обновлены;
    - какие project-local файлы сохранены без перезаписи;
    - где потребовался merge вместо слепой замены.
@@ -105,6 +131,11 @@
 - Перезаписывать `task-list.md` шаблонной версией поверх живого backlog.
 - Перезаписывать `parameters/repository/repository-parameters.yaml` шаблонной
   версией поверх настроек конкретного репозитория.
+- Копировать `epics/` из source-of-truth в проект не в режиме
+  `project-manager`.
+- Перезаписывать в режиме `project-manager` рабочие данные внутри `epics/`
+  поверх живого backlog команды.
+- Считать `_example/` из `epics/` рабочими эпиками проекта.
 - Коммитить реальные local-machine параметры и секреты из
   `ai-context/parameters/local-machine/`.
 - Удалять `content/` при обновлении правил.

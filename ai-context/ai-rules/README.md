@@ -36,3 +36,6 @@
   документ.
 - `008_ai-context-parameters-scope.md` - параметры `ai-context` разделяются на
   repository-level и local-machine-level с разными правилами хранения.
+- `009_project-manager-epics-root.md` - в режиме `project-manager` командные
+  эпики и задачи живут в корневой директории `epics/`, а не в
+  `ai-context/tasks`.
