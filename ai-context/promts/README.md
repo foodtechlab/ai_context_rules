@@ -16,4 +16,4 @@
 | `install-or-update-ai-context-prompt.md` | `установи ai-context из этого репозитория` | Устанавливает `ai-context` из source-of-truth репозитория |
 | `install-or-update-ai-context-prompt.md` | `обнови ai-context из этого репозитория` | Обновляет `ai-context` из source-of-truth репозитория |
 | `task-list-formatting-prompt.md` | `отформатируй задачи` | Приводит `task-list.md` к рабочему формату |
-| `task-detailing-prompt.md` | `детализируй 01-001` | Создает подробный task detail для задачи по коду |
+| `task-detailing-prompt.md` | `детализируй <код>` | Создает подробный task detail для задачи по коду |

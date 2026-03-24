@@ -12,7 +12,8 @@
 ## Базовая модель
 
 - `tasks/task-list.md` - короткий рабочий список;
-- `tasks/task-details/*.md` - prompt-like детализация задачи;
+- `tasks/task-details/<код>/**/*` - директория детализации задачи с основным
+  `README.md`, подзадачами и дополнительным контекстом;
 - `tasks/README.md` - единый документ с workflow и execution-правилами;
 - `tasks/task-draft.txt` - сырой или исторический источник задач.
 

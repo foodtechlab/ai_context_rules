@@ -28,7 +28,7 @@
 - `ai-context/scripts/**/*`
 - `ai-context/promts/**/*`
 - `ai-context/tasks/README.md`
-- `ai-context/tasks/task-details/_template.md`
+- `ai-context/tasks/task-details/_template/**/*`
 - `ai-context/changelog/README.md`
 - `ai-context/rules/README.md`
 - `ai-context/rules/_template.md`
@@ -45,7 +45,7 @@
 - `ai-context/content/**/*`
 - `ai-context/tasks/task-list.md`
 - `ai-context/tasks/task-draft.txt`
-- `ai-context/tasks/task-details/*.md`, кроме `_template.md`
+- `ai-context/tasks/task-details/**/*`, кроме `ai-context/tasks/task-details/_template/**/*`
 - `ai-context/changelog/*.md`, кроме `README.md`
 - `ai-context/rules/*.md`, кроме `README.md` и `_template.md`
 - любые project-specific API-материалы, интеграционные дампы и вспомогательные
