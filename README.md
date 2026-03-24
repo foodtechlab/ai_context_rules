@@ -1,5 +1,31 @@
 # AI Context Rules
 
+## Быстрый старт
+
+### Для Developer
+
+```text
+Построй в этом репозитории стандарт `ai-context` по образцу `https://github.com/foodtechlab/ai_context_rules` из ветки `main` или `master`.
+
+Установи или обнови только baseline-часть `ai-context`, не затирай project-local данные, backlog, task-details, changelog, project-specific rules и локальные секреты.
+
+В `ai-context/parameters/repository/repository-parameters.yaml` зафиксируй режим `developer`, а local-machine доступы и секреты оставь только в `ai-context/parameters/local-machine/` без коммита в git.
+
+После завершения перечисли, что установлено или обновлено, что сохранено без перезаписи и что нужно заполнить вручную локально.
+```
+
+### Для Project Manager
+
+```text
+Построй в этом репозитории стандарт `ai-context` по образцу `https://github.com/foodtechlab/ai_context_rules` из ветки `main` или `master`.
+
+Установи или обнови baseline `ai-context`, не перезаписывай project-local backlog, task-details, changelog, project-specific rules и локальные секреты.
+
+В `ai-context/parameters/repository/repository-parameters.yaml` зафиксируй режим `project-manager`, чтобы `task-details` поддерживал детализацию эпиков, подзадач и дополнительного контекста для разработки.
+
+После завершения перечисли, что обновлено, какие project-local области сохранены и какие локальные machine-параметры должны быть заполнены вручную.
+```
+
 Репозиторий с baseline-правилами и структурой `ai-context` для рабочих
 репозиториев.
 
