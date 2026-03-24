@@ -42,8 +42,14 @@
 
 ## Установка и обновление
 
-Этот репозиторий должен выступать source-of-truth для baseline-части
-`ai-context`.
+Текущий source-of-truth для baseline-части `ai-context`:
+
+- `https://github.com/foodtechlab/ai_context_rules`
+
+Актуальную версию baseline нужно тянуть из основной ветки репозитория:
+
+- `main`, если она существует;
+- `master`, если в репозитории основная ветка называется так.
 
 Критично различать:
 
