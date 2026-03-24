@@ -35,7 +35,7 @@
 2. При необходимости создай prompt-like детализацию в
    `ai-context/tasks/task-details/`.
 3. Перед реализацией проверь применимые `ai-context/ai-rules/*.md`,
-   `ai-context/tasks/task-rules.md` и project-specific `ai-context/rules/*.md`.
+   `ai-context/tasks/README.md` и project-specific `ai-context/rules/*.md`.
 4. После изменений переведи задачу в `🟣`, обнови `ai-context/changelog`,
    покажи модальный алерт и подготовь резюме для коммита.
 5. Только пользователь после ручной проверки переводит задачу в `🟢`.

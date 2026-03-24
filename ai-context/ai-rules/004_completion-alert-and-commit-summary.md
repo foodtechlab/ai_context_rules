@@ -45,4 +45,4 @@
 коммит не требуется
 ```
 
-Подробный execution-формат описан в `ai-context/tasks/task-rules.md`.
+Подробный execution-формат описан в `ai-context/tasks/README.md`.

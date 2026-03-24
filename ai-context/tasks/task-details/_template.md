@@ -33,13 +33,13 @@
   `./ai-context/scripts/show-completion-alert.sh`, если пользователь отдельно
   не отменил это требование.
 - В финальном ответе подготовить `Резюме для коммита` по формату из
-  `ai-context/tasks/task-rules.md`.
+  `ai-context/tasks/README.md`.
 - После любых file changes создать отдельный changelog-файл в
   `ai-context/changelog` по правилу «одно изменение = один файл».
 
 ## Связанные правила
 
-- `/absolute/path/to/ai-context/tasks/task-rules.md`
+- `/absolute/path/to/ai-context/tasks/README.md`
 - `/absolute/path/to/ai-context/rules/example-rule.md`
 
 ## Связанные файлы

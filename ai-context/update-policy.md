@@ -28,7 +28,6 @@
 - `ai-context/scripts/**/*`
 - `ai-context/promts/**/*`
 - `ai-context/tasks/README.md`
-- `ai-context/tasks/task-rules.md`
 - `ai-context/tasks/task-details/_template.md`
 - `ai-context/changelog/README.md`
 - `ai-context/rules/README.md`
