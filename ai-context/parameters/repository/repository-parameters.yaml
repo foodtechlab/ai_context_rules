@@ -11,10 +11,10 @@ ai_context:
       - bitrix
     default_source: local
   task_details:
-    structure: directory
-    root_readme: README.md
-    allow_subtasks: true
-    allow_context: true
+    structure: flat-files
+    file_pattern: <code>.md
+    template_file: _template.md
+    decomposition: inline
   project_manager:
     team_epics:
       root_dir: epics

@@ -53,7 +53,7 @@
 - `ai-context/scripts/**/*`
 - `ai-context/promts/**/*`
 - `ai-context/tasks/README.md`
-- `ai-context/tasks/task-details/_template/**/*`
+- `ai-context/tasks/task-details/_template.md`
 - `ai-context/changelog/README.md`
 - `ai-context/rules/README.md`
 - `ai-context/rules/_template.md`
@@ -79,7 +79,8 @@
 - `ai-context/parameters/local-machine/**/*`, кроме `README.md`, `.gitignore` и `local-machine.example.yaml`
 - `ai-context/tasks/task-list.md`
 - `ai-context/tasks/task-draft.txt`
-- `ai-context/tasks/task-details/**/*`, кроме `ai-context/tasks/task-details/_template/**/*`
+- `ai-context/tasks/task-details/**/*`
+- `ai-context/tasks/task-details/*.md`, кроме `ai-context/tasks/task-details/_template.md`
 - `ai-context/changelog/*.md`, кроме `README.md`
 - `ai-context/rules/*.md`, кроме `README.md` и `_template.md`
 - `epics/**/*`, кроме `epics/README.md` и `epics/_example/**/*`
