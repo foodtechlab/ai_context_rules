@@ -1,0 +1,26 @@
+# `project-manager`: `epics/` вынесен из `ai-context`
+
+- Время: `2026-04-06 17:49:23 +0300`
+- Файлы:
+  - `README.md`
+  - `ai-context/README.md`
+  - `ai-context/baseline/README.md`
+  - `ai-context/baseline/manifest.json`
+  - `ai-context/parameters/repository-parameters.yaml`
+  - `ai-context/baseline/templates/repository-parameters.yaml`
+  - `ai-context/baseline/ai-rules/003_task-execution-protocol.md`
+  - `ai-context/baseline/ai-rules/009_project-manager-epics-root.md`
+  - `ai-context/baseline/ai-rules/README.md`
+  - `ai-context/baseline/guides/epics.md`
+  - `ai-context/baseline/guides/repository-parameters.md`
+  - `ai-context/baseline/guides/parameters.md`
+  - `ai-context/baseline/update-policy.md`
+  - `ai-context/baseline/promts/install-or-update-ai-context-prompt.md`
+  - `ai-context/baseline/promts/update-ai-context-prompt.md`
+  - `ai-context/baseline/promts/README.md`
+  - `ai-context/baseline/scripts/README.md`
+  - `ai-context/baseline/examples/epics/README.md`
+  - `ai-context/baseline/templates/epics/epic-list.md`
+- Что сделано: зафиксировано правило, что `ai-context` используется для правил и операционного контура AI, а backlog команды в режиме `project-manager` живет в корневом `epics/`.
+- Что сделано: `manifest.json` и repository parameters обновлены так, чтобы bootstrap и sync создавали `epics/epic-list.md` в корне репозитория и мигрировали старые `ai-context/epics/*` или `ai-context/workspace/epics/*` в новый путь.
+- Что сделано: README, guides, ai-rules, prompts и examples переписаны так, чтобы документация явно разделяла AI-контур в `ai-context` и project outputs вне него.

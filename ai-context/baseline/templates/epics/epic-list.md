@@ -1,6 +1,7 @@
 # Epic List
 
 Живой backlog команды для режима `project-manager`.
+Этот файл bootstrap-ится в корневой `epics/epic-list.md`.
 Подробные правила структуры описаны в `ai-context/baseline/guides/epics.md`.
 
 ## Epics

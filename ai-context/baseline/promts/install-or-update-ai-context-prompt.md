@@ -28,8 +28,9 @@
 6. Если пользователь явно выбрал режим `project-manager`, передай в оба запуска `--mode project-manager`.
 7. Разделение ownership жесткое:
    - `ai-context/baseline/**` и baseline-owned root файлы можно перезаписывать;
-   - локальный слой `ai-context/**` вне `baseline/` нельзя перезаписывать, если файл уже существует.
-8. Если в репозитории еще есть legacy-layout `ai-context/workspace/*`, sync может мигрировать его в плоские пути `ai-context/*`, но только если целевой путь еще не существует.
+   - локальные AI-файлы в `ai-context/**` вне `baseline/` нельзя перезаписывать, если файл уже существует;
+   - project outputs вроде `epics/**` тоже нельзя перезаписывать.
+8. Если в репозитории еще есть legacy-layout `ai-context/workspace/*`, sync может мигрировать его в плоские пути. Для `epics` целевой путь всегда корневой `epics/*`, а не `ai-context/epics/*`. Если в проекте уже есть старый `ai-context/epics/*`, его тоже нужно мигрировать в корневой `epics/*`, но только если целевой путь еще не существует.
 9. Разрешено только bootstrap-ить missing local-файлы:
    - `ai-context/tasks/task-list.md`
    - `ai-context/tasks/task-draft.txt`
@@ -41,7 +42,7 @@
    - `ai-context/rules/backend/.gitkeep`
    - `ai-context/rules/flutter/.gitkeep`
    - `ai-context/rules/frontend-react-js-ts/.gitkeep`
-   - `ai-context/epics/epic-list.md` только в режиме `project-manager`
+   - `epics/epic-list.md` только в режиме `project-manager`
 10. После синхронизации перечисли:
    - какие baseline-файлы обновлены или удалены;
    - какие legacy-пути были мигрированы;
@@ -51,6 +52,7 @@
 Не делай:
 - ручной selective copy вместо запуска sync/verify scripts;
 - перезапись живого backlog, task-details, changelog, project-specific rules и repository parameters;
+- перезапись корневого `epics/**/*`;
 - коммит или перезапись local-machine секретов;
 - использование `baseline/examples/` как живых рабочих данных проекта.
 ```

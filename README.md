@@ -1,24 +1,30 @@
 # AI Context Rules
 
-Репозиторий с source-of-truth структурой `ai-context`, в которой baseline и
-локальный workspace разделены физически.
+Репозиторий с source-of-truth структурой `ai-context` для правил и
+операционного контура AI-агента.
 
 ## Базовая идея
 
-`ai-context` теперь состоит из двух частей:
+`ai-context` в рабочем репозитории хранит только то, что нужно самому AI:
 
-- [`ai-context/baseline`](./ai-context/baseline) - только versioned baseline:
+- [`ai-context/baseline`](./ai-context/baseline) - versioned baseline:
   правила, guides, templates, scripts, prompts и examples;
-- [`ai-context/workspace`](./ai-context/workspace) - только локальные рабочие
-  данные конкретного репозитория.
+- локальные AI-данные внутри `ai-context/` - `tasks/`, `rules/`, `changelog/`,
+  `content/` и `parameters/`.
+
+Рабочие результаты проекта должны жить вне `ai-context`: код, `docs/`,
+`specs/`, `epics/` и другие project outputs.
+
+В режиме `project-manager` это означает:
+
+- `ai-context/tasks/` - очередь задач самого AI;
+- `epics/` в корне репозитория - backlog команды и декомпозиция работы.
 
 Это означает:
 
-- `baseline` всегда можно детерминированно перезаписать из git;
-- `workspace` всегда имеет локальный приоритет и не должен затираться при
-  обновлении;
-- mixed-directories вроде старой схемы `tasks/README.md + tasks/task-list.md`
-  больше не используются.
+- `ai-context/baseline/**` всегда можно детерминированно перезаписать из git;
+- локальные AI-данные внутри `ai-context/` нельзя затирать при обновлении;
+- project outputs вне `ai-context` тоже нельзя считать replaceable AI-слоем.
 
 ## Быстрый старт
 
@@ -32,11 +38,10 @@
 `ai-context/baseline/scripts/verify-ai-context.py`.
 
 Перезаписывать можно только `ai-context/baseline/**` и baseline-owned root
-файлы. `ai-context/workspace/**` не затирай: там живут backlog, task-details,
-changelog, project-specific rules, repository parameters, team epics и local
-секреты.
+файлы. Не затирай существующие project-local файлы в `ai-context/**` вне
+`baseline/`.
 
-В `ai-context/workspace/parameters/repository-parameters.yaml` зафиксируй режим
+В `ai-context/parameters/repository-parameters.yaml` зафиксируй режим
 `developer`.
 ```
 
@@ -50,11 +55,11 @@ changelog, project-specific rules, repository parameters, team epics и local
 после этого `ai-context/baseline/scripts/verify-ai-context.py --mode project-manager`.
 
 Перезаписывать можно только `ai-context/baseline/**` и baseline-owned root
-файлы. `ai-context/workspace/**` не затирай. В режиме `project-manager`
-командный backlog ведется в `ai-context/workspace/epics/`, а задачи самого AI
-остаются в `ai-context/workspace/tasks/`.
+файлы. Не затирай существующие project-local файлы в `ai-context/**` вне
+`baseline/` и в корневом `epics/`. В режиме `project-manager` командный backlog
+ведется в `epics/`, а задачи самого AI остаются в `ai-context/tasks/`.
 
-В `ai-context/workspace/parameters/repository-parameters.yaml` зафиксируй режим
+В `ai-context/parameters/repository-parameters.yaml` зафиксируй режим
 `project-manager`.
 ```
 
@@ -70,17 +75,17 @@ changelog, project-specific rules, repository parameters, team epics и local
 - [`ai-context/baseline/guides`](./ai-context/baseline/guides) -
   baseline-guides для workflow.
 - [`ai-context/baseline/templates`](./ai-context/baseline/templates) -
-  шаблоны и bootstrap-файлы workspace.
+  шаблоны и bootstrap-файлы AI-контура и `project-manager` backlog.
 - [`ai-context/baseline/promts`](./ai-context/baseline/promts) -
   prompt-like команды.
 - [`ai-context/baseline/scripts`](./ai-context/baseline/scripts) -
   deterministic sync/verify scripts.
-- [`ai-context/workspace`](./ai-context/workspace) - локальные рабочие данные
-  этого репозитория.
+- В рабочем проекте sync может дополнительно bootstrap-ить `epics/epic-list.md`
+  в корне репозитория, если выбран режим `project-manager`.
 
 ## Быстрые точки входа
 
-- Как устроен split baseline/workspace:
+- Как разделены AI-контур и project outputs:
   [`ai-context/README.md`](./ai-context/README.md)
 - Как обновлять baseline:
   [`ai-context/baseline/promts/update-ai-context-prompt.md`](./ai-context/baseline/promts/update-ai-context-prompt.md)

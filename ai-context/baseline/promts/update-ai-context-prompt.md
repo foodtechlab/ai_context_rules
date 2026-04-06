@@ -32,9 +32,9 @@
 - `ai-context/README.md`
 - `ai-context/baseline/**/*`
 
-5. Не перезаписывай существующие project-local данные в `ai-context/*` вне `baseline/`.
+5. Не перезаписывай существующие project-local данные в `ai-context/*` вне `baseline/` и в корневом `epics/`.
 
-6. Если в репозитории остался legacy-layout `ai-context/workspace/*`, мигрируй его в плоские пути `ai-context/*`, но только когда целевой путь еще не существует.
+6. Если в репозитории остался legacy-layout `ai-context/workspace/*`, мигрируй его в плоские пути. Для `epics` целевой путь всегда корневой `epics/*`, а не `ai-context/epics/*`. Если в проекте есть старый `ai-context/epics/*`, его тоже нужно мигрировать в `epics/*`, но только когда целевой путь еще не существует.
 
 7. Разрешено только создавать missing local bootstrap-файлы, если их еще нет.
 
@@ -50,6 +50,6 @@
 - перезапись `ai-context/changelog/**/*`;
 - перезапись `ai-context/rules/**/*`;
 - перезапись `ai-context/parameters/**/*`;
-- перезапись `ai-context/epics/**/*`;
+- перезапись `epics/**/*`;
 - коммит или удаление local-machine секретов.
 ```

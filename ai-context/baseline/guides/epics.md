@@ -1,10 +1,13 @@
 # Epics Guide
 
-В режиме `project-manager` backlog команды живет в
-`ai-context/epics/`.
+В режиме `project-manager` backlog команды живет в корне репозитория в
+`epics/`.
 
 `ai-context/tasks/` при этом не заменяет `epics/`: в `tasks/` ведутся только
 задачи, которые должен выполнить сам AI-агент.
+
+Это намеренное разделение: `ai-context` хранит правила и операционный контур
+AI, а `epics/` является рабочим результатом project-manager процесса.
 
 ## Что дает baseline
 
@@ -14,7 +17,7 @@
 ## Рекомендуемая структура
 
 ```text
-ai-context/epics/
+epics/
   epic-list.md
   <код>/
     <код>-epic.md
@@ -36,4 +39,6 @@ ai-context/epics/
 - `baseline/examples/epics/_example/` нельзя считать рабочими эпиками проекта;
 - при baseline-sync можно создавать `epics/epic-list.md`, только если его еще
   нет;
+- старые `ai-context/workspace/epics/` и `ai-context/epics/` нужно считать
+  кандидатами на миграцию в корневой `epics/`;
 - существующие данные в `epics/` нельзя перезаписывать.

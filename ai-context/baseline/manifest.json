@@ -38,7 +38,14 @@
       },
       {
         "source": "ai-context/workspace/epics",
-        "target": "ai-context/epics",
+        "target": "epics",
+        "modes": [
+          "project-manager"
+        ]
+      },
+      {
+        "source": "ai-context/epics",
+        "target": "epics",
         "modes": [
           "project-manager"
         ]
@@ -76,7 +83,7 @@
         "path": "ai-context/parameters/local-machine"
       },
       {
-        "path": "ai-context/epics",
+        "path": "epics",
         "modes": [
           "project-manager"
         ]
@@ -125,7 +132,7 @@
       },
       {
         "source": "ai-context/baseline/templates/epics/epic-list.md",
-        "target": "ai-context/epics/epic-list.md",
+        "target": "epics/epic-list.md",
         "modes": [
           "project-manager"
         ]

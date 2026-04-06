@@ -2,7 +2,8 @@ ai_context:
   structure:
     ai_context_root: ai-context
     baseline_root: ai-context/baseline
-    local_root: ai-context
+    ai_operational_root: ai-context
+    project_outputs_root: .
   usage_modes:
     default: developer
     allowed:
@@ -38,7 +39,7 @@ ai_context:
     local_machine_gitignore_template_file: ai-context/baseline/templates/parameters/local-machine/.gitignore
   project_manager:
     team_epics:
-      root_dir: ai-context/epics
+      root_dir: epics
       epic_list_file: epic-list.md
       epic_main_file_suffix: -epic.md
       epic_breakdown_file_pattern: <code>.md
