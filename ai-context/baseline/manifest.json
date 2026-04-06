@@ -1,0 +1,106 @@
+{
+  "manifest_version": 1,
+  "source_of_truth": {
+    "repo": "https://github.com/foodtechlab/ai_context_rules",
+    "branch_priority": [
+      "main",
+      "master"
+    ]
+  },
+  "baseline": {
+    "replace": [
+      "ai-context/.gitignore",
+      "ai-context/README.md",
+      "ai-context/baseline/**/*"
+    ]
+  },
+  "workspace": {
+    "ensure_directories": [
+      {
+        "path": "ai-context/workspace/content"
+      },
+      {
+        "path": "ai-context/workspace/changelog"
+      },
+      {
+        "path": "ai-context/workspace/tasks"
+      },
+      {
+        "path": "ai-context/workspace/tasks/task-details"
+      },
+      {
+        "path": "ai-context/workspace/rules"
+      },
+      {
+        "path": "ai-context/workspace/rules/backend"
+      },
+      {
+        "path": "ai-context/workspace/rules/flutter"
+      },
+      {
+        "path": "ai-context/workspace/rules/frontend-react-js-ts"
+      },
+      {
+        "path": "ai-context/workspace/parameters"
+      },
+      {
+        "path": "ai-context/workspace/parameters/local-machine"
+      },
+      {
+        "path": "ai-context/workspace/epics",
+        "modes": [
+          "project-manager"
+        ]
+      }
+    ],
+    "ensure_files": [
+      {
+        "source": "ai-context/baseline/templates/workspace/content/.gitkeep",
+        "target": "ai-context/workspace/content/.gitkeep"
+      },
+      {
+        "source": "ai-context/baseline/templates/workspace/changelog/.gitkeep",
+        "target": "ai-context/workspace/changelog/.gitkeep"
+      },
+      {
+        "source": "ai-context/baseline/templates/workspace/tasks/task-list.md",
+        "target": "ai-context/workspace/tasks/task-list.md"
+      },
+      {
+        "source": "ai-context/baseline/templates/workspace/tasks/task-draft.txt",
+        "target": "ai-context/workspace/tasks/task-draft.txt"
+      },
+      {
+        "source": "ai-context/baseline/templates/workspace/tasks/task-details/.gitkeep",
+        "target": "ai-context/workspace/tasks/task-details/.gitkeep"
+      },
+      {
+        "source": "ai-context/baseline/templates/repository-parameters.yaml",
+        "target": "ai-context/workspace/parameters/repository-parameters.yaml"
+      },
+      {
+        "source": "ai-context/baseline/templates/workspace/parameters/local-machine/.gitignore",
+        "target": "ai-context/workspace/parameters/local-machine/.gitignore"
+      },
+      {
+        "source": "ai-context/baseline/templates/workspace/rules/backend/.gitkeep",
+        "target": "ai-context/workspace/rules/backend/.gitkeep"
+      },
+      {
+        "source": "ai-context/baseline/templates/workspace/rules/flutter/.gitkeep",
+        "target": "ai-context/workspace/rules/flutter/.gitkeep"
+      },
+      {
+        "source": "ai-context/baseline/templates/workspace/rules/frontend-react-js-ts/.gitkeep",
+        "target": "ai-context/workspace/rules/frontend-react-js-ts/.gitkeep"
+      },
+      {
+        "source": "ai-context/baseline/templates/workspace/epics/epic-list.md",
+        "target": "ai-context/workspace/epics/epic-list.md",
+        "modes": [
+          "project-manager"
+        ]
+      }
+    ]
+  }
+}

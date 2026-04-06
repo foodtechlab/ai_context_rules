@@ -1,7 +1,12 @@
 # В git хранится читаемый markdown-контекст и versioned metadata.
-content/*.html
-content/*.tmp
-content/*.tmp.*
+workspace/content/*.html
+workspace/content/*.tmp
+workspace/content/*.tmp.*
 
 # Markdown-снимки контекста сохраняются.
-!content/*.md
+!workspace/content/*.md
+!workspace/content/.gitkeep
+
+# Local-machine secrets всегда должны оставаться локальными.
+workspace/parameters/local-machine/*
+!workspace/parameters/local-machine/.gitignore

@@ -1,0 +1,54 @@
+ai_context:
+  structure:
+    baseline_root: ai-context/baseline
+    workspace_root: ai-context/workspace
+  usage_modes:
+    default: developer
+    allowed:
+      - developer
+      - project-manager
+  tasks:
+    task_list_file: ai-context/workspace/tasks/task-list.md
+    task_draft_file: ai-context/workspace/tasks/task-draft.txt
+  task_codes:
+    allowed_sources:
+      - local
+      - jira
+      - bitrix
+    default_source: local
+  task_details:
+    structure: flat-files
+    directory: ai-context/workspace/tasks/task-details
+    file_pattern: <code>.md
+    template_file: ai-context/baseline/templates/task-details.md
+    decomposition: inline
+  rules:
+    directory: ai-context/workspace/rules
+    template_file: ai-context/baseline/templates/project-rule.md
+  changelog:
+    directory: ai-context/workspace/changelog
+  content:
+    directory: ai-context/workspace/content
+  parameters:
+    repository_file: ai-context/workspace/parameters/repository-parameters.yaml
+    repository_template_file: ai-context/baseline/templates/repository-parameters.yaml
+    local_machine_directory: ai-context/workspace/parameters/local-machine
+    local_machine_example_file: ai-context/baseline/templates/local-machine.example.yaml
+    local_machine_gitignore_template_file: ai-context/baseline/templates/workspace/parameters/local-machine/.gitignore
+  project_manager:
+    team_epics:
+      root_dir: ai-context/workspace/epics
+      epic_list_file: epic-list.md
+      epic_main_file_suffix: -epic.md
+      epic_breakdown_file_pattern: <code>.md
+      copy_from_source_of_truth_only_in_project_manager_mode: true
+      source_of_truth_examples_dir: ai-context/baseline/examples/epics/_example
+  source_of_truth:
+    repo: https://github.com/foodtechlab/ai_context_rules
+    branch_priority:
+      - main
+      - master
+  sync:
+    manifest_file: ai-context/baseline/manifest.json
+    script_file: ai-context/baseline/scripts/sync-ai-context.py
+    verify_script_file: ai-context/baseline/scripts/verify-ai-context.py

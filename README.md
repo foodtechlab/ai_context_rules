@@ -1,88 +1,100 @@
 # AI Context Rules
 
+Репозиторий с source-of-truth структурой `ai-context`, в которой baseline и
+локальный workspace разделены физически.
+
+## Базовая идея
+
+`ai-context` теперь состоит из двух частей:
+
+- [`ai-context/baseline`](./ai-context/baseline) - только versioned baseline:
+  правила, guides, templates, scripts, prompts и examples;
+- [`ai-context/workspace`](./ai-context/workspace) - только локальные рабочие
+  данные конкретного репозитория.
+
+Это означает:
+
+- `baseline` всегда можно детерминированно перезаписать из git;
+- `workspace` всегда имеет локальный приоритет и не должен затираться при
+  обновлении;
+- mixed-directories вроде старой схемы `tasks/README.md + tasks/task-list.md`
+  больше не используются.
+
 ## Быстрый старт
 
 ### Для Developer
 
 ```text
-Построй в этом репозитории стандарт `ai-context` по образцу `https://github.com/foodtechlab/ai_context_rules` из ветки `main` или `master`.
+Обнови или установи `ai-context` из `https://github.com/foodtechlab/ai_context_rules`.
 
-Установи или обнови только baseline-часть `ai-context`, не затирай project-local данные, backlog, task-details, changelog, project-specific rules и локальные секреты.
+Сначала прочитай `ai-context/baseline/update-policy.md`, затем запусти
+`ai-context/baseline/scripts/sync-ai-context.py`, а после этого
+`ai-context/baseline/scripts/verify-ai-context.py`.
 
-В `ai-context/parameters/repository/repository-parameters.yaml` зафиксируй режим `developer`, а local-machine доступы и секреты оставь только в `ai-context/parameters/local-machine/` без коммита в git.
+Перезаписывать можно только `ai-context/baseline/**` и baseline-owned root
+файлы. `ai-context/workspace/**` не затирай: там живут backlog, task-details,
+changelog, project-specific rules, repository parameters, team epics и local
+секреты.
 
-После завершения перечисли, что установлено или обновлено, что сохранено без перезаписи и что нужно заполнить вручную локально.
+В `ai-context/workspace/parameters/repository-parameters.yaml` зафиксируй режим
+`developer`.
 ```
 
 ### Для Project Manager
 
 ```text
-Построй в этом репозитории стандарт `ai-context` по образцу `https://github.com/foodtechlab/ai_context_rules` из ветки `main` или `master`.
+Обнови или установи `ai-context` из `https://github.com/foodtechlab/ai_context_rules`.
 
-Установи или обнови baseline `ai-context`, не перезаписывай project-local backlog AI, `task-details`, `changelog`, рабочие данные в корневой директории `epics`, project-specific rules и локальные секреты.
+Сначала прочитай `ai-context/baseline/update-policy.md`, затем запусти
+`ai-context/baseline/scripts/sync-ai-context.py --mode project-manager`, а
+после этого `ai-context/baseline/scripts/verify-ai-context.py --mode project-manager`.
 
-В `ai-context/parameters/repository/repository-parameters.yaml` зафиксируй режим `project-manager`. Считай `ai-context/tasks` очередью задач для самого AI, а задачи и эпики для команды веди в корневой директории `epics/` с отдельным `epic-list.md` и детализацией по каждому эпику. Саму директорию `epics/` из этого source-of-truth репозитория копируй в реальный проект только как документацию и только в режиме `project-manager`.
+Перезаписывать можно только `ai-context/baseline/**` и baseline-owned root
+файлы. `ai-context/workspace/**` не затирай. В режиме `project-manager`
+командный backlog ведется в `ai-context/workspace/epics/`, а задачи самого AI
+остаются в `ai-context/workspace/tasks/`.
 
-После завершения перечисли, что обновлено, какие project-local области сохранены и какие локальные machine-параметры должны быть заполнены вручную.
+В `ai-context/workspace/parameters/repository-parameters.yaml` зафиксируй режим
+`project-manager`.
 ```
-
-Репозиторий с baseline-правилами и структурой `ai-context` для рабочих
-репозиториев.
-
-Главная цель репозитория: дать команде и AI-агентам единый source-of-truth для
-того, как организовывать контекст, задачи, changelog, параметры использования
-и project-specific правила внутри проектов.
 
 ## Что здесь лежит
 
-Основное содержимое находится в директории [`ai-context`](./ai-context):
-
-- [`ai-context/README.md`](./ai-context/README.md) - обзор структуры и рабочего
-  цикла;
-- [`ai-context/update-policy.md`](./ai-context/update-policy.md) - правила
-  установки и обновления baseline без перезаписи project-local данных;
-- [`ai-context/ai-rules`](./ai-context/ai-rules) - постоянные межпроектные
-  правила;
-- [`ai-context/tasks`](./ai-context/tasks) - task-flow, backlog и детализация
-  задач;
-- [`ai-context/parameters`](./ai-context/parameters) - параметры использования
-  `ai-context` на уровне репозитория и локальной машины;
-- [`ai-context/rules`](./ai-context/rules) - project-specific архитектурные
-  правила;
-- [`ai-context/promts`](./ai-context/promts) - переиспользуемые prompt-like
-  команды.
-
-Дополнительно в режиме `project-manager` используется корневая директория
-[`epics`](./epics). В этом source-of-truth репозитории она хранится как
-документационный шаблон и пример структуры, а в реальном проекте используется
-как backlog задач и эпиков для команды.
-
-## Как использовать
-
-Если в рабочем проекте нужно установить или обновить `ai-context`, актуальную
-версию нужно брать из этого репозитория:
-
-- `https://github.com/foodtechlab/ai_context_rules`
-
-Брать нужно из основной ветки:
-
-- `main`, если она существует;
-- `master`, если репозиторий использует это имя основной ветки.
-
-Перед копированием или обновлением нужно прочитать:
-
-- [`ai-context/update-policy.md`](./ai-context/update-policy.md)
+- [`ai-context/README.md`](./ai-context/README.md) - обзор двухслойной модели.
+- [`ai-context/baseline/README.md`](./ai-context/baseline/README.md) - состав
+  baseline и ownership-правило.
+- [`ai-context/baseline/update-policy.md`](./ai-context/baseline/update-policy.md) -
+  политика установки и обновления.
+- [`ai-context/baseline/ai-rules`](./ai-context/baseline/ai-rules) -
+  постоянные межпроектные правила.
+- [`ai-context/baseline/guides`](./ai-context/baseline/guides) -
+  baseline-guides для workflow.
+- [`ai-context/baseline/templates`](./ai-context/baseline/templates) -
+  шаблоны и bootstrap-файлы workspace.
+- [`ai-context/baseline/promts`](./ai-context/baseline/promts) -
+  prompt-like команды.
+- [`ai-context/baseline/scripts`](./ai-context/baseline/scripts) -
+  deterministic sync/verify scripts.
+- [`ai-context/workspace`](./ai-context/workspace) - локальные рабочие данные
+  этого репозитория.
 
 ## Быстрые точки входа
 
-- Как устроен `ai-context`: [`ai-context/README.md`](./ai-context/README.md)
-- Как обновлять baseline: [`ai-context/promts/update-ai-context-prompt.md`](./ai-context/promts/update-ai-context-prompt.md)
-- Как устанавливать baseline: [`ai-context/promts/install-or-update-ai-context-prompt.md`](./ai-context/promts/install-or-update-ai-context-prompt.md)
-- Как работать с задачами: [`ai-context/tasks/README.md`](./ai-context/tasks/README.md)
-- Как вести эпики команды в `project-manager` режиме: [`epics/README.md`](./epics/README.md)
-- Как устроены параметры: [`ai-context/parameters/README.md`](./ai-context/parameters/README.md)
+- Как устроен split baseline/workspace:
+  [`ai-context/README.md`](./ai-context/README.md)
+- Как обновлять baseline:
+  [`ai-context/baseline/promts/update-ai-context-prompt.md`](./ai-context/baseline/promts/update-ai-context-prompt.md)
+- Как устанавливать baseline:
+  [`ai-context/baseline/promts/install-or-update-ai-context-prompt.md`](./ai-context/baseline/promts/install-or-update-ai-context-prompt.md)
+- Как работать с задачами:
+  [`ai-context/baseline/guides/tasks.md`](./ai-context/baseline/guides/tasks.md)
+- Как устроены параметры:
+  [`ai-context/baseline/guides/parameters.md`](./ai-context/baseline/guides/parameters.md)
+- Как устроен `project-manager` backlog:
+  [`ai-context/baseline/guides/epics.md`](./ai-context/baseline/guides/epics.md)
 
 ## Статус
 
-Репозиторий развивается как source-of-truth для `ai-context` и может дальше
-расширяться новыми baseline-правилами, шаблонами и workflow-соглашениями.
+Репозиторий развивается как source-of-truth для `ai-context` с детерминированным
+baseline-sync и жесткой границей между шаблонным слоем и живыми данными
+рабочего репозитория.
