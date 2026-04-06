@@ -6,7 +6,8 @@ source-of-truth и могут перезаписываться при update.
 ## Базовый набор
 
 - `sync-ai-context.py` - детерминированно синхронизирует baseline и создает
-  missing bootstrap-файлы в `workspace/`.
+  missing bootstrap-файлы в локальном слое, а также мигрирует legacy-layout
+  `ai-context/workspace/*` в `ai-context/*`, если это безопасно.
 - `verify-ai-context.py` - проверяет структуру и drift после синхронизации.
 - `show-completion-alert.sh` - обязательный единый способ показать модальный
   алерт о завершении задачи на macOS.

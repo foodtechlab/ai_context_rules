@@ -7,10 +7,10 @@
 ## Готовый промт
 
 ```text
-Детализируй задачу `<код>` из `ai-context/workspace/tasks/task-list.md`.
+Детализируй задачу `<код>` из `ai-context/tasks/task-list.md`.
 
 1. Найди строку задачи с кодом `<код>`.
-2. Создай файл `ai-context/workspace/tasks/task-details/<код>.md`.
+2. Создай файл `ai-context/tasks/task-details/<код>.md`.
 3. Заполни его по шаблону `ai-context/baseline/templates/task-details.md`.
 4. Заполни обязательные разделы:
 - короткое описание;
@@ -22,10 +22,10 @@
 - связанные правила;
 - связанные файлы.
 5. Сохрани смысл исходной формулировки задачи.
-6. Если есть применимые project-specific правила из `ai-context/workspace/rules`, добавь ссылки на них.
-7. Если задача крупная, декомпозируй ее прямо внутри файла `ai-context/workspace/tasks/task-details/<код>.md`, не создавая поддиректорий.
-8. Обнови статус задачи в `ai-context/workspace/tasks/task-list.md` на `🟠`, если работа по ней еще не началась.
-9. Создай отдельный changelog-файл в `ai-context/workspace/changelog` по правилу «одно изменение = один файл».
+6. Если есть применимые project-specific правила из `ai-context/rules`, добавь ссылки на них.
+7. Если задача крупная, декомпозируй ее прямо внутри файла `ai-context/tasks/task-details/<код>.md`, не создавая поддиректорий.
+8. Обнови статус задачи в `ai-context/tasks/task-list.md` на `🟠`, если работа по ней еще не началась.
+9. Создай отдельный changelog-файл в `ai-context/changelog` по правилу «одно изменение = один файл».
 
 Не делай:
 - изменение смысла исходной задачи без запроса пользователя;

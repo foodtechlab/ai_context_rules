@@ -8,7 +8,7 @@
 
 ```text
 Отформатируй все неотформатированные задачи в
-`ai-context/workspace/tasks/task-list.md`.
+`ai-context/tasks/task-list.md`.
 
 Правила:
 

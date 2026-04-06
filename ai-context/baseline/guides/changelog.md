@@ -1,6 +1,6 @@
 # Changelog Guide
 
-Живые changelog-записи всегда хранятся в `ai-context/workspace/changelog/`.
+Живые changelog-записи всегда хранятся в `ai-context/changelog/`.
 Этот файл описывает только baseline-правила ведения changelog.
 
 ## Формат
@@ -22,7 +22,7 @@
 # Переход на one-change-one-changelog
 
 - Время: `2026-03-24 15:47:59`
-- Файлы: `ai-context/workspace/tasks/task-list.md`, `ai-context/baseline/ai-rules/005_append-only-changelog.md`
+- Файлы: `ai-context/tasks/task-list.md`, `ai-context/baseline/ai-rules/005_append-only-changelog.md`
 - Что сделано: changelog переведен на модель «одно изменение = один файл».
 ```
 

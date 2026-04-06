@@ -81,6 +81,7 @@ def resolve_mode(target_root: Path, fallback_repo_root: Path, requested_mode: st
         return requested_mode
 
     candidates = [
+        target_root / "ai-context" / "parameters" / "repository-parameters.yaml",
         target_root / "ai-context" / "workspace" / "parameters" / "repository-parameters.yaml",
         fallback_repo_root / "ai-context" / "baseline" / "templates" / "repository-parameters.yaml",
     ]
@@ -132,6 +133,11 @@ def copy_file(source: Path, target: Path) -> None:
     shutil.copy2(source, target)
 
 
+def move_path(source: Path, target: Path) -> None:
+    ensure_parent(target)
+    shutil.move(str(source), str(target))
+
+
 def prune_empty_parents(path: Path, stop_at: Path) -> None:
     current = path.parent
     while current != stop_at and current.exists():
@@ -146,6 +152,10 @@ def format_path_list(paths: list[str]) -> str:
     if not paths:
         return "  - none"
     return "\n".join(f"  - {path}" for path in paths)
+
+
+def format_migration(source: str, target: str) -> str:
+    return f"{source} -> {target}"
 
 
 def placeholder_file_is_optional(target_path: Path) -> bool:

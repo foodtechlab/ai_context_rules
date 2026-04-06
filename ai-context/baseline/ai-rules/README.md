@@ -12,7 +12,7 @@
 ## Граница ответственности
 
 - `baseline/ai-rules/` - стабильные общие правила работы агента;
-- `workspace/rules/` - project-specific архитектурные и предметные правила;
+- `rules/` - project-specific архитектурные и предметные правила;
 - `baseline/guides/tasks.md` - workflow и execution-слой для задач, статусов,
   алерта, changelog и резюме для коммита.
 
@@ -23,16 +23,16 @@
 - `002_context-before-analysis.md` - перед реализацией должен быть собран и
   зафиксирован достаточный проектный контекст.
 - `003_task-execution-protocol.md` - задачи AI ведутся через
-  `ai-context/workspace/tasks`.
+  `ai-context/tasks`.
 - `004_completion-alert-and-commit-summary.md` - завершение работы включает
   модальный алерт и готовое резюме для коммита.
 - `005_append-only-changelog.md` - любые file changes фиксируются в
-  `ai-context/workspace/changelog`.
+  `ai-context/changelog`.
 - `006_project-architecture-rules.md` - долгоживущие архитектурные решения
-  живут в `ai-context/workspace/rules`.
+  живут в `ai-context/rules`.
 - `007_ai-manifest-it-contour-v1.md` - первая версия AI-манифеста для
   IT-контура компании, перенесенная из `ceo-ai`.
 - `008_ai-context-parameters-scope.md` - параметры `ai-context` разделяются на
   repository-level и local-machine-level с разными правилами хранения.
 - `009_project-manager-epics-root.md` - в режиме `project-manager` командные
-  эпики и задачи живут в `ai-context/workspace/epics`, а не в AI task-flow.
+  эпики и задачи живут в `ai-context/epics`, а не в AI task-flow.

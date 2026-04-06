@@ -4,7 +4,7 @@
 `project-manager` режима.
 
 Живой backlog команды должен вестись в
-`ai-context/workspace/epics/`, а не здесь.
+`ai-context/epics/`, а не здесь.
 
 ## Что здесь лежит
 
@@ -14,5 +14,5 @@
 ## Что запрещено
 
 - считать `_example/` рабочими эпиками проекта;
-- переносить example-файлы поверх существующего `workspace/epics/`;
+- переносить example-файлы поверх существующего `epics/`;
 - хранить здесь project-specific backlog.

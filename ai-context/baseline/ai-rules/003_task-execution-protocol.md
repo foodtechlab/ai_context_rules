@@ -1,4 +1,4 @@
-# Правило 003: Работа ведется через `ai-context/workspace/tasks`
+# Правило 003: Работа ведется через `ai-context/tasks`
 
 ## Статус
 
@@ -7,17 +7,17 @@
 ## Правило
 
 Любая задача, которую должен выполнить AI-агент, должна вестись через
-`ai-context/workspace/tasks`, если пользователь явно не выбрал другой режим.
+`ai-context/tasks`, если пользователь явно не выбрал другой режим.
 
 ## Базовая модель
 
-- `workspace/tasks/task-list.md` - короткий рабочий список;
-- `workspace/tasks/task-details/<код>.md` - плоский файл детализации задачи;
+- `tasks/task-list.md` - короткий рабочий список;
+- `tasks/task-details/<код>.md` - плоский файл детализации задачи;
 - `baseline/guides/tasks.md` - единый документ с workflow и execution-правилами;
-- `workspace/tasks/task-draft.txt` - сырой или исторический источник задач.
+- `tasks/task-draft.txt` - сырой или исторический источник задач.
 
 Если репозиторий работает в режиме `project-manager`, задачи и эпики для
-команды ведутся отдельно в `ai-context/workspace/epics/` по правилу
+команды ведутся отдельно в `ai-context/epics/` по правилу
 `009_project-manager-epics-root.md`.
 
 ## Карта статусов

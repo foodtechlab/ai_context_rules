@@ -1,41 +1,42 @@
 ai_context:
   structure:
+    ai_context_root: ai-context
     baseline_root: ai-context/baseline
-    workspace_root: ai-context/workspace
+    local_root: ai-context
   usage_modes:
     default: developer
     allowed:
       - developer
       - project-manager
   tasks:
-    task_list_file: ai-context/workspace/tasks/task-list.md
-    task_draft_file: ai-context/workspace/tasks/task-draft.txt
+    task_list_file: ai-context/tasks/task-list.md
+    task_draft_file: ai-context/tasks/task-draft.txt
   task_codes:
     allowed_sources:
       - local
     default_source: local
   task_details:
     structure: flat-files
-    directory: ai-context/workspace/tasks/task-details
+    directory: ai-context/tasks/task-details
     file_pattern: <code>.md
     template_file: ai-context/baseline/templates/task-details.md
     decomposition: inline
   rules:
-    directory: ai-context/workspace/rules
+    directory: ai-context/rules
     template_file: ai-context/baseline/templates/project-rule.md
   changelog:
-    directory: ai-context/workspace/changelog
+    directory: ai-context/changelog
   content:
-    directory: ai-context/workspace/content
+    directory: ai-context/content
   parameters:
-    repository_file: ai-context/workspace/parameters/repository-parameters.yaml
+    repository_file: ai-context/parameters/repository-parameters.yaml
     repository_template_file: ai-context/baseline/templates/repository-parameters.yaml
-    local_machine_directory: ai-context/workspace/parameters/local-machine
+    local_machine_directory: ai-context/parameters/local-machine
     local_machine_example_file: ai-context/baseline/templates/local-machine.example.yaml
-    local_machine_gitignore_template_file: ai-context/baseline/templates/workspace/parameters/local-machine/.gitignore
+    local_machine_gitignore_template_file: ai-context/baseline/templates/parameters/local-machine/.gitignore
   project_manager:
     team_epics:
-      root_dir: ai-context/workspace/epics
+      root_dir: ai-context/epics
       epic_list_file: epic-list.md
       epic_main_file_suffix: -epic.md
       epic_breakdown_file_pattern: <code>.md

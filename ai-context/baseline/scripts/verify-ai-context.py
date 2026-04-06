@@ -10,6 +10,7 @@ from ai_context_sync_lib import (
     entry_enabled,
     expand_file_patterns,
     file_sha256,
+    format_migration,
     format_path_list,
     load_manifest,
     placeholder_file_is_optional,
@@ -20,7 +21,7 @@ from ai_context_sync_lib import (
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Verify ai-context baseline and workspace structure.")
+    parser = argparse.ArgumentParser(description="Verify ai-context baseline and local structure.")
     add_common_arguments(parser, require_source=False)
     args = parser.parse_args()
     validate_source_args(args, require_source=False)
@@ -37,20 +38,25 @@ def main() -> int:
     if checkout_cm is None:
         manifest = load_manifest(target_root)
         mode = resolve_mode(target_root, target_root, args.mode)
-        for entry in manifest["workspace"]["ensure_directories"]:
+        local_manifest = manifest["local"]
+        for entry in local_manifest["ensure_directories"]:
             if entry_enabled(entry, mode) and not (target_root / entry["path"]).exists():
-                issues.append(f"missing workspace directory: {entry['path']}")
-        for entry in manifest["workspace"]["ensure_files"]:
+                issues.append(f"missing local directory: {entry['path']}")
+        for entry in local_manifest["ensure_files"]:
             if not entry_enabled(entry, mode):
                 continue
             target_path = target_root / entry["target"]
             if target_path.exists() or placeholder_file_is_optional(target_path):
                 continue
-            issues.append(f"missing workspace file: {entry['target']}")
+            issues.append(f"missing local file: {entry['target']}")
+        for entry in local_manifest.get("migrate_paths", []):
+            if entry_enabled(entry, mode) and (target_root / entry["source"]).exists():
+                issues.append(f"legacy local path still present: {format_migration(entry['source'], entry['target'])}")
     else:
         with checkout_cm as source:
             manifest = load_manifest(source.root)
             mode = resolve_mode(target_root, source.root, args.mode)
+            local_manifest = manifest["local"]
 
             baseline_patterns = manifest["baseline"]["replace"]
             expected_files = set(expand_file_patterns(source.root, baseline_patterns))
@@ -68,17 +74,21 @@ def main() -> int:
                 if file_sha256(source_path) != file_sha256(target_path):
                     issues.append(f"baseline drift: {rel_path}")
 
-            for entry in manifest["workspace"]["ensure_directories"]:
+            for entry in local_manifest["ensure_directories"]:
                 if entry_enabled(entry, mode) and not (target_root / entry["path"]).exists():
-                    issues.append(f"missing workspace directory: {entry['path']}")
+                    issues.append(f"missing local directory: {entry['path']}")
 
-            for entry in manifest["workspace"]["ensure_files"]:
+            for entry in local_manifest["ensure_files"]:
                 if not entry_enabled(entry, mode):
                     continue
                 target_path = target_root / entry["target"]
                 if target_path.exists() or placeholder_file_is_optional(target_path):
                     continue
-                issues.append(f"missing workspace file: {entry['target']}")
+                issues.append(f"missing local file: {entry['target']}")
+
+            for entry in local_manifest.get("migrate_paths", []):
+                if entry_enabled(entry, mode) and (target_root / entry["source"]).exists():
+                    issues.append(f"legacy local path still present: {format_migration(entry['source'], entry['target'])}")
 
     if issues:
         print("ai-context verify failed")

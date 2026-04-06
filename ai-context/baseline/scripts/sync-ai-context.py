@@ -11,8 +11,10 @@ from ai_context_sync_lib import (
     entry_enabled,
     expand_file_patterns,
     file_sha256,
+    format_migration,
     format_path_list,
     load_manifest,
+    move_path,
     placeholder_file_is_optional,
     prune_empty_parents,
     resolve_mode,
@@ -23,7 +25,7 @@ from ai_context_sync_lib import (
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Synchronize ai-context baseline and bootstrap workspace files.")
+    parser = argparse.ArgumentParser(description="Synchronize ai-context baseline and bootstrap local files.")
     add_common_arguments(parser, require_source=True)
     args = parser.parse_args()
     validate_source_args(args, require_source=True)
@@ -33,6 +35,7 @@ def main() -> int:
     with source_checkout(args.source_dir, args.source_repo, args.branch) as source:
         manifest = load_manifest(source.root)
         mode = resolve_mode(target_root, source.root, args.mode)
+        local_manifest = manifest["local"]
 
         baseline_patterns = manifest["baseline"]["replace"]
         source_baseline_files = expand_file_patterns(source.root, baseline_patterns)
@@ -40,9 +43,11 @@ def main() -> int:
 
         updated: list[str] = []
         removed: list[str] = []
+        migrated: list[str] = []
+        preserved_legacy: list[str] = []
         ensured_dirs: list[str] = []
         bootstrapped: list[str] = []
-        preserved_workspace: list[str] = []
+        preserved_local: list[str] = []
 
         source_baseline_set = set(source_baseline_files)
         target_baseline_set = set(target_baseline_files)
@@ -60,7 +65,21 @@ def main() -> int:
                 copy_file(source_path, target_path)
                 updated.append(rel_path)
 
-        for entry in manifest["workspace"]["ensure_directories"]:
+        for entry in local_manifest.get("migrate_paths", []):
+            if not entry_enabled(entry, mode):
+                continue
+            source_path = target_root / entry["source"]
+            target_path = target_root / entry["target"]
+            if not source_path.exists():
+                continue
+            if target_path.exists():
+                preserved_legacy.append(format_migration(entry["source"], entry["target"]))
+                continue
+            move_path(source_path, target_path)
+            prune_empty_parents(source_path, target_root)
+            migrated.append(format_migration(entry["source"], entry["target"]))
+
+        for entry in local_manifest["ensure_directories"]:
             if not entry_enabled(entry, mode):
                 continue
             path = target_root / entry["path"]
@@ -70,16 +89,16 @@ def main() -> int:
 
         explicit_mode = args.mode if args.mode != "auto" else None
 
-        for entry in manifest["workspace"]["ensure_files"]:
+        for entry in local_manifest["ensure_files"]:
             if not entry_enabled(entry, mode):
                 continue
             source_path = source.root / entry["source"]
             target_path = target_root / entry["target"]
             if placeholder_file_is_optional(target_path):
-                preserved_workspace.append(entry["target"])
+                preserved_local.append(entry["target"])
                 continue
             if target_path.exists():
-                preserved_workspace.append(entry["target"])
+                preserved_local.append(entry["target"])
                 continue
             copy_file(source_path, target_path)
             if explicit_mode and entry["target"].endswith("repository-parameters.yaml"):
@@ -96,12 +115,16 @@ def main() -> int:
         print(format_path_list(updated))
         print("removed_baseline:")
         print(format_path_list(removed))
-        print("created_workspace_directories:")
+        print("migrated_legacy_paths:")
+        print(format_path_list(migrated))
+        print("legacy_paths_requiring_manual_review:")
+        print(format_path_list(sorted(set(preserved_legacy))))
+        print("created_local_directories:")
         print(format_path_list(ensured_dirs))
-        print("bootstrapped_workspace_files:")
+        print("bootstrapped_local_files:")
         print(format_path_list(bootstrapped))
-        print("preserved_workspace_files:")
-        print(format_path_list(sorted(set(preserved_workspace))))
+        print("preserved_local_files:")
+        print(format_path_list(sorted(set(preserved_local))))
 
     return 0
 

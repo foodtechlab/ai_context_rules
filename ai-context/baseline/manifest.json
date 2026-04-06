@@ -14,40 +14,69 @@
       "ai-context/baseline/**/*"
     ]
   },
-  "workspace": {
+  "local": {
+    "migrate_paths": [
+      {
+        "source": "ai-context/workspace/content",
+        "target": "ai-context/content"
+      },
+      {
+        "source": "ai-context/workspace/changelog",
+        "target": "ai-context/changelog"
+      },
+      {
+        "source": "ai-context/workspace/tasks",
+        "target": "ai-context/tasks"
+      },
+      {
+        "source": "ai-context/workspace/rules",
+        "target": "ai-context/rules"
+      },
+      {
+        "source": "ai-context/workspace/parameters",
+        "target": "ai-context/parameters"
+      },
+      {
+        "source": "ai-context/workspace/epics",
+        "target": "ai-context/epics",
+        "modes": [
+          "project-manager"
+        ]
+      }
+    ],
     "ensure_directories": [
       {
-        "path": "ai-context/workspace/content"
+        "path": "ai-context/content"
       },
       {
-        "path": "ai-context/workspace/changelog"
+        "path": "ai-context/changelog"
       },
       {
-        "path": "ai-context/workspace/tasks"
+        "path": "ai-context/tasks"
       },
       {
-        "path": "ai-context/workspace/tasks/task-details"
+        "path": "ai-context/tasks/task-details"
       },
       {
-        "path": "ai-context/workspace/rules"
+        "path": "ai-context/rules"
       },
       {
-        "path": "ai-context/workspace/rules/backend"
+        "path": "ai-context/rules/backend"
       },
       {
-        "path": "ai-context/workspace/rules/flutter"
+        "path": "ai-context/rules/flutter"
       },
       {
-        "path": "ai-context/workspace/rules/frontend-react-js-ts"
+        "path": "ai-context/rules/frontend-react-js-ts"
       },
       {
-        "path": "ai-context/workspace/parameters"
+        "path": "ai-context/parameters"
       },
       {
-        "path": "ai-context/workspace/parameters/local-machine"
+        "path": "ai-context/parameters/local-machine"
       },
       {
-        "path": "ai-context/workspace/epics",
+        "path": "ai-context/epics",
         "modes": [
           "project-manager"
         ]
@@ -55,48 +84,48 @@
     ],
     "ensure_files": [
       {
-        "source": "ai-context/baseline/templates/workspace/content/.gitkeep",
-        "target": "ai-context/workspace/content/.gitkeep"
+        "source": "ai-context/baseline/templates/content/.gitkeep",
+        "target": "ai-context/content/.gitkeep"
       },
       {
-        "source": "ai-context/baseline/templates/workspace/changelog/.gitkeep",
-        "target": "ai-context/workspace/changelog/.gitkeep"
+        "source": "ai-context/baseline/templates/changelog/.gitkeep",
+        "target": "ai-context/changelog/.gitkeep"
       },
       {
-        "source": "ai-context/baseline/templates/workspace/tasks/task-list.md",
-        "target": "ai-context/workspace/tasks/task-list.md"
+        "source": "ai-context/baseline/templates/tasks/task-list.md",
+        "target": "ai-context/tasks/task-list.md"
       },
       {
-        "source": "ai-context/baseline/templates/workspace/tasks/task-draft.txt",
-        "target": "ai-context/workspace/tasks/task-draft.txt"
+        "source": "ai-context/baseline/templates/tasks/task-draft.txt",
+        "target": "ai-context/tasks/task-draft.txt"
       },
       {
-        "source": "ai-context/baseline/templates/workspace/tasks/task-details/.gitkeep",
-        "target": "ai-context/workspace/tasks/task-details/.gitkeep"
+        "source": "ai-context/baseline/templates/tasks/task-details/.gitkeep",
+        "target": "ai-context/tasks/task-details/.gitkeep"
       },
       {
         "source": "ai-context/baseline/templates/repository-parameters.yaml",
-        "target": "ai-context/workspace/parameters/repository-parameters.yaml"
+        "target": "ai-context/parameters/repository-parameters.yaml"
       },
       {
-        "source": "ai-context/baseline/templates/workspace/parameters/local-machine/.gitignore",
-        "target": "ai-context/workspace/parameters/local-machine/.gitignore"
+        "source": "ai-context/baseline/templates/parameters/local-machine/.gitignore",
+        "target": "ai-context/parameters/local-machine/.gitignore"
       },
       {
-        "source": "ai-context/baseline/templates/workspace/rules/backend/.gitkeep",
-        "target": "ai-context/workspace/rules/backend/.gitkeep"
+        "source": "ai-context/baseline/templates/rules/backend/.gitkeep",
+        "target": "ai-context/rules/backend/.gitkeep"
       },
       {
-        "source": "ai-context/baseline/templates/workspace/rules/flutter/.gitkeep",
-        "target": "ai-context/workspace/rules/flutter/.gitkeep"
+        "source": "ai-context/baseline/templates/rules/flutter/.gitkeep",
+        "target": "ai-context/rules/flutter/.gitkeep"
       },
       {
-        "source": "ai-context/baseline/templates/workspace/rules/frontend-react-js-ts/.gitkeep",
-        "target": "ai-context/workspace/rules/frontend-react-js-ts/.gitkeep"
+        "source": "ai-context/baseline/templates/rules/frontend-react-js-ts/.gitkeep",
+        "target": "ai-context/rules/frontend-react-js-ts/.gitkeep"
       },
       {
-        "source": "ai-context/baseline/templates/workspace/epics/epic-list.md",
-        "target": "ai-context/workspace/epics/epic-list.md",
+        "source": "ai-context/baseline/templates/epics/epic-list.md",
+        "target": "ai-context/epics/epic-list.md",
         "modes": [
           "project-manager"
         ]

@@ -45,9 +45,9 @@
 ## Обязательная граница хранения
 
 - Repository-level параметры должны храниться в
-  `ai-context/workspace/parameters/repository-parameters.yaml`.
+  `ai-context/parameters/repository-parameters.yaml`.
 - Local-machine-level параметры должны храниться в
-  `ai-context/workspace/parameters/local-machine/`.
+  `ai-context/parameters/local-machine/`.
 - Baseline-шаблоны должны храниться в `ai-context/baseline/templates/`.
 - Секреты и machine-specific данные нельзя класть в repository-level файлы.
 - Для local-machine-level допускаются example-файлы и README, но не реальные

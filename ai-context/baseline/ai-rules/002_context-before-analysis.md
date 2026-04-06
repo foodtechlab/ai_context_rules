@@ -20,10 +20,10 @@
 
 ## Что входит в контекстный слой
 
-- `ai-context/workspace/content/`
-- `ai-context/workspace/tasks/`
-- `ai-context/workspace/changelog/`
-- `ai-context/workspace/rules/`
+- `ai-context/content/`
+- `ai-context/tasks/`
+- `ai-context/changelog/`
+- `ai-context/rules/`
 - применимые baseline-файлы из `ai-context/baseline/ai-rules/` и
   `ai-context/baseline/guides/`
 

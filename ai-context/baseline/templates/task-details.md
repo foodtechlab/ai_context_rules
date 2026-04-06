@@ -1,10 +1,10 @@
 # Задача [<код>]
 
 Этот файл является шаблоном для детализации задачи в формате
-`workspace/tasks/task-details/<код>.md`.
+`tasks/task-details/<код>.md`.
 
-Каждая задача из `workspace/tasks/task-list.md` при детализации получает
-отдельный файл по своему коду прямо внутри `workspace/tasks/task-details/`.
+Каждая задача из `tasks/task-list.md` при детализации получает отдельный файл
+по своему коду прямо внутри `tasks/task-details/`.
 
 Если задача крупная, ее декомпозиция, контекст и дополнительные ограничения
 описываются в этом же файле. Поддиректории внутри `task-details/` не
@@ -42,12 +42,12 @@
 - В финальном ответе подготовить `Резюме для коммита` по формату из
   `ai-context/baseline/guides/tasks.md`.
 - После любых file changes создать отдельный changelog-файл в
-  `ai-context/workspace/changelog` по правилу «одно изменение = один файл».
+  `ai-context/changelog` по правилу «одно изменение = один файл».
 
 ## Связанные правила
 
 - `/absolute/path/to/ai-context/baseline/guides/tasks.md`
-- `/absolute/path/to/ai-context/workspace/rules/example-rule.md`
+- `/absolute/path/to/ai-context/rules/example-rule.md`
 
 ## Связанные файлы
 

@@ -1,7 +1,7 @@
 # Local Machine Parameters Guide
 
 Local-machine параметры живут только в
-`ai-context/workspace/parameters/local-machine/`.
+`ai-context/parameters/local-machine/`.
 
 Такие параметры:
 
@@ -18,7 +18,7 @@ Local-machine параметры живут только в
 
 ## Правило
 
-- Реальные локальные параметры создаются пользователем только в `workspace/`.
+- Реальные локальные параметры создаются пользователем только в `parameters/`.
 - В baseline можно хранить только example-файл и шаблон `.gitignore`.
 - Любой файл с реальными значениями должен оставаться неотслеживаемым.
 

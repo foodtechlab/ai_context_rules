@@ -28,22 +28,24 @@
 6. Если пользователь явно выбрал режим `project-manager`, передай в оба запуска `--mode project-manager`.
 7. Разделение ownership жесткое:
    - `ai-context/baseline/**` и baseline-owned root файлы можно перезаписывать;
-   - `ai-context/workspace/**` нельзя перезаписывать, если файл уже существует.
-8. Разрешено только bootstrap-ить missing workspace-файлы:
-   - `ai-context/workspace/tasks/task-list.md`
-   - `ai-context/workspace/tasks/task-draft.txt`
-   - `ai-context/workspace/tasks/task-details/.gitkeep`
-   - `ai-context/workspace/changelog/.gitkeep`
-   - `ai-context/workspace/content/.gitkeep`
-   - `ai-context/workspace/parameters/repository-parameters.yaml`
-   - `ai-context/workspace/parameters/local-machine/.gitignore`
-   - `ai-context/workspace/rules/backend/.gitkeep`
-   - `ai-context/workspace/rules/flutter/.gitkeep`
-   - `ai-context/workspace/rules/frontend-react-js-ts/.gitkeep`
-   - `ai-context/workspace/epics/epic-list.md` только в режиме `project-manager`
-9. После синхронизации перечисли:
+   - локальный слой `ai-context/**` вне `baseline/` нельзя перезаписывать, если файл уже существует.
+8. Если в репозитории еще есть legacy-layout `ai-context/workspace/*`, sync может мигрировать его в плоские пути `ai-context/*`, но только если целевой путь еще не существует.
+9. Разрешено только bootstrap-ить missing local-файлы:
+   - `ai-context/tasks/task-list.md`
+   - `ai-context/tasks/task-draft.txt`
+   - `ai-context/tasks/task-details/.gitkeep`
+   - `ai-context/changelog/.gitkeep`
+   - `ai-context/content/.gitkeep`
+   - `ai-context/parameters/repository-parameters.yaml`
+   - `ai-context/parameters/local-machine/.gitignore`
+   - `ai-context/rules/backend/.gitkeep`
+   - `ai-context/rules/flutter/.gitkeep`
+   - `ai-context/rules/frontend-react-js-ts/.gitkeep`
+   - `ai-context/epics/epic-list.md` только в режиме `project-manager`
+10. После синхронизации перечисли:
    - какие baseline-файлы обновлены или удалены;
-   - какие workspace-области сохранены без перезаписи;
+   - какие legacy-пути были мигрированы;
+   - какие локальные области сохранены без перезаписи;
    - были ли drift, конфликты или места для ручного review.
 
 Не делай:
