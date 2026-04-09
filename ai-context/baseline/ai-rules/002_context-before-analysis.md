@@ -24,6 +24,7 @@
 - `ai-context/tasks/`
 - `ai-context/changelog/`
 - `ai-context/rules/`
+- `ai-context/mcp/`
 - применимые baseline-файлы из `ai-context/baseline/ai-rules/` и
   `ai-context/baseline/guides/`
 

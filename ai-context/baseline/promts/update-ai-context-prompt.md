@@ -49,6 +49,7 @@
 - перезапись `ai-context/tasks/**/*`;
 - перезапись `ai-context/changelog/**/*`;
 - перезапись `ai-context/rules/**/*`;
+- перезапись `ai-context/mcp/**/*`;
 - перезапись `ai-context/parameters/**/*`;
 - перезапись `epics/**/*`;
 - коммит или удаление local-machine секретов.

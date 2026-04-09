@@ -13,6 +13,8 @@
 
 - `baseline/ai-rules/` - стабильные общие правила работы агента;
 - `rules/` - project-specific архитектурные и предметные правила;
+- `mcp/` - project-specific контекст по MCP и repo-local инструкции по
+  интеграциям;
 - `baseline/guides/tasks.md` - workflow и execution-слой для задач, статусов,
   алерта, changelog и резюме для коммита.
 
@@ -36,3 +38,5 @@
   repository-level и local-machine-level с разными правилами хранения.
 - `009_project-manager-epics-root.md` - в режиме `project-manager` командные
   эпики и задачи живут в корневом `epics/`, а не внутри `ai-context`.
+- `010_mcp-locality-and-scope.md` - общие правила по MCP живут в baseline, а
+  repo-specific MCP-контекст хранится в `ai-context/mcp`.

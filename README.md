@@ -10,7 +10,7 @@
 - [`ai-context/baseline`](./ai-context/baseline) - versioned baseline:
   правила, guides, templates, scripts, prompts и examples;
 - локальные AI-данные внутри `ai-context/` - `tasks/`, `rules/`, `changelog/`,
-  `content/` и `parameters/`.
+  `content/`, `mcp/` и `parameters/`.
 
 Рабочие результаты проекта должны жить вне `ai-context`: код, `docs/`,
 `specs/`, `epics/` и другие project outputs.
@@ -95,6 +95,8 @@
   [`ai-context/baseline/guides/tasks.md`](./ai-context/baseline/guides/tasks.md)
 - Как устроены параметры:
   [`ai-context/baseline/guides/parameters.md`](./ai-context/baseline/guides/parameters.md)
+- Как устроен repo-local контур MCP:
+  [`ai-context/baseline/guides/mcp.md`](./ai-context/baseline/guides/mcp.md)
 - Как устроен `project-manager` backlog:
   [`ai-context/baseline/guides/epics.md`](./ai-context/baseline/guides/epics.md)
 

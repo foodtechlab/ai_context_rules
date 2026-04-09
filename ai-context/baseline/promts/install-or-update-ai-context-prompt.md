@@ -37,6 +37,7 @@
    - `ai-context/tasks/task-details/.gitkeep`
    - `ai-context/changelog/.gitkeep`
    - `ai-context/content/.gitkeep`
+   - `ai-context/mcp/README.md`
    - `ai-context/parameters/repository-parameters.yaml`
    - `ai-context/parameters/local-machine/.gitignore`
    - `ai-context/rules/backend/.gitkeep`
@@ -51,7 +52,7 @@
 
 Не делай:
 - ручной selective copy вместо запуска sync/verify scripts;
-- перезапись живого backlog, task-details, changelog, project-specific rules и repository parameters;
+- перезапись живого backlog, task-details, changelog, project-specific rules, project-specific `mcp/**/*` и repository parameters;
 - перезапись корневого `epics/**/*`;
 - коммит или перезапись local-machine секретов;
 - использование `baseline/examples/` как живых рабочих данных проекта.
