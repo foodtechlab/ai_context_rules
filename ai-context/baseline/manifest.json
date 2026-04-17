@@ -56,6 +56,9 @@
         "path": "ai-context/content"
       },
       {
+        "path": "ai-context/mcp"
+      },
+      {
         "path": "ai-context/changelog"
       },
       {
@@ -93,6 +96,10 @@
       {
         "source": "ai-context/baseline/templates/content/.gitkeep",
         "target": "ai-context/content/.gitkeep"
+      },
+      {
+        "source": "ai-context/baseline/templates/mcp/README.md",
+        "target": "ai-context/mcp/README.md"
       },
       {
         "source": "ai-context/baseline/templates/changelog/.gitkeep",

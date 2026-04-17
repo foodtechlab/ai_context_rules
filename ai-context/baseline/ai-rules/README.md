@@ -13,6 +13,8 @@
 
 - `baseline/ai-rules/` - стабильные общие правила работы агента;
 - `rules/` - project-specific архитектурные и предметные правила;
+- `mcp/` - project-specific контекст по MCP и repo-local инструкции по
+  интеграциям;
 - `baseline/guides/tasks.md` - workflow и execution-слой для задач, статусов,
   алерта, changelog и резюме для коммита.
 
@@ -38,3 +40,6 @@
   эпики и задачи живут в корневом `epics/`, а не внутри `ai-context`.
 - `010_user-prompt-in-changelog.md` - каждый новый changelog-файл должен
   фиксировать пользовательский промт, который привел к изменению.
+- `010_mcp-locality-and-scope.md` - общие правила по MCP живут в baseline, а
+  repo-specific MCP-контекст хранится в `ai-context/mcp`.
+

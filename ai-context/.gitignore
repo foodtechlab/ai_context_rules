@@ -3,6 +3,10 @@ content/*.html
 content/*.tmp
 content/*.tmp.*
 
+# Python cache от baseline-скриптов не должен попадать в git.
+__pycache__/
+*.py[cod]
+
 # Markdown-снимки контекста сохраняются.
 !content/*.md
 !content/.gitkeep

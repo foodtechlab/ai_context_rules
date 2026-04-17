@@ -9,8 +9,8 @@
 - `baseline/` - replaceable source-of-truth пакет, который синхронизируется из
   git и может целиком перезаписываться;
 - локальные AI-данные прямо в `ai-context/` - `tasks/`, `rules/`, `changelog/`,
-  `content/` и `parameters/`, которые имеют project-local приоритет и не должны
-  затираться sync-скриптами.
+  `content/`, `mcp/` и `parameters/`, которые имеют project-local приоритет и
+  не должны затираться sync-скриптами.
 
 Каталога `workspace/` больше нет. Если в проекте осталась старая схема
 `ai-context/workspace/*`, `sync-ai-context.py` должен мигрировать ее в плоскую
@@ -35,6 +35,8 @@
 - `changelog/` - append-only журнал фактических изменений.
 - `content/` - supporting-снимки, выдержки и вспомогательные материалы для AI,
   а не канонические `docs/` или `ТЗ`.
+- `mcp/` - project-specific контекст по MCP: какие серверы и коннекторы реально
+  используются в этом репозитории, какие у них ограничения и как их применять.
 - `parameters/` - repository-level и local-machine-level параметры проекта.
 
 Каталог `epics/` намеренно не входит в `ai-context`. В режиме
@@ -54,14 +56,15 @@
 - Project outputs вне `ai-context` тоже принадлежат репозиторию. Для
   `project-manager` это в первую очередь `epics/`.
 - Если проекту нужна кастомизация, она делается через `tasks/`, `rules/`,
-  `changelog/`, `content/` и `parameters/`, а не через ручные правки в
+  `changelog/`, `content/`, `mcp/` и `parameters/`, а не через ручные правки в
   `baseline/`. Project outputs вроде `epics/`, `docs/`, `specs/` и кода
   хранятся вне `ai-context`.
 
 ## Рабочий цикл
 
 1. Перед реализацией подними применимые файлы из `baseline/ai-rules/`,
-   `baseline/guides/` и `rules/`.
+   `baseline/guides/`, `rules/` и `mcp/`, если задача затрагивает
+   repo-specific интеграции или MCP workflow.
 2. Для задачи AI работай через `tasks/task-list.md` и
    `tasks/task-details/<код>.md`.
 3. Для командного backlog в режиме `project-manager` используй корневой

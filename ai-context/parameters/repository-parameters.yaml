@@ -31,6 +31,8 @@ ai_context:
     directory: ai-context/changelog
   content:
     directory: ai-context/content
+  mcp:
+    directory: ai-context/mcp
   parameters:
     repository_file: ai-context/parameters/repository-parameters.yaml
     repository_template_file: ai-context/baseline/templates/repository-parameters.yaml

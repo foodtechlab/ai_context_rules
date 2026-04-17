@@ -1,0 +1,26 @@
+# MCP добавлен в baseline и локальный слой `ai-context`
+
+- Время: `2026-04-09 15:38:20 +0300`
+- Файлы:
+  - `README.md`
+  - `ai-context/README.md`
+  - `ai-context/baseline/README.md`
+  - `ai-context/baseline/manifest.json`
+  - `ai-context/parameters/repository-parameters.yaml`
+  - `ai-context/baseline/templates/repository-parameters.yaml`
+  - `ai-context/baseline/ai-rules/002_context-before-analysis.md`
+  - `ai-context/baseline/ai-rules/README.md`
+  - `ai-context/baseline/ai-rules/010_mcp-locality-and-scope.md`
+  - `ai-context/baseline/guides/project-rules.md`
+  - `ai-context/baseline/guides/mcp.md`
+  - `ai-context/baseline/guides/parameters.md`
+  - `ai-context/baseline/guides/repository-parameters.md`
+  - `ai-context/baseline/guides/tasks.md`
+  - `ai-context/baseline/update-policy.md`
+  - `ai-context/baseline/promts/install-or-update-ai-context-prompt.md`
+  - `ai-context/baseline/promts/update-ai-context-prompt.md`
+  - `ai-context/baseline/templates/mcp/README.md`
+  - `ai-context/mcp/README.md`
+- Что сделано: в baseline добавлены общее правило и guide по работе с MCP, чтобы межпроектные принципы жили в source-of-truth, а не в локальных заметках конкретного репозитория.
+- Что сделано: локальный слой `ai-context` расширен каталогом `mcp/` для repo-specific MCP-контекста, а `manifest.json` и bootstrap-шаблоны обновлены так, чтобы новый каталог создавался при установке.
+- Что сделано: README, update-policy, prompts, guides и repository parameters обновлены так, чтобы `mcp/` официально считался repo-owned зоной наряду с `tasks/`, `rules/`, `changelog/`, `content/` и `parameters/`.

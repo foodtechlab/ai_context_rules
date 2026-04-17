@@ -9,8 +9,8 @@
 - `guides/` - baseline-документы о workflow и структуре локального слоя;
 - `templates/` - шаблоны для новых репозиториев и bootstrap-файлы для
   `ai-context/tasks`, `ai-context/rules`, `ai-context/changelog`,
-  `ai-context/content`, `ai-context/parameters` и корневого `epics/` в режиме
-  `project-manager`;
+  `ai-context/content`, `ai-context/mcp`, `ai-context/parameters` и корневого
+  `epics/` в режиме `project-manager`;
 - `promts/` - prompt-like команды для типовых операций;
 - `scripts/` - deterministic sync/verify scripts и обязательные утилиты;
 - `examples/` - примеры структуры `rules/` и `epics/`;
@@ -24,6 +24,8 @@
   проект.
 - Если проекту нужна кастомизация для работы AI, она должна появиться в
   локальном слое `ai-context/` вне `baseline/`.
+- Repo-specific контекст по MCP должен жить в `ai-context/mcp/`, а не в
+  replaceable baseline.
 - Если проекту нужны рабочие результаты вроде `epics/`, `docs/` или `specs/`,
   они должны жить вне `ai-context` и не должны считаться частью baseline.
 - Sync-скрипт должен считать `baseline/` полностью принадлежащим
