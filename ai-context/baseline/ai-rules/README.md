@@ -36,3 +36,5 @@
   repository-level и local-machine-level с разными правилами хранения.
 - `009_project-manager-epics-root.md` - в режиме `project-manager` командные
   эпики и задачи живут в корневом `epics/`, а не внутри `ai-context`.
+- `010_user-prompt-in-changelog.md` - каждый новый changelog-файл должен
+  фиксировать пользовательский промт, который привел к изменению.
