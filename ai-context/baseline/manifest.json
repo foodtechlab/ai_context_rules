@@ -68,6 +68,9 @@
         "path": "ai-context/tasks/task-details"
       },
       {
+        "path": "ai-context/tasks/task-archive"
+      },
+      {
         "path": "ai-context/rules"
       },
       {
@@ -116,6 +119,10 @@
       {
         "source": "ai-context/baseline/templates/tasks/task-details/.gitkeep",
         "target": "ai-context/tasks/task-details/.gitkeep"
+      },
+      {
+        "source": "ai-context/baseline/templates/tasks/task-archive/archive.md",
+        "target": "ai-context/tasks/task-archive/archive.md"
       },
       {
         "source": "ai-context/baseline/templates/repository-parameters.yaml",

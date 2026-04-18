@@ -12,6 +12,8 @@ ai_context:
   tasks:
     task_list_file: ai-context/tasks/task-list.md
     task_draft_file: ai-context/tasks/task-draft.txt
+    task_archive_directory: ai-context/tasks/task-archive
+    task_archive_file: ai-context/tasks/task-archive/archive.md
   task_codes:
     allowed_sources:
       - local

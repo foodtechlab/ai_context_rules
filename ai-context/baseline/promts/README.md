@@ -18,3 +18,4 @@
 | `update-ai-context-prompt.md` | `обнови данные ai-context из https://github.com/foodtechlab/ai_context_rules` | Обновляет только baseline-owned слой без перезаписи локального слоя |
 | `task-list-formatting-prompt.md` | `отформатируй задачи` | Приводит `tasks/task-list.md` к рабочему формату |
 | `task-detailing-prompt.md` | `детализируй <код>` | Создает task detail в `tasks/task-details/` |
+| `task-archive-prompt.md` | `архивируй задачи` | Переносит завершенные `🟢` задачи и их detail-файлы в `tasks/task-archive/` |
