@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": null,
+  "source": {
+    "repository": null,
+    "backendRoots": [],
+    "generator": "aic-collect-backend-entities",
+    "coverage": "empty"
+  },
+  "elements": [],
+  "relations": []
+}

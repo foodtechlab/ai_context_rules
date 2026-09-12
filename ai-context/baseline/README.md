@@ -10,8 +10,8 @@
   для повторного использования и требуют явного выбора в целевом проекте;
 - `skills/` - канонические repository skills и machine-readable manifest для
   установки в `.agents/skills/` текущего репозитория;
-- `apps/` - зона будущих переносимых templates и общих schemas для
-  AI-operational приложений;
+- `apps/` - переносимые AI-operational приложения, их templates и общие
+  schemas;
 - `guides/` - baseline-документы о workflow и структуре локального слоя;
 - `templates/` - шаблоны для новых репозиториев и bootstrap-файлы для
   `ai-context/tasks`, `ai-context/rules`, `ai-context/changelog`,

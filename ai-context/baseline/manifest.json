@@ -56,6 +56,12 @@
         "path": "ai-context/apps"
       },
       {
+        "path": "ai-context/apps/backend-entity-map"
+      },
+      {
+        "path": "ai-context/apps/backend-entity-map/data"
+      },
+      {
         "path": "ai-context/content"
       },
       {
@@ -108,6 +114,18 @@
       {
         "source": "ai-context/baseline/templates/apps/README.md",
         "target": "ai-context/apps/README.md"
+      },
+      {
+        "source": "ai-context/baseline/templates/apps/backend-entity-map/README.md",
+        "target": "ai-context/apps/backend-entity-map/README.md"
+      },
+      {
+        "source": "ai-context/baseline/templates/apps/backend-entity-map/data/generated.json",
+        "target": "ai-context/apps/backend-entity-map/data/generated.json"
+      },
+      {
+        "source": "ai-context/baseline/templates/apps/backend-entity-map/data/user.json",
+        "target": "ai-context/apps/backend-entity-map/data/user.json"
       },
       {
         "source": "ai-context/baseline/templates/content/.gitkeep",

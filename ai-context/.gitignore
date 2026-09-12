@@ -7,6 +7,10 @@ content/*.tmp.*
 __pycache__/
 *.py[cod]
 
+# Зависимости и build output baseline-приложений создаются локально.
+baseline/apps/**/node_modules/
+baseline/apps/**/dist/
+
 # Markdown-снимки контекста сохраняются.
 !content/*.md
 !content/.gitkeep

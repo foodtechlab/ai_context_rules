@@ -13,4 +13,5 @@ ai-context/apps/<app-name>/
 Правила именования, минимальный контракт и ownership описаны в
 `ai-context/baseline/guides/apps.md`.
 
-Конкретных приложений пока нет.
+Baseline-sync может добавить data-контур нового приложения, только если его
+repo-local файлы еще не существуют.

@@ -1,0 +1,6 @@
+interface:
+  display_name: "AIC: Collect Backend Entities"
+  short_description: "Сбор данных для карты backend-сущностей"
+  default_prompt: "Используй $aic-collect-backend-entities, чтобы собрать полную карту сущностей backend текущего репозитория и проверить generated.json."
+policy:
+  allow_implicit_invocation: true

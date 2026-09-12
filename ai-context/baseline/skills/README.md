@@ -21,5 +21,7 @@
 ## Текущий набор
 
 - `aic-backend-review-and-fix` — ревью и безопасное исправление backend-кода.
+- `aic-collect-backend-entities` — сбор AI-generated данных для карты
+  backend-сущностей.
 - `aic-update-ai-context` — обновление `ai-context` из настроенного
   source-of-truth с обязательным verify.

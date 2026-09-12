@@ -117,6 +117,9 @@ bootstrap-файлы в repo-owned зонах, если их еще нет.
    - `changelog/.gitkeep`
    - `content/.gitkeep`
    - `apps/README.md`
+   - `apps/backend-entity-map/README.md`
+   - `apps/backend-entity-map/data/generated.json`
+   - `apps/backend-entity-map/data/user.json`
    - `mcp/README.md`
    - `parameters/repository-parameters.yaml`
    - `parameters/local-machine/.gitignore`

@@ -1,0 +1,316 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-12T17:26:03+03:00",
+  "source": {
+    "repository": "trust-ops",
+    "backendRoots": [
+      "trust-ops-backend/trust-ops-domain/src/main/java"
+    ],
+    "generator": "aic-collect-backend-entities",
+    "coverage": "sample"
+  },
+  "elements": [
+    {
+      "id": "entity:com.trustops.domain.user.entity.UserEntity",
+      "kind": "entity",
+      "name": "UserEntity",
+      "qualifiedName": "com.trustops.domain.user.entity.UserEntity",
+      "module": "trust-ops-domain / user",
+      "sourcePath": "trust-ops-backend/trust-ops-domain/src/main/java/com/trustops/domain/user/entity/UserEntity.java",
+      "line": 34,
+      "description": "Локальная учетная запись человека, связывающая профиль с внешней идентификацией и глобальными ролями.",
+      "descriptionSource": "documentation",
+      "fields": [
+        { "name": "phoneNumber", "type": "PhoneNumber", "description": "Нормализованный уникальный номер телефона для локального поиска и авторизации.", "required": true },
+        { "name": "credentialId", "type": "String", "description": "Неизменяемый после привязки идентификатор учётной записи в сервисе авторизации.", "required": false },
+        { "name": "fullName", "type": "FullName", "description": "ФИО пользователя, отображаемое в админке и понятных человеку записях действий.", "required": false },
+        { "name": "email", "type": "String", "description": "Подтверждённый сервисом идентификации контактный email пользователя.", "required": false },
+        { "name": "status", "type": "UserStatus", "description": "Текущий статус локального допуска пользователя к Trust Ops.", "required": true },
+        { "name": "platformRoles", "type": "Set<UserPlatformRole>", "description": "Непустой набор глобальных ролей пользователя во всей платформе.", "required": true },
+        { "name": "deleted", "type": "boolean", "description": "Флаг удалено/не удалено, по умолчанию false.", "required": true, "inherited": true, "declaredIn": "io.foodtechlab.common.domain.entities.BaseDeleteEntity" },
+        { "name": "deletedAt", "type": "Instant", "description": "", "required": false, "inherited": true, "declaredIn": "io.foodtechlab.common.domain.entities.BaseDeleteEntity" },
+        { "name": "id", "type": "String", "description": "", "required": false, "inherited": true, "declaredIn": "com.rcore.domain.commons.entity.BaseEntity" },
+        { "name": "createdAt", "type": "Instant", "description": "", "required": true, "inherited": true, "declaredIn": "com.rcore.domain.commons.entity.BaseEntity" },
+        { "name": "updatedAt", "type": "Instant", "description": "", "required": true, "inherited": true, "declaredIn": "com.rcore.domain.commons.entity.BaseEntity" }
+      ]
+    },
+    {
+      "id": "entity:com.trustops.domain.host.entity.HostEntity",
+      "kind": "entity",
+      "name": "HostEntity",
+      "qualifiedName": "com.trustops.domain.host.entity.HostEntity",
+      "module": "trust-ops-domain / host",
+      "sourcePath": "trust-ops-backend/trust-ops-domain/src/main/java/com/trustops/domain/host/entity/HostEntity.java",
+      "line": 43,
+      "description": "Управляемый сервер, его место в иерархии групп, жизненный цикл и доверенное состояние агента.",
+      "descriptionSource": "documentation",
+      "fields": [
+        { "name": "name", "type": "String", "description": "Отображаемое название сервера для поиска и идентификации в админке.", "required": true },
+        { "name": "ipAddress", "type": "String", "description": "Канонический IP-адрес, по которому Trust Ops управляет сервером.", "required": true },
+        { "name": "groupId", "type": "String", "description": "Идентификатор обязательной HostGroupEntity, задающей иерархию и доступы.", "required": true },
+        { "name": "provider", "type": "HostProviderType", "description": "Инфраструктурный провайдер, у которого фактически размещён сервер.", "required": true },
+        { "name": "profile", "type": "HostProfileType", "description": "Набор разрешённых возможностей сервера, включая готовность к Docker Compose.", "required": true },
+        { "name": "status", "type": "HostStatus", "description": "Текущий этап жизненного цикла, определяющий доступные операции с сервером.", "required": true },
+        { "name": "agent", "type": "HostAgent", "description": "Доверенное состояние установленного агента, включая защищённую identity.", "required": true },
+        { "name": "deleted", "type": "boolean", "description": "Флаг удалено/не удалено, по умолчанию false.", "required": true, "inherited": true, "declaredIn": "io.foodtechlab.common.domain.entities.BaseDeleteEntity" },
+        { "name": "deletedAt", "type": "Instant", "description": "", "required": false, "inherited": true, "declaredIn": "io.foodtechlab.common.domain.entities.BaseDeleteEntity" },
+        { "name": "id", "type": "String", "description": "", "required": false, "inherited": true, "declaredIn": "com.rcore.domain.commons.entity.BaseEntity" },
+        { "name": "createdAt", "type": "Instant", "description": "", "required": true, "inherited": true, "declaredIn": "com.rcore.domain.commons.entity.BaseEntity" },
+        { "name": "updatedAt", "type": "Instant", "description": "", "required": true, "inherited": true, "declaredIn": "com.rcore.domain.commons.entity.BaseEntity" }
+      ]
+    },
+    {
+      "id": "entity:com.trustops.domain.hostgroup.entity.HostGroupEntity",
+      "kind": "entity",
+      "name": "HostGroupEntity",
+      "qualifiedName": "com.trustops.domain.hostgroup.entity.HostGroupEntity",
+      "module": "trust-ops-domain / hostgroup",
+      "sourcePath": "trust-ops-backend/trust-ops-domain/src/main/java/com/trustops/domain/hostgroup/entity/HostGroupEntity.java",
+      "line": 28,
+      "description": "Узел иерархии групп серверов с проверяемым путем от корня и данными для построения дерева доступа.",
+      "descriptionSource": "documentation",
+      "fields": [
+        { "name": "name", "type": "String", "description": "Отображаемое название группы серверов в дереве инфраструктуры.", "required": true },
+        { "name": "parentGroupId", "type": "String", "description": "Идентификатор родительской HostGroupEntity; null обозначает корневую группу.", "required": false },
+        { "name": "description", "type": "String", "description": "Описание назначения и состава группы серверов для администраторов Trust Ops.", "required": false },
+        { "name": "path", "type": "List<String>", "description": "Упорядоченный путь идентификаторов групп от корня до текущей группы включительно.", "required": true },
+        { "name": "createdByUserId", "type": "String", "description": "Идентификатор UserEntity, создавшего группу серверов.", "required": true },
+        { "name": "deleted", "type": "boolean", "description": "Флаг удалено/не удалено, по умолчанию false.", "required": true, "inherited": true, "declaredIn": "io.foodtechlab.common.domain.entities.BaseDeleteEntity" },
+        { "name": "deletedAt", "type": "Instant", "description": "", "required": false, "inherited": true, "declaredIn": "io.foodtechlab.common.domain.entities.BaseDeleteEntity" },
+        { "name": "id", "type": "String", "description": "", "required": false, "inherited": true, "declaredIn": "com.rcore.domain.commons.entity.BaseEntity" },
+        { "name": "createdAt", "type": "Instant", "description": "", "required": true, "inherited": true, "declaredIn": "com.rcore.domain.commons.entity.BaseEntity" },
+        { "name": "updatedAt", "type": "Instant", "description": "", "required": true, "inherited": true, "declaredIn": "com.rcore.domain.commons.entity.BaseEntity" }
+      ]
+    },
+    {
+      "id": "entity:com.trustops.domain.deployconfig.entity.DeployConfigEntity",
+      "kind": "entity",
+      "name": "DeployConfigEntity",
+      "qualifiedName": "com.trustops.domain.deployconfig.entity.DeployConfigEntity",
+      "module": "trust-ops-domain / deployconfig",
+      "sourcePath": "trust-ops-backend/trust-ops-domain/src/main/java/com/trustops/domain/deployconfig/entity/DeployConfigEntity.java",
+      "line": 22,
+      "description": "Связывает сервер с Docker Compose конфигурацией и хранит защищенные настройки окружения.",
+      "descriptionSource": "documentation",
+      "fields": [
+        { "name": "hostId", "type": "String", "description": "Идентификатор HostEntity, для которой действует эта конфигурация деплоя.", "required": true },
+        { "name": "dockerComposeConfigId", "type": "String", "description": "Идентификатор DockerComposeConfigEntity, назначенной серверу.", "required": true },
+        { "name": "environmentFile", "type": "SecureData<String>", "description": "Зашифрованное полное содержимое будущего файла /opt/docker/app/.env.", "required": false },
+        { "name": "environmentUpdatedAt", "type": "Instant", "description": "Момент последней успешной замены защищённого .env.", "required": false },
+        { "name": "deleted", "type": "boolean", "description": "Флаг удалено/не удалено, по умолчанию false.", "required": true, "inherited": true, "declaredIn": "io.foodtechlab.common.domain.entities.BaseDeleteEntity" },
+        { "name": "deletedAt", "type": "Instant", "description": "", "required": false, "inherited": true, "declaredIn": "io.foodtechlab.common.domain.entities.BaseDeleteEntity" },
+        { "name": "id", "type": "String", "description": "", "required": false, "inherited": true, "declaredIn": "com.rcore.domain.commons.entity.BaseEntity" },
+        { "name": "createdAt", "type": "Instant", "description": "", "required": true, "inherited": true, "declaredIn": "com.rcore.domain.commons.entity.BaseEntity" },
+        { "name": "updatedAt", "type": "Instant", "description": "", "required": true, "inherited": true, "declaredIn": "com.rcore.domain.commons.entity.BaseEntity" }
+      ]
+    },
+    {
+      "id": "entity:com.trustops.domain.dockercomposeconfig.entity.DockerComposeConfigEntity",
+      "kind": "entity",
+      "name": "DockerComposeConfigEntity",
+      "qualifiedName": "com.trustops.domain.dockercomposeconfig.entity.DockerComposeConfigEntity",
+      "module": "trust-ops-domain / dockercomposeconfig",
+      "sourcePath": "trust-ops-backend/trust-ops-domain/src/main/java/com/trustops/domain/dockercomposeconfig/entity/DockerComposeConfigEntity.java",
+      "line": 29,
+      "description": "Версионируемая ссылка на Docker Compose конфигурацию, получаемую из репозитория исходного кода.",
+      "descriptionSource": "inferred",
+      "fields": [
+        { "name": "name", "type": "String", "description": "", "required": true },
+        { "name": "repository", "type": "GitHubRepositoryRef", "description": "Устойчивая ссылка на GitHub-репозиторий и его отображаемое полное имя.", "required": true },
+        { "name": "status", "type": "DockerComposeConfigStatus", "description": "Текущее состояние готовности конфигурации к будущему деплою.", "required": true },
+        { "name": "id", "type": "String", "description": "", "required": false, "inherited": true, "declaredIn": "com.rcore.domain.commons.entity.BaseEntity" },
+        { "name": "createdAt", "type": "Instant", "description": "", "required": true, "inherited": true, "declaredIn": "com.rcore.domain.commons.entity.BaseEntity" },
+        { "name": "updatedAt", "type": "Instant", "description": "", "required": true, "inherited": true, "declaredIn": "com.rcore.domain.commons.entity.BaseEntity" }
+      ]
+    },
+    {
+      "id": "entity:com.trustops.domain.deploytask.entity.DeployTaskEntity",
+      "kind": "entity",
+      "name": "DeployTaskEntity",
+      "qualifiedName": "com.trustops.domain.deploytask.entity.DeployTaskEntity",
+      "module": "trust-ops-domain / deploytask",
+      "sourcePath": "trust-ops-backend/trust-ops-domain/src/main/java/com/trustops/domain/deploytask/entity/DeployTaskEntity.java",
+      "line": 26,
+      "description": "Задание на развертывание конфигурации с отслеживаемым жизненным циклом и результатом выполнения.",
+      "descriptionSource": "inferred",
+      "fields": [
+        { "name": "hostId", "type": "String", "description": "Неизменяемый идентификатор целевой HostEntity.", "required": true },
+        { "name": "status", "type": "DeployTaskStatus", "description": "Текущее состояние выполнения и окончательный результат попытки.", "required": true },
+        { "name": "createdByUserId", "type": "String", "description": "", "required": true },
+        { "name": "id", "type": "String", "description": "", "required": false, "inherited": true, "declaredIn": "com.rcore.domain.commons.entity.BaseEntity" },
+        { "name": "createdAt", "type": "Instant", "description": "", "required": true, "inherited": true, "declaredIn": "com.rcore.domain.commons.entity.BaseEntity" },
+        { "name": "updatedAt", "type": "Instant", "description": "", "required": true, "inherited": true, "declaredIn": "com.rcore.domain.commons.entity.BaseEntity" }
+      ]
+    },
+    {
+      "id": "entity:com.trustops.domain.hostenrollment.entity.HostEnrollmentCandidateEntity",
+      "kind": "entity",
+      "name": "HostEnrollmentCandidateEntity",
+      "qualifiedName": "com.trustops.domain.hostenrollment.entity.HostEnrollmentCandidateEntity",
+      "module": "trust-ops-domain / hostenrollment",
+      "sourcePath": "trust-ops-backend/trust-ops-domain/src/main/java/com/trustops/domain/hostenrollment/entity/HostEnrollmentCandidateEntity.java",
+      "line": 40,
+      "description": "Кандидат на регистрацию сервера, проходящий контролируемый процесс подтверждения.",
+      "descriptionSource": "inferred",
+      "fields": [
+        { "name": "status", "type": "HostEnrollmentCandidateStatus", "description": "Текущее состояние рассмотрения кандидата администратором Trust Ops.", "required": true },
+        { "name": "hostId", "type": "String", "description": "", "required": false },
+        { "name": "id", "type": "String", "description": "", "required": false, "inherited": true, "declaredIn": "com.rcore.domain.commons.entity.BaseEntity" },
+        { "name": "createdAt", "type": "Instant", "description": "", "required": true, "inherited": true, "declaredIn": "com.rcore.domain.commons.entity.BaseEntity" },
+        { "name": "updatedAt", "type": "Instant", "description": "", "required": true, "inherited": true, "declaredIn": "com.rcore.domain.commons.entity.BaseEntity" }
+      ]
+    },
+    {
+      "id": "enum:com.trustops.domain.user.entity.UserStatus",
+      "kind": "enum",
+      "name": "UserStatus",
+      "qualifiedName": "com.trustops.domain.user.entity.UserStatus",
+      "module": "trust-ops-domain / user",
+      "sourcePath": "trust-ops-backend/trust-ops-domain/src/main/java/com/trustops/domain/user/entity/UserStatus.java",
+      "line": 6,
+      "description": "Локальный статус допуска пользователя.",
+      "descriptionSource": "documentation",
+      "values": ["ACTIVE", "BLOCKED"]
+    },
+    {
+      "id": "enum:com.trustops.domain.user.entity.UserPlatformRole",
+      "kind": "enum",
+      "name": "UserPlatformRole",
+      "qualifiedName": "com.trustops.domain.user.entity.UserPlatformRole",
+      "module": "trust-ops-domain / user",
+      "sourcePath": "trust-ops-backend/trust-ops-domain/src/main/java/com/trustops/domain/user/entity/UserPlatformRole.java",
+      "line": 6,
+      "description": "Глобальная роль пользователя платформы.",
+      "descriptionSource": "documentation",
+      "values": ["PLATFORM_ADMIN", "USER"]
+    },
+    {
+      "id": "enum:com.trustops.domain.host.entity.common.HostStatus",
+      "kind": "enum",
+      "name": "HostStatus",
+      "qualifiedName": "com.trustops.domain.host.entity.common.HostStatus",
+      "module": "trust-ops-domain / host",
+      "sourcePath": "trust-ops-backend/trust-ops-domain/src/main/java/com/trustops/domain/host/entity/common/HostStatus.java",
+      "line": 9,
+      "description": "Этап жизненного цикла управляемого сервера.",
+      "descriptionSource": "documentation",
+      "values": ["REGISTERED", "ONLINE", "OFFLINE", "MAINTENANCE", "COMPROMISED", "DECOMMISSIONED"]
+    },
+    {
+      "id": "enum:com.trustops.domain.host.entity.common.HostProviderType",
+      "kind": "enum",
+      "name": "HostProviderType",
+      "qualifiedName": "com.trustops.domain.host.entity.common.HostProviderType",
+      "module": "trust-ops-domain / host",
+      "sourcePath": "trust-ops-backend/trust-ops-domain/src/main/java/com/trustops/domain/host/entity/common/HostProviderType.java",
+      "line": 4,
+      "description": "Тип инфраструктурного провайдера сервера.",
+      "descriptionSource": "documentation",
+      "values": ["VPSVILLE", "ROSTELECOM", "VK", "SELECTEL", "YANDEX", "TIMEWEB", "CORE1", "CORE2"]
+    },
+    {
+      "id": "enum:com.trustops.domain.deploytask.entity.common.DeployTaskStatus",
+      "kind": "enum",
+      "name": "DeployTaskStatus",
+      "qualifiedName": "com.trustops.domain.deploytask.entity.common.DeployTaskStatus",
+      "module": "trust-ops-domain / deploytask",
+      "sourcePath": "trust-ops-backend/trust-ops-domain/src/main/java/com/trustops/domain/deploytask/entity/common/DeployTaskStatus.java",
+      "line": 4,
+      "description": "Состояние задания на развертывание.",
+      "descriptionSource": "inferred",
+      "values": ["NEW", "IN_PROGRESS", "SUCCESS", "ERROR", "CANCELLED"]
+    },
+    {
+      "id": "enum:com.trustops.domain.dockercomposeconfig.entity.common.DockerComposeConfigStatus",
+      "kind": "enum",
+      "name": "DockerComposeConfigStatus",
+      "qualifiedName": "com.trustops.domain.dockercomposeconfig.entity.common.DockerComposeConfigStatus",
+      "module": "trust-ops-domain / dockercomposeconfig",
+      "sourcePath": "trust-ops-backend/trust-ops-domain/src/main/java/com/trustops/domain/dockercomposeconfig/entity/common/DockerComposeConfigStatus.java",
+      "line": 4,
+      "description": "Состояние доступности Docker Compose конфигурации.",
+      "descriptionSource": "inferred",
+      "values": ["DRAFT", "ACTIVE", "ARCHIVED"]
+    },
+    {
+      "id": "enum:com.trustops.domain.hostenrollment.entity.common.HostEnrollmentCandidateStatus",
+      "kind": "enum",
+      "name": "HostEnrollmentCandidateStatus",
+      "qualifiedName": "com.trustops.domain.hostenrollment.entity.common.HostEnrollmentCandidateStatus",
+      "module": "trust-ops-domain / hostenrollment",
+      "sourcePath": "trust-ops-backend/trust-ops-domain/src/main/java/com/trustops/domain/hostenrollment/entity/common/HostEnrollmentCandidateStatus.java",
+      "line": 4,
+      "description": "Состояние кандидата в процессе регистрации сервера.",
+      "descriptionSource": "inferred",
+      "values": ["PENDING", "CONFIRMED", "REJECTED"]
+    },
+    {
+      "id": "inner-class:com.trustops.domain.hostlogin.model.HostLoginModels$HostLoginObservation",
+      "kind": "inner-class",
+      "name": "HostLoginObservation",
+      "qualifiedName": "com.trustops.domain.hostlogin.model.HostLoginModels$HostLoginObservation",
+      "module": "trust-ops-domain / hostlogin",
+      "sourcePath": "trust-ops-backend/trust-ops-domain/src/main/java/com/trustops/domain/hostlogin/model/HostLoginModels.java",
+      "line": 34,
+      "description": "Наблюдаемое событие входа до backend enrichment и persistence.",
+      "descriptionSource": "documentation",
+      "fields": [
+        { "name": "localEventId", "type": "String", "description": "Локальный UUID, созданный monitor-ом.", "required": true },
+        { "name": "localSequence", "type": "long", "description": "Монотонная последовательность в identity epoch.", "required": true },
+        { "name": "loginAt", "type": "Instant", "description": "Время успешного открытия session по Host clock.", "required": true },
+        { "name": "osUsername", "type": "String", "description": "Наблюдаемый Linux account, не Trust Ops User.", "required": true },
+        { "name": "sourceAddress", "type": "String", "description": "Optional raw source address только на короткой protect boundary.", "required": false }
+      ]
+    },
+    {
+      "id": "inner-class:com.trustops.domain.hostlogin.model.HostLoginModels$HostLoginBatch",
+      "kind": "inner-class",
+      "name": "HostLoginBatch",
+      "qualifiedName": "com.trustops.domain.hostlogin.model.HostLoginModels$HostLoginBatch",
+      "module": "trust-ops-domain / hostlogin",
+      "sourcePath": "trust-ops-backend/trust-ops-domain/src/main/java/com/trustops/domain/hostlogin/model/HostLoginModels.java",
+      "line": 142,
+      "description": "Подписанный транспортный пакет наблюдений, упорядоченный по локальной последовательности.",
+      "descriptionSource": "documentation",
+      "fields": [
+        { "name": "batchId", "type": "String", "description": "Идемпотентный UUID batch.", "required": true },
+        { "name": "firstLocalSequence", "type": "long", "description": "Первая local sequence.", "required": true },
+        { "name": "lastLocalSequence", "type": "long", "description": "Последняя local sequence.", "required": true },
+        { "name": "events", "type": "List<HostLoginObservation>", "description": "Exact ordered observations, максимум 50.", "required": true }
+      ]
+    },
+    {
+      "id": "inner-class:com.trustops.domain.hostlogin.model.HostLoginModels$ProtectedNetworkSource",
+      "kind": "inner-class",
+      "name": "ProtectedNetworkSource",
+      "qualifiedName": "com.trustops.domain.hostlogin.model.HostLoginModels$ProtectedNetworkSource",
+      "module": "trust-ops-domain / hostlogin",
+      "sourcePath": "trust-ops-backend/trust-ops-domain/src/main/java/com/trustops/domain/hostlogin/model/HostLoginModels.java",
+      "line": 166,
+      "description": "Защищенное сетевое значение, исключающее попадание открытого адреса в persistence.",
+      "descriptionSource": "documentation",
+      "fields": [
+        { "name": "protectedAddress", "type": "String", "description": "AES-GCM envelope либо null для local/unknown.", "required": false },
+        { "name": "keyId", "type": "String", "description": "Идентификатор внешнего key material.", "required": false },
+        { "name": "maskedAddress", "type": "String", "description": "Безопасная masked projection.", "required": true },
+        { "name": "canonicalToken", "type": "String", "description": "Keyed canonical token для idempotent digest.", "required": true }
+      ]
+    }
+  ],
+  "relations": [
+    { "id": "user-status", "source": "entity:com.trustops.domain.user.entity.UserEntity", "target": "enum:com.trustops.domain.user.entity.UserStatus", "kind": "uses", "label": "status" },
+    { "id": "user-role", "source": "entity:com.trustops.domain.user.entity.UserEntity", "target": "enum:com.trustops.domain.user.entity.UserPlatformRole", "kind": "uses", "label": "roles" },
+    { "id": "host-group", "source": "entity:com.trustops.domain.host.entity.HostEntity", "target": "entity:com.trustops.domain.hostgroup.entity.HostGroupEntity", "kind": "references", "label": "groupId" },
+    { "id": "host-status", "source": "entity:com.trustops.domain.host.entity.HostEntity", "target": "enum:com.trustops.domain.host.entity.common.HostStatus", "kind": "uses", "label": "status" },
+    { "id": "host-provider", "source": "entity:com.trustops.domain.host.entity.HostEntity", "target": "enum:com.trustops.domain.host.entity.common.HostProviderType", "kind": "uses", "label": "provider" },
+    { "id": "hostgroup-parent", "source": "entity:com.trustops.domain.hostgroup.entity.HostGroupEntity", "target": "entity:com.trustops.domain.hostgroup.entity.HostGroupEntity", "kind": "references", "label": "parentGroupId" },
+    { "id": "deployconfig-host", "source": "entity:com.trustops.domain.deployconfig.entity.DeployConfigEntity", "target": "entity:com.trustops.domain.host.entity.HostEntity", "kind": "references", "label": "hostId" },
+    { "id": "deployconfig-compose", "source": "entity:com.trustops.domain.deployconfig.entity.DeployConfigEntity", "target": "entity:com.trustops.domain.dockercomposeconfig.entity.DockerComposeConfigEntity", "kind": "references", "label": "dockerComposeConfigId" },
+    { "id": "compose-status", "source": "entity:com.trustops.domain.dockercomposeconfig.entity.DockerComposeConfigEntity", "target": "enum:com.trustops.domain.dockercomposeconfig.entity.common.DockerComposeConfigStatus", "kind": "uses", "label": "status" },
+    { "id": "deploytask-host", "source": "entity:com.trustops.domain.deploytask.entity.DeployTaskEntity", "target": "entity:com.trustops.domain.host.entity.HostEntity", "kind": "references", "label": "hostId" },
+    { "id": "deploytask-status", "source": "entity:com.trustops.domain.deploytask.entity.DeployTaskEntity", "target": "enum:com.trustops.domain.deploytask.entity.common.DeployTaskStatus", "kind": "uses", "label": "status" },
+    { "id": "enrollment-host", "source": "entity:com.trustops.domain.hostenrollment.entity.HostEnrollmentCandidateEntity", "target": "entity:com.trustops.domain.host.entity.HostEntity", "kind": "references", "label": "hostId" },
+    { "id": "enrollment-status", "source": "entity:com.trustops.domain.hostenrollment.entity.HostEnrollmentCandidateEntity", "target": "enum:com.trustops.domain.hostenrollment.entity.common.HostEnrollmentCandidateStatus", "kind": "uses", "label": "status" },
+    { "id": "batch-observations", "source": "inner-class:com.trustops.domain.hostlogin.model.HostLoginModels$HostLoginBatch", "target": "inner-class:com.trustops.domain.hostlogin.model.HostLoginModels$HostLoginObservation", "kind": "contains", "label": "events" }
+  ]
+}

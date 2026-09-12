@@ -13,4 +13,7 @@ ai-context/apps/<app-name>/
 Правила именования, минимальный контракт и ownership описаны в
 `ai-context/baseline/guides/apps.md`.
 
-Конкретных приложений пока нет.
+## Приложения
+
+- `backend-entity-map/` — repo-local данные карты backend-сущностей; runtime
+  приложения находится в `ai-context/baseline/apps/backend-entity-map/`.

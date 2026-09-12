@@ -26,8 +26,8 @@
   архитектурными ролями и локальными правилами целевого проекта.
 - `baseline/skills/` - канонические repository skills, устанавливаемые по
   manifest в `.agents/skills/` текущего репозитория.
-- `baseline/apps/` - source-of-truth зона для будущих переносимых app templates
-  и общих schemas.
+- `baseline/apps/` - source-of-truth зона переносимых AI-operational
+  приложений, их templates и общих schemas.
 - `baseline/guides/` - baseline-документы о workflow, task-flow, changelog,
   rules, parameters и `project-manager` режиме.
 - `baseline/templates/` - шаблоны для task details, repository parameters и

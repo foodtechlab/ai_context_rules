@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "elements": [
+    {
+      "id": "entity:draft:TestEntity",
+      "kind": "entity",
+      "name": "TestEntity",
+      "qualifiedName": "TestEntity",
+      "module": "",
+      "description": "",
+      "fields": [
+        {
+          "name": "testField",
+          "type": "String",
+          "description": "test",
+          "required": false
+        },
+        {
+          "name": "id",
+          "type": "String",
+          "description": "test",
+          "required": false
+        }
+      ]
+    }
+  ],
+  "relations": [],
+  "annotations": [
+    {
+      "targetId": "entity:com.trustops.domain.host.entity.HostEntity",
+      "note": "Центральный агрегат тренировочной карты: связывает инфраструктуру, группу и состояние агента.",
+      "tags": [
+        "training",
+        "core"
+      ]
+    }
+  ],
+  "layout": {
+    "entity:com.trustops.domain.user.entity.UserEntity": {
+      "x": -1147.0639191844512,
+      "y": -792.4811693932274
+    },
+    "entity:com.trustops.domain.host.entity.HostEntity": {
+      "x": 1063.8608787358637,
+      "y": -711.6098597250007
+    },
+    "entity:com.trustops.domain.hostgroup.entity.HostGroupEntity": {
+      "x": 1074.4093571885708,
+      "y": -1599.6241449596675
+    },
+    "entity:com.trustops.domain.deployconfig.entity.DeployConfigEntity": {
+      "x": 279.8656257358974,
+      "y": 403.4259920346236
+    },
+    "entity:com.trustops.domain.dockercomposeconfig.entity.DockerComposeConfigEntity": {
+      "x": 685.7385451772856,
+      "y": 1049.7265580370927
+    },
+    "entity:com.trustops.domain.deploytask.entity.DeployTaskEntity": {
+      "x": 1066.5646947642788,
+      "y": 197.69538956012326
+    },
+    "entity:com.trustops.domain.hostenrollment.entity.HostEnrollmentCandidateEntity": {
+      "x": 253.3293802645365,
+      "y": -625.4050153851097
+    },
+    "enum:com.trustops.domain.user.entity.UserStatus": {
+      "x": -712.2046828196769,
+      "y": -836.8374782195481
+    },
+    "enum:com.trustops.domain.user.entity.UserPlatformRole": {
+      "x": -695.2854264786869,
+      "y": -488.8687470367365
+    },
+    "enum:com.trustops.domain.host.entity.common.HostStatus": {
+      "x": 1834.9330393028856,
+      "y": -436.34193022210746
+    },
+    "enum:com.trustops.domain.host.entity.common.HostProviderType": {
+      "x": 1826.1181413269758,
+      "y": -816.9580946745033
+    },
+    "enum:com.trustops.domain.deploytask.entity.common.DeployTaskStatus": {
+      "x": 1464.824613244367,
+      "y": -105.91247027571933
+    },
+    "enum:com.trustops.domain.dockercomposeconfig.entity.common.DockerComposeConfigStatus": {
+      "x": 1119.2672571919788,
+      "y": 1100.70323317794
+    },
+    "enum:com.trustops.domain.hostenrollment.entity.common.HostEnrollmentCandidateStatus": {
+      "x": -119.84654150956823,
+      "y": -617.1481128686897
+    },
+    "inner-class:com.trustops.domain.hostlogin.model.HostLoginModels$HostLoginObservation": {
+      "x": 3195.610997486698,
+      "y": 115.88176977661016
+    },
+    "inner-class:com.trustops.domain.hostlogin.model.HostLoginModels$HostLoginBatch": {
+      "x": 2729.3857150466793,
+      "y": 150.28524951402147
+    },
+    "inner-class:com.trustops.domain.hostlogin.model.HostLoginModels$ProtectedNetworkSource": {
+      "x": 2724.2469746145307,
+      "y": 543.2065186645431
+    },
+    "entity:draft:TestEntity": {
+      "x": 1891.6546654129993,
+      "y": 349.7488202502393
+    }
+  }
+}

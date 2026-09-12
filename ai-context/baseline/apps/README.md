@@ -1,9 +1,11 @@
 # Baseline Apps
 
-Эта replaceable source-of-truth зона зарезервирована для будущих переносимых
-шаблонов AI Context Apps и общих schemas.
+Эта replaceable source-of-truth зона хранит переносимые AI Context Apps,
+templates и общие schemas.
 
 Стандарт размещения и ownership описан в
 `ai-context/baseline/guides/apps.md`.
 
-Конкретных приложений в baseline пока нет.
+## Приложения
+
+- `backend-entity-map/` — интерактивная карта domain-сущностей backend.

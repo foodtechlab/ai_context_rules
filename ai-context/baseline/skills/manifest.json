@@ -10,6 +10,10 @@
       "source": "ai-context/baseline/skills/aic-backend-review-and-fix"
     },
     {
+      "name": "aic-collect-backend-entities",
+      "source": "ai-context/baseline/skills/aic-collect-backend-entities"
+    },
+    {
       "name": "aic-update-ai-context",
       "source": "ai-context/baseline/skills/aic-update-ai-context"
     }

@@ -1,0 +1,26 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "AIC: backend-entity-map",
+      "program": "${workspaceFolder}/ai-context/baseline/apps/backend-entity-map/server.mjs",
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "AIC_REPO_ROOT": "${workspaceFolder}",
+        "PORT": "4173"
+      },
+      "preLaunchTask": "AIC: install backend-entity-map dependencies",
+      "console": "integratedTerminal",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "serverReadyAction": {
+        "pattern": "Backend Entity Map: (http://localhost:[0-9]+)",
+        "uriFormat": "%s",
+        "action": "openExternally"
+      }
+    }
+  ]
+}

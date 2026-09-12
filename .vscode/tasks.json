@@ -1,0 +1,26 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "process",
+      "label": "AIC: install backend-entity-map dependencies",
+      "command": "npm",
+      "args": [
+        "--prefix",
+        "${workspaceFolder}/ai-context/baseline/apps/backend-entity-map",
+        "install",
+        "--no-audit",
+        "--no-fund"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "panel": "shared",
+        "clear": false
+      }
+    }
+  ]
+}

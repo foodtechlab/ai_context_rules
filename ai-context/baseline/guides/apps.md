@@ -28,12 +28,14 @@ ai-context/
     <app-name>/
 ```
 
-- `ai-context/baseline/apps/` — replaceable source-of-truth зона для будущих
-  переносимых app templates и общих schemas.
+- `ai-context/baseline/apps/` — replaceable source-of-truth зона переносимых
+  приложений, app templates и общих schemas.
 - `ai-context/apps/` — repo-local зона приложений текущего репозитория.
 - `ai-context/apps/<app-name>/` — корень одного приложения.
 
-Конкретных приложений baseline пока не содержит.
+Текущий baseline-набор:
+
+- `backend-entity-map` — React Flow-интерфейс карты backend-сущностей.
 
 ## Именование
 
@@ -46,7 +48,7 @@ ai-context/
 
 ## Минимальный контракт приложения
 
-Каждое будущее приложение должно иметь собственный `README.md`, в котором
+Каждое приложение должно иметь собственный `README.md`, в котором
 зафиксированы:
 
 - назначение и граница ответственности;
@@ -65,9 +67,8 @@ ai-context/
 - `baseline/apps/**` принадлежит source-of-truth и заменяется baseline-sync.
 - `ai-context/apps/**` принадлежит текущему репозиторию и не
   перезаписывается baseline-sync.
-- Baseline template может bootstrap-ить только отсутствующий
-  `ai-context/apps/README.md`.
-- Добавление app template в baseline само по себе не устанавливает и не
-  обновляет конкретное приложение.
-- Политика установки или обновления переносимого приложения должна быть явно
-  определена до появления первого такого приложения.
+- Baseline templates могут bootstrap-ить только отсутствующие README и
+  начальные data-файлы, явно перечисленные в baseline manifest.
+- Код baseline-приложения обновляется вместе с baseline. Его repo-local data
+  после bootstrap сохраняется без перезаписи.
+- Каждое приложение обязано явно разделять baseline runtime и repo-local data.

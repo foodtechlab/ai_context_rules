@@ -8,13 +8,13 @@
 `ai-context` в рабочем репозитории хранит только то, что нужно самому AI:
 
 - [`ai-context/baseline`](./ai-context/baseline) - versioned baseline:
-  правила, repository skills, app templates, guides, scripts, prompts и
+  правила, repository skills, AI Context Apps, guides, scripts, prompts и
   examples;
 - локальные AI-данные внутри `ai-context/` - `tasks/`, `rules/`, `changelog/`,
   `apps/`, `content/`, `mcp/`, `skills/imports/` и `parameters/`.
 
-Рабочие результаты проекта должны жить вне `ai-context`: код, `docs/`,
-`specs/`, `epics/` и другие project outputs.
+Продуктовый код и рабочие результаты проекта должны жить вне `ai-context`:
+`docs/`, `specs/`, `epics/` и другие project outputs.
 
 В режиме `project-manager` это означает:
 
@@ -46,6 +46,19 @@
 AI возьмет свежий набор из source-of-truth, установит его только в
 `.agents/skills/` текущего репозитория и обновит ранее установленные `aic-*`
 skills.
+
+### Backend Entity Map
+
+После установки зависимостей приложение запускается из корня репозитория:
+
+```bash
+npm --prefix ai-context/baseline/apps/backend-entity-map install
+AIC_REPO_ROOT="$PWD" npm --prefix ai-context/baseline/apps/backend-entity-map run dev
+```
+
+AI-generated данные обновляет `$aic-collect-backend-entities`, а
+пользовательские данные и layout сохраняются интерфейсом в repo-local
+`ai-context/apps/backend-entity-map/data/user.json`.
 
 ### Для Developer
 
@@ -96,8 +109,8 @@ skills.
   использования.
 - [`ai-context/baseline/skills`](./ai-context/baseline/skills) - канонические
   repository skills и manifest их установки.
-- [`ai-context/baseline/apps`](./ai-context/baseline/apps) - зона будущих
-  переносимых templates и schemas для AI Context Apps.
+- [`ai-context/baseline/apps`](./ai-context/baseline/apps) - переносимые
+  AI Context Apps, templates и schemas.
 - [`ai-context/baseline/guides`](./ai-context/baseline/guides) -
   baseline-guides для workflow.
 - [`ai-context/baseline/templates`](./ai-context/baseline/templates) -
