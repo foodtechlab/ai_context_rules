@@ -42,4 +42,5 @@
   фиксировать пользовательский промт, который привел к изменению.
 - `010_mcp-locality-and-scope.md` - общие правила по MCP живут в baseline, а
   repo-specific MCP-контекст хранится в `ai-context/mcp`.
-
+- `011_repository-skills.md` - skills из `ai-context` устанавливаются и
+  обновляются только в repository scope `.agents/skills`.

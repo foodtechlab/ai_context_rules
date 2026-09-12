@@ -30,6 +30,7 @@
 - `ai-context/changelog/**/*`
 - `ai-context/content/**/*`
 - `ai-context/mcp/**/*`
+- `ai-context/skills/imports/**/*`
 - `ai-context/parameters/**/*`
 
 Следствие:
@@ -77,6 +78,7 @@ Baseline-sync должен всегда приводить к точному с�
 - `baseline/promts/**/*`
 - `baseline/scripts/**/*`
 - `baseline/examples/**/*`
+- `baseline/skills/**/*`
 - `baseline/update-policy.md`
 - `baseline/manifest.json`
 
@@ -162,3 +164,19 @@ bootstrap-файлы в repo-owned зонах, если их еще нет.
 2. запустить `ai-context/baseline/scripts/sync-ai-context.py`;
 3. запустить `ai-context/baseline/scripts/verify-ai-context.py`;
 4. коротко сообщить результат по стандарту из пункта 6.
+
+## 9. Repository skills
+
+Установка skills — отдельная операция от baseline-sync:
+
+- единственный поддерживаемый scope — `.agents/skills/` текущего репозитория;
+- source-of-truth — `ai-context/baseline/skills/manifest.json` и перечисленные
+  в нем каталоги;
+- `aic-` и `AIC: ` — обязательные префиксы технического и UI-имени;
+- `ai-context/skills/imports/` — локальный staging, который baseline-sync не
+  перезаписывает;
+- повторный запуск установщика заменяет управляемые skills свежими версиями из
+  source-of-truth и не изменяет сторонние skills.
+
+Триггеры и команды описаны в
+`ai-context/baseline/promts/install-ai-context-skills-prompt.md`.

@@ -8,11 +8,13 @@
 - `ai-rules/` - постоянные правила поведения AI-агента;
 - `rules/` - versioned наборы технических правил, которые хранятся в baseline
   для повторного использования и требуют явного выбора в целевом проекте;
+- `skills/` - канонические repository skills и machine-readable manifest для
+  установки в `.agents/skills/` текущего репозитория;
 - `guides/` - baseline-документы о workflow и структуре локального слоя;
 - `templates/` - шаблоны для новых репозиториев и bootstrap-файлы для
   `ai-context/tasks`, `ai-context/rules`, `ai-context/changelog`,
-  `ai-context/content`, `ai-context/mcp`, `ai-context/parameters` и корневого
-  `epics/` в режиме `project-manager`;
+  `ai-context/content`, `ai-context/mcp`, `ai-context/skills/imports`,
+  `ai-context/parameters` и корневого `epics/` в режиме `project-manager`;
 - `promts/` - prompt-like команды для типовых операций;
 - `scripts/` - deterministic sync/verify scripts и обязательные утилиты;
 - `examples/` - примеры структуры `rules/` и `epics/`;
@@ -28,6 +30,9 @@
   локальном слое `ai-context/` вне `baseline/`.
 - Repo-specific контекст по MCP должен жить в `ai-context/mcp/`, а не в
   replaceable baseline.
+- Skills из других репозиториев сначала размещаются в repo-local
+  `ai-context/skills/imports/`, обезличиваются и только затем публикуются в
+  `baseline/skills/`.
 - Если проекту нужны рабочие результаты вроде `epics/`, `docs/` или `specs/`,
   они должны жить вне `ai-context` и не должны считаться частью baseline.
 - Sync-скрипт должен считать `baseline/` полностью принадлежащим

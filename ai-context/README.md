@@ -9,8 +9,8 @@
 - `baseline/` - replaceable source-of-truth пакет, который синхронизируется из
   git и может целиком перезаписываться;
 - локальные AI-данные прямо в `ai-context/` - `tasks/`, `rules/`, `changelog/`,
-  `content/`, `mcp/` и `parameters/`, которые имеют project-local приоритет и
-  не должны затираться sync-скриптами.
+  `content/`, `mcp/`, `skills/imports/` и `parameters/`, которые имеют
+  project-local приоритет и не должны затираться sync-скриптами.
 
 Каталога `workspace/` больше нет. Если в проекте осталась старая схема
 `ai-context/workspace/*`, `sync-ai-context.py` должен мигрировать ее в плоскую
@@ -24,6 +24,8 @@
 - `baseline/rules/` - обезличенные versioned наборы технических правил для
   повторного использования; они применяются после сопоставления со стеком,
   архитектурными ролями и локальными правилами целевого проекта.
+- `baseline/skills/` - канонические repository skills, устанавливаемые по
+  manifest в `.agents/skills/` текущего репозитория.
 - `baseline/guides/` - baseline-документы о workflow, task-flow, changelog,
   rules, parameters и `project-manager` режиме.
 - `baseline/templates/` - шаблоны для task details, repository parameters и
@@ -40,6 +42,8 @@
   а не канонические `docs/` или `ТЗ`.
 - `mcp/` - project-specific контекст по MCP: какие серверы и коннекторы реально
   используются в этом репозитории, какие у них ограничения и как их применять.
+- `skills/imports/` - repo-local staging для переноса и обезличивания skills из
+  других репозиториев перед публикацией в baseline.
 - `parameters/` - repository-level и local-machine-level параметры проекта.
 
 Каталог `epics/` намеренно не входит в `ai-context`. В режиме
@@ -59,9 +63,9 @@
 - Project outputs вне `ai-context` тоже принадлежат репозиторию. Для
   `project-manager` это в первую очередь `epics/`.
 - Если проекту нужна кастомизация, она делается через `tasks/`, `rules/`,
-  `changelog/`, `content/`, `mcp/` и `parameters/`, а не через ручные правки в
-  `baseline/`. Project outputs вроде `epics/`, `docs/`, `specs/` и кода
-  хранятся вне `ai-context`.
+  `changelog/`, `content/`, `mcp`, `skills/imports/` и `parameters/`, а не
+  через ручные правки в `baseline/`. Project outputs вроде `epics/`, `docs/`,
+  `specs/` и кода хранятся вне `ai-context`.
 
 ## Рабочий цикл
 
@@ -81,6 +85,13 @@
 6. После завершения задачи переведи ее в `🟣`, покажи алерт через
    `baseline/scripts/show-completion-alert.sh` и подготовь резюме для коммита.
 7. Только пользователь после ручной проверки переводит задачу в `🟢`.
+
+## Repository skills
+
+Фразы `установи скилы` и `установи скиллы из ai-context` запускают установку
+свежего manifest из source-of-truth в `.agents/skills/` текущего репозитория.
+Повторный запуск обновляет уже установленные управляемые skills. Подробности:
+`baseline/guides/skills.md`.
 
 ## Установка и обновление
 

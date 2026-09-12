@@ -24,5 +24,5 @@
 - Baseline хранит только структуру, шаблоны и документацию, но не реальные
   значения параметров проекта.
 - Repository-level параметры могут описывать и AI-контур внутри `ai-context`,
-  включая repo-local `mcp/`, и project outputs вне него, например корневой
-  `epics/`.
+  включая repo-local `mcp/` и `skills/imports/`, repository skills в
+  `.agents/skills/` и project outputs вне него, например корневой `epics/`.

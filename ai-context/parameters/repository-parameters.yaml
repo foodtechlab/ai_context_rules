@@ -29,6 +29,16 @@ ai_context:
   rules:
     directory: ai-context/rules
     template_file: ai-context/baseline/templates/project-rule.md
+  skills:
+    canonical_directory: ai-context/baseline/skills
+    imports_directory: ai-context/skills/imports
+    manifest_file: ai-context/baseline/skills/manifest.json
+    repository_install_directory: .agents/skills
+    state_file: .agents/skills/.aic-installed.json
+    name_prefix: aic-
+    display_name_prefix: "AIC: "
+    install_script: ai-context/baseline/scripts/install-ai-context-skills.py
+    verify_script: ai-context/baseline/scripts/verify-ai-context-skills.py
   changelog:
     directory: ai-context/changelog
   content:

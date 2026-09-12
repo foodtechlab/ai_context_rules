@@ -1,0 +1,13 @@
+{
+  "manifest_version": 1,
+  "target_directory": ".agents/skills",
+  "state_file": ".agents/skills/.aic-installed.json",
+  "name_prefix": "aic-",
+  "display_name_prefix": "AIC: ",
+  "skills": [
+    {
+      "name": "aic-backend-review-and-fix",
+      "source": "ai-context/baseline/skills/aic-backend-review-and-fix"
+    }
+  ]
+}

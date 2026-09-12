@@ -1,0 +1,6 @@
+interface:
+  display_name: "AIC: Backend Review and Fix"
+  short_description: "Проверка и безопасное исправление backend-кода"
+  default_prompt: "Используй $aic-backend-review-and-fix, чтобы проверить backend-изменения по применимым правилам репозитория и исправить безопасные замечания."
+policy:
+  allow_implicit_invocation: false

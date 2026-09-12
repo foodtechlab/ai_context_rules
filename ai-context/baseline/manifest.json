@@ -83,6 +83,12 @@
         "path": "ai-context/rules/frontend-react-js-ts"
       },
       {
+        "path": "ai-context/skills"
+      },
+      {
+        "path": "ai-context/skills/imports"
+      },
+      {
         "path": "ai-context/parameters"
       },
       {
@@ -143,6 +149,10 @@
       {
         "source": "ai-context/baseline/templates/rules/frontend-react-js-ts/.gitkeep",
         "target": "ai-context/rules/frontend-react-js-ts/.gitkeep"
+      },
+      {
+        "source": "ai-context/baseline/templates/skills/imports/README.md",
+        "target": "ai-context/skills/imports/README.md"
       },
       {
         "source": "ai-context/baseline/templates/epics/epic-list.md",

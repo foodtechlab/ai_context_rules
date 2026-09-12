@@ -8,9 +8,9 @@
 `ai-context` в рабочем репозитории хранит только то, что нужно самому AI:
 
 - [`ai-context/baseline`](./ai-context/baseline) - versioned baseline:
-  правила, guides, templates, scripts, prompts и examples;
+  правила, repository skills, guides, templates, scripts, prompts и examples;
 - локальные AI-данные внутри `ai-context/` - `tasks/`, `rules/`, `changelog/`,
-  `content/`, `mcp/` и `parameters/`.
+  `content/`, `mcp/`, `skills/imports/` и `parameters/`.
 
 Рабочие результаты проекта должны жить вне `ai-context`: код, `docs/`,
 `specs/`, `epics/` и другие project outputs.
@@ -27,6 +27,24 @@
 - project outputs вне `ai-context` тоже нельзя считать replaceable AI-слоем.
 
 ## Быстрый старт
+
+### Repository skills
+
+После установки `ai-context` достаточно написать:
+
+```text
+установи скилы
+```
+
+или:
+
+```text
+установи скиллы из ai-context
+```
+
+AI возьмет свежий набор из source-of-truth, установит его только в
+`.agents/skills/` текущего репозитория и обновит ранее установленные `aic-*`
+skills.
 
 ### Для Developer
 
@@ -75,6 +93,8 @@
 - [`ai-context/baseline/rules`](./ai-context/baseline/rules) -
   versioned наборы технических правил, перенесенные в baseline для повторного
   использования.
+- [`ai-context/baseline/skills`](./ai-context/baseline/skills) - канонические
+  repository skills и manifest их установки.
 - [`ai-context/baseline/guides`](./ai-context/baseline/guides) -
   baseline-guides для workflow.
 - [`ai-context/baseline/templates`](./ai-context/baseline/templates) -
@@ -100,6 +120,8 @@
   [`ai-context/baseline/guides/parameters.md`](./ai-context/baseline/guides/parameters.md)
 - Как устроен repo-local контур MCP:
   [`ai-context/baseline/guides/mcp.md`](./ai-context/baseline/guides/mcp.md)
+- Как импортировать, публиковать, устанавливать и обновлять skills:
+  [`ai-context/baseline/guides/skills.md`](./ai-context/baseline/guides/skills.md)
 - Как устроен `project-manager` backlog:
   [`ai-context/baseline/guides/epics.md`](./ai-context/baseline/guides/epics.md)
 
