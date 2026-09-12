@@ -8,6 +8,10 @@
     {
       "name": "aic-backend-review-and-fix",
       "source": "ai-context/baseline/skills/aic-backend-review-and-fix"
+    },
+    {
+      "name": "aic-update-ai-context",
+      "source": "ai-context/baseline/skills/aic-update-ai-context"
     }
   ]
 }

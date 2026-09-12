@@ -17,3 +17,9 @@
 
 Импорт и публикация сторонних skills описаны в
 `ai-context/baseline/guides/skills.md`.
+
+## Текущий набор
+
+- `aic-backend-review-and-fix` — ревью и безопасное исправление backend-кода.
+- `aic-update-ai-context` — обновление `ai-context` из настроенного
+  source-of-truth с обязательным verify.

@@ -1,0 +1,6 @@
+interface:
+  display_name: "AIC: Update AI Context"
+  short_description: "Обновление ai-context из source-of-truth"
+  default_prompt: "Используй $aic-update-ai-context, чтобы обновить ai-context текущего репозитория из настроенного source-of-truth и проверить результат."
+policy:
+  allow_implicit_invocation: true
