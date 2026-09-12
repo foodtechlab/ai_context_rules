@@ -21,6 +21,9 @@
 ## Состав
 
 - `baseline/ai-rules/` - постоянные межпроектные правила поведения AI-агента.
+- `baseline/rules/` - обезличенные versioned наборы технических правил для
+  повторного использования; они применяются после сопоставления со стеком,
+  архитектурными ролями и локальными правилами целевого проекта.
 - `baseline/guides/` - baseline-документы о workflow, task-flow, changelog,
   rules, parameters и `project-manager` режиме.
 - `baseline/templates/` - шаблоны для task details, repository parameters и
@@ -63,8 +66,10 @@
 ## Рабочий цикл
 
 1. Перед реализацией подними применимые файлы из `baseline/ai-rules/`,
-   `baseline/guides/`, `rules/` и `mcp/`, если задача затрагивает
-   repo-specific интеграции или MCP workflow.
+   `baseline/guides/`, выбранных профилей `baseline/rules/`, локальных
+   `rules/` и `mcp/`, если задача затрагивает repo-specific интеграции или
+   MCP workflow. Baseline-профиль применяется только после сопоставления с
+   реальным стеком и архитектурой репозитория.
 2. Для задачи AI работай через `tasks/task-list.md` и
    `tasks/task-details/<код>.md`.
 3. Когда пользователь перевел задачу в `🟢` и явно попросил архивацию,

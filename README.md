@@ -72,6 +72,9 @@
   политика установки и обновления.
 - [`ai-context/baseline/ai-rules`](./ai-context/baseline/ai-rules) -
   постоянные межпроектные правила.
+- [`ai-context/baseline/rules`](./ai-context/baseline/rules) -
+  versioned наборы технических правил, перенесенные в baseline для повторного
+  использования.
 - [`ai-context/baseline/guides`](./ai-context/baseline/guides) -
   baseline-guides для workflow.
 - [`ai-context/baseline/templates`](./ai-context/baseline/templates) -
