@@ -29,6 +29,10 @@ ai_context:
   rules:
     directory: ai-context/rules
     template_file: ai-context/baseline/templates/project-rule.md
+  apps:
+    directory: ai-context/apps
+    baseline_directory: ai-context/baseline/apps
+    guide_file: ai-context/baseline/guides/apps.md
   skills:
     canonical_directory: ai-context/baseline/skills
     imports_directory: ai-context/skills/imports

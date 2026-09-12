@@ -10,10 +10,13 @@
   для повторного использования и требуют явного выбора в целевом проекте;
 - `skills/` - канонические repository skills и machine-readable manifest для
   установки в `.agents/skills/` текущего репозитория;
+- `apps/` - зона будущих переносимых templates и общих schemas для
+  AI-operational приложений;
 - `guides/` - baseline-документы о workflow и структуре локального слоя;
 - `templates/` - шаблоны для новых репозиториев и bootstrap-файлы для
   `ai-context/tasks`, `ai-context/rules`, `ai-context/changelog`,
-  `ai-context/content`, `ai-context/mcp`, `ai-context/skills/imports`,
+  `ai-context/apps`, `ai-context/content`, `ai-context/mcp`,
+  `ai-context/skills/imports`,
   `ai-context/parameters` и корневого `epics/` в режиме `project-manager`;
 - `promts/` - prompt-like команды для типовых операций;
 - `scripts/` - deterministic sync/verify scripts и обязательные утилиты;
@@ -33,6 +36,8 @@
 - Skills из других репозиториев сначала размещаются в repo-local
   `ai-context/skills/imports/`, обезличиваются и только затем публикуются в
   `baseline/skills/`.
+- AI Context Apps текущего репозитория живут в `ai-context/apps/`; baseline
+  может хранить только переносимые app templates и общие schemas.
 - Если проекту нужны рабочие результаты вроде `epics/`, `docs/` или `specs/`,
   они должны жить вне `ai-context` и не должны считаться частью baseline.
 - Sync-скрипт должен считать `baseline/` полностью принадлежащим

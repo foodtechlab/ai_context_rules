@@ -13,6 +13,7 @@ Baseline-шаблон для первой установки лежит в
 - рабочие пути внутри AI-контура `ai-context/`;
 - режимы работы с backlog, rules и task-details;
 - путь до repo-local каталога `mcp/`, если он фиксируется в параметрах;
+- пути repo-local и baseline-зон AI Context Apps;
 - пути canonical/import/install зон repository skills, manifest, state-файл и
   обязательные префиксы `aic-` и `AIC: `;
 - путь до project outputs вне `ai-context`, например до командного backlog

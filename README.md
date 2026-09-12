@@ -8,9 +8,10 @@
 `ai-context` в рабочем репозитории хранит только то, что нужно самому AI:
 
 - [`ai-context/baseline`](./ai-context/baseline) - versioned baseline:
-  правила, repository skills, guides, templates, scripts, prompts и examples;
+  правила, repository skills, app templates, guides, scripts, prompts и
+  examples;
 - локальные AI-данные внутри `ai-context/` - `tasks/`, `rules/`, `changelog/`,
-  `content/`, `mcp/`, `skills/imports/` и `parameters/`.
+  `apps/`, `content/`, `mcp/`, `skills/imports/` и `parameters/`.
 
 Рабочие результаты проекта должны жить вне `ai-context`: код, `docs/`,
 `specs/`, `epics/` и другие project outputs.
@@ -95,6 +96,8 @@ skills.
   использования.
 - [`ai-context/baseline/skills`](./ai-context/baseline/skills) - канонические
   repository skills и manifest их установки.
+- [`ai-context/baseline/apps`](./ai-context/baseline/apps) - зона будущих
+  переносимых templates и schemas для AI Context Apps.
 - [`ai-context/baseline/guides`](./ai-context/baseline/guides) -
   baseline-guides для workflow.
 - [`ai-context/baseline/templates`](./ai-context/baseline/templates) -
@@ -122,6 +125,8 @@ skills.
   [`ai-context/baseline/guides/mcp.md`](./ai-context/baseline/guides/mcp.md)
 - Как импортировать, публиковать, устанавливать и обновлять skills:
   [`ai-context/baseline/guides/skills.md`](./ai-context/baseline/guides/skills.md)
+- Как размещать AI Context Apps:
+  [`ai-context/baseline/guides/apps.md`](./ai-context/baseline/guides/apps.md)
 - Как устроен `project-manager` backlog:
   [`ai-context/baseline/guides/epics.md`](./ai-context/baseline/guides/epics.md)
 

@@ -44,3 +44,5 @@
   repo-specific MCP-контекст хранится в `ai-context/mcp`.
 - `011_repository-skills.md` - skills из `ai-context` устанавливаются и
   обновляются только в repository scope `.agents/skills`.
+- `012_ai-context-apps.md` - AI-operational приложения размещаются в
+  repo-local `ai-context/apps`, а переносимые основы — в `baseline/apps`.

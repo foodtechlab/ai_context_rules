@@ -53,6 +53,9 @@
     ],
     "ensure_directories": [
       {
+        "path": "ai-context/apps"
+      },
+      {
         "path": "ai-context/content"
       },
       {
@@ -102,6 +105,10 @@
       }
     ],
     "ensure_files": [
+      {
+        "source": "ai-context/baseline/templates/apps/README.md",
+        "target": "ai-context/apps/README.md"
+      },
       {
         "source": "ai-context/baseline/templates/content/.gitkeep",
         "target": "ai-context/content/.gitkeep"

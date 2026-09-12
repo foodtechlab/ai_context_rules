@@ -28,6 +28,7 @@
 - `ai-context/tasks/**/*`
 - `ai-context/rules/**/*`
 - `ai-context/changelog/**/*`
+- `ai-context/apps/**/*`
 - `ai-context/content/**/*`
 - `ai-context/mcp/**/*`
 - `ai-context/skills/imports/**/*`
@@ -79,6 +80,7 @@ Baseline-sync должен всегда приводить к точному с�
 - `baseline/scripts/**/*`
 - `baseline/examples/**/*`
 - `baseline/skills/**/*`
+- `baseline/apps/**/*`
 - `baseline/update-policy.md`
 - `baseline/manifest.json`
 
@@ -94,6 +96,7 @@ Baseline-sync должен всегда приводить к точному с�
 - `ai-context/changelog/**/*`
 - `ai-context/rules/**/*`
 - `ai-context/mcp/**/*`
+- `ai-context/apps/**/*`
 - `ai-context/parameters/repository-parameters.yaml`
 - `ai-context/parameters/local-machine/**/*`
 - `epics/**/*`
@@ -113,6 +116,7 @@ bootstrap-файлы в repo-owned зонах, если их еще нет.
    - `tasks/task-details/.gitkeep`
    - `changelog/.gitkeep`
    - `content/.gitkeep`
+   - `apps/README.md`
    - `mcp/README.md`
    - `parameters/repository-parameters.yaml`
    - `parameters/local-machine/.gitignore`
@@ -121,8 +125,8 @@ bootstrap-файлы в repo-owned зонах, если их еще нет.
    - `rules/frontend-react-js-ts/.gitkeep`
 4. если выбран режим `project-manager`, дополнительно создай:
    - `epics/epic-list.md`
-5. не придумывай project-specific содержимое для `rules`, `mcp/`, `tasks`,
-   `changelog` и `epics`.
+5. не придумывай project-specific содержимое для `rules`, `apps`, `mcp/`,
+   `tasks`, `changelog` и `epics`.
 
 ## 6. Правило обновления
 
@@ -151,6 +155,7 @@ bootstrap-файлы в repo-owned зонах, если их еще нет.
 - Перезаписывать `changelog/**/*`.
 - Перезаписывать `rules/**/*`.
 - Перезаписывать `mcp/**/*`.
+- Перезаписывать `apps/**/*`.
 - Перезаписывать `epics/**/*` в режиме `project-manager`.
 - Считать `epics/` частью `ai-context` или replaceable AI-слоем.
 - Коммитить реальные local-machine секреты из `parameters/local-machine/`.

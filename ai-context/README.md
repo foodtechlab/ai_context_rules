@@ -9,7 +9,7 @@
 - `baseline/` - replaceable source-of-truth пакет, который синхронизируется из
   git и может целиком перезаписываться;
 - локальные AI-данные прямо в `ai-context/` - `tasks/`, `rules/`, `changelog/`,
-  `content/`, `mcp/`, `skills/imports/` и `parameters/`, которые имеют
+  `apps/`, `content/`, `mcp/`, `skills/imports/` и `parameters/`, которые имеют
   project-local приоритет и не должны затираться sync-скриптами.
 
 Каталога `workspace/` больше нет. Если в проекте осталась старая схема
@@ -26,6 +26,8 @@
   архитектурными ролями и локальными правилами целевого проекта.
 - `baseline/skills/` - канонические repository skills, устанавливаемые по
   manifest в `.agents/skills/` текущего репозитория.
+- `baseline/apps/` - source-of-truth зона для будущих переносимых app templates
+  и общих schemas.
 - `baseline/guides/` - baseline-документы о workflow, task-flow, changelog,
   rules, parameters и `project-manager` режиме.
 - `baseline/templates/` - шаблоны для task details, repository parameters и
@@ -38,6 +40,8 @@
 - `tasks/` - живая очередь задач AI, их детализация и архив завершенных задач.
 - `rules/` - project-specific архитектурные и предметные правила.
 - `changelog/` - append-only журнал фактических изменений.
+- `apps/` - repo-local запускаемые приложения для исследования, визуализации и
+  использования AI-контекста текущего репозитория.
 - `content/` - supporting-снимки, выдержки и вспомогательные материалы для AI,
   а не канонические `docs/` или `ТЗ`.
 - `mcp/` - project-specific контекст по MCP: какие серверы и коннекторы реально
@@ -63,9 +67,9 @@
 - Project outputs вне `ai-context` тоже принадлежат репозиторию. Для
   `project-manager` это в первую очередь `epics/`.
 - Если проекту нужна кастомизация, она делается через `tasks/`, `rules/`,
-  `changelog/`, `content/`, `mcp`, `skills/imports/` и `parameters/`, а не
-  через ручные правки в `baseline/`. Project outputs вроде `epics/`, `docs/`,
-  `specs/` и кода хранятся вне `ai-context`.
+  `changelog/`, `apps/`, `content/`, `mcp`, `skills/imports/` и `parameters/`,
+  а не через ручные правки в `baseline/`. Product code и project outputs вроде
+  `epics/`, `docs/` и `specs/` хранятся вне `ai-context`.
 
 ## Рабочий цикл
 
