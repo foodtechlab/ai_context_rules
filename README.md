@@ -97,6 +97,9 @@ AI-generated данные обновляет `$aic-collect-backend-entities`, а
 
 ## Что здесь лежит
 
+- [`maintainer-context/`](./maintainer-context) - задачи разработки самого
+  source-of-truth репозитория; этот каталог не входит в устанавливаемый
+  `ai-context` и не переносится в целевые репозитории.
 - [`ai-context/README.md`](./ai-context/README.md) - обзор двухслойной модели.
 - [`ai-context/baseline/README.md`](./ai-context/baseline/README.md) - состав
   baseline и ownership-правило.
@@ -124,6 +127,8 @@ AI-generated данные обновляет `$aic-collect-backend-entities`, а
 
 ## Быстрые точки входа
 
+- Задачи разработки этого source-of-truth репозитория:
+  [`maintainer-context/tasks/task-list.md`](./maintainer-context/tasks/task-list.md)
 - Как разделены AI-контур и project outputs:
   [`ai-context/README.md`](./ai-context/README.md)
 - Как обновлять baseline:
