@@ -55,10 +55,11 @@ function ProjectTreeItem({ node, level, expandedIds, onToggle }: { node: Project
 }
 function ZoomControl({ value, onChange }: { value: number; onChange: (value: number) => void }) {
   const update = (next: number) => onChange(normalizeZoom(next));
-  return <div className="zoom-control">
-    <div className="zoom-control__label"><span>Масштаб</span><output>{value}%</output></div>
-    <div className="zoom-control__input"><button type="button" onClick={() => update(value - 10)} disabled={value <= 40} aria-label="Уменьшить масштаб">−</button><input type="range" min="40" max="160" step="10" value={value} onChange={(event) => update(Number(event.target.value))} aria-label="Масштаб рабочей области" /><button type="button" onClick={() => update(value + 10)} disabled={value >= 160} aria-label="Увеличить масштаб">+</button></div>
-    <button className="zoom-control__reset" type="button" onClick={() => onChange(100)} disabled={value === 100}>Сбросить до 100%</button>
+  return <div className="zoom-control" aria-label="Масштаб рабочей области">
+    <button type="button" onClick={() => update(value - 10)} disabled={value <= 40} aria-label="Уменьшить масштаб">−</button>
+    <input type="range" min="40" max="160" step="10" value={value} onChange={(event) => update(Number(event.target.value))} aria-label="Масштаб рабочей области" />
+    <button type="button" onClick={() => update(value + 10)} disabled={value >= 160} aria-label="Увеличить масштаб">+</button>
+    <button className="zoom-control__value" type="button" onClick={() => onChange(100)} title="Сбросить до 100%"><output>{value}%</output></button>
   </div>;
 }
 
@@ -345,6 +346,7 @@ export default function App() {
             {(['mobile', 'desktop'] as const).map((group) => { const presets = studioSettings.viewportPresets.filter((preset) => preset.group === group); return <section className="viewport-settings-section" key={group}><header><div><span>{group === 'mobile' ? 'MOBILE' : 'DESKTOP'}</span><h3>{group === 'mobile' ? 'Мобильные устройства' : 'Ноутбуки и мониторы'}</h3></div><strong>{presets.length} пресетов</strong></header><div className="viewport-settings-grid">{presets.map((preset) => <article className="viewport-setting" key={preset.id}><div className="viewport-setting__preview" style={{ aspectRatio: `${preset.width} / ${preset.height}` }}><span>{preset.width}×{preset.height}</span></div><div><code>{preset.id}</code><label>Название<input key={`${preset.id}:name:${preset.name}`} defaultValue={preset.name} onBlur={(event) => event.target.value.trim() && event.target.value.trim() !== preset.name && updateViewportPreset(preset.id, { name: event.target.value.trim() })} /></label><div className="viewport-setting__dimensions"><label>Ширина<input type="number" min="1" key={`${preset.id}:width:${preset.width}`} defaultValue={preset.width} onBlur={(event) => { const value = Number(event.target.value); if (value > 0 && value !== preset.width) updateViewportPreset(preset.id, { width: value }); }} /></label><label>Высота<input type="number" min="1" key={`${preset.id}:height:${preset.height}`} defaultValue={preset.height} onBlur={(event) => { const value = Number(event.target.value); if (value > 0 && value !== preset.height) updateViewportPreset(preset.id, { height: value }); }} /></label></div><label>Для чего проверяем<input key={`${preset.id}:purpose:${preset.purpose}`} defaultValue={preset.purpose || ''} onBlur={(event) => event.target.value.trim() && event.target.value.trim() !== preset.purpose && updateViewportPreset(preset.id, { purpose: event.target.value.trim() })} /></label></div></article>)}</div></section>; })}
           </article>
         </section>}
+        {zoomMode && <div className="workspace-zoom"><ZoomControl value={zoomLevels[zoomMode]} onChange={updateZoom} /></div>}
       </div>
     </section>
     <aside className="studio-inspector" id="studio-tools-panel" aria-hidden={inspectorCollapsed} inert={inspectorCollapsed}>
@@ -358,7 +360,6 @@ export default function App() {
           <small>{projectContext?.studioDataPath || 'Определяю локальный путь…'}</small>
         </section>
         <label>Тема<select value={theme.id} onChange={(event) => setThemeId(event.target.value)}>{studio.tokens.themes.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label>
-        {zoomMode && <ZoomControl value={zoomLevels[zoomMode]} onChange={updateZoom} />}
         {mode === 'components' && activeComponent && <><List title="Назначение" items={[activeComponent.description || activeComponent.usage]} /><List title="Зависимости" items={activeComponent.dependencies} /><List title="Свойства" items={activeComponent.properties} /><List title="Размеры" items={activeComponent.sizes} /><List title="События" items={activeComponent.actions} /><List title="Токены" items={activeComponent.tokenRefs} /><List title="Ограничения" items={activeComponent.restrictions} /><List title="Доступность" items={[`ARIA: ${activeComponent.accessibility?.role || 'не задано'}`, activeComponent.responsiveBehavior]} /></>}
         {mode === 'screens' && screen && <>
           <label>Состояние<select value={stateId} onChange={(event) => setStateId(event.target.value)}>{screen.states.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label>
