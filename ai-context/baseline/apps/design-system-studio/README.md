@@ -94,6 +94,23 @@ Mockup открывается в отдельном prototype-canvas, близк
 screens → flows → mockups. Неопределённые решения сохраняются в
 `openQuestions`, а не замалчиваются и не заполняются догадками.
 
+Раздел Components состоит из каталога atoms/molecules/organisms и отдельных
+страниц компонентов. Страница компонента имеет устойчивый маршрут
+`#/components/component-<id>` и показывает только его варианты и состояния:
+каждая комбинация размещается отдельным frame на точечном canvas. Описание,
+dependencies, properties, tokens, accessibility и ограничения остаются в
+правой панели, не загромождая рабочую область.
+
+Tokens не образуют одну длинную страницу: Studio предоставляет отдельные
+маршруты Colors, Fonts, Typography и Parameters. Fonts является UI-
+представлением family/weight токенов из `tokens.typography`, поэтому schema v1
+и project-owned данные не дублируются. Typography содержит оставшиеся размеры,
+line-height и составные text styles. Fonts и Typography показываются плоским
+font-browser списком, по одному токену на строку, и применяют значения к живому
+sample-тексту. Общий текст проверки сохраняется в localStorage только как
+пользовательская настройка Studio; token values по-прежнему записываются в
+проектный `studio.json`.
+
 Изменения из UI атомарно сохраняются только в проектный `studio.json`.
 JSON-редактор остается code-first escape hatch и проходит reference validation
 перед записью.

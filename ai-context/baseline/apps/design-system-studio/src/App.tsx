@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import { Background, BackgroundVariant, Controls, MiniMap, ReactFlow, useEdgesState, useNodesState, type Edge, type Node } from '@xyflow/react';
 
 import { CAPABILITIES, exportStudio, type Platform } from './adapters';
@@ -17,6 +17,8 @@ const NAVIGATION: Array<[Mode, string, string]> = [
 ];
 const TOKEN_GROUPS: Array<[TokenCategory, string]> = [['colors', 'Цвета'], ['typography', 'Типографика'], ['parameters', 'Остальные параметры']];
 const TOKEN_TIERS: Array<[TokenTier, string]> = [['base', 'Базовые'], ['semantic', 'Семантические'], ['component', 'Компонентные']];
+type TokenPage = 'colors' | 'fonts' | 'typography' | 'parameters';
+const TOKEN_PAGES: Array<[TokenPage, string]> = [['colors', 'Цвета'], ['fonts', 'Шрифты'], ['typography', 'Типографика'], ['parameters', 'Параметры']];
 const INITIAL_ROUTE = window.location.hash.replace(/^#\/?/, '').split('/');
 const normalizeZoom = (value: unknown) => Math.min(160, Math.max(40, Number(value) || 100));
 const normalizeMockupZoom = (value: unknown) => Math.min(150, Math.max(10, Number(value) || 60));
@@ -69,6 +71,26 @@ function ViewportOptions({ presets }: { presets: ViewportPreset[] }) {
   })}{presets.filter((preset) => !groupedIds.has(preset.id)).map((preset) => <option key={preset.id} value={preset.id}>{preset.name} · {preset.width}×{preset.height}</option>)}</>;
 }
 
+function typographyPreviewStyle(tokenId: string, value: string, defaultFamily: string): CSSProperties {
+  const style: CSSProperties = { fontFamily: defaultFamily, fontSize: '28px', lineHeight: 1.25 };
+  const shorthand = value.match(/^(\d+)\s+([\d.]+(?:px|rem|em))(?:\/([\d.]+))?\s+(.+)$/);
+  if (shorthand) return { fontWeight: Number(shorthand[1]), fontSize: shorthand[2], lineHeight: shorthand[3] || 1.25, fontFamily: shorthand[4] };
+  if (tokenId.includes('family')) style.fontFamily = value;
+  else if (tokenId.includes('weight')) style.fontWeight = Number(value) || value;
+  else if (tokenId.toLowerCase().includes('lineheight')) style.lineHeight = value;
+  else if (/^[\d.]+(?:px|rem|em)$/.test(value)) style.fontSize = value;
+  return style;
+}
+
+function tokensForPage(studio: StudioData, page: TokenPage, tier: TokenTier) {
+  if (page === 'colors' || page === 'parameters') return studio.tokens[page][tier];
+  const typographyTokens = studio.tokens.typography[tier];
+  return typographyTokens.filter((token) => {
+    const isFontFoundation = token.id.includes('.family') || token.id.includes('.weight');
+    return page === 'fonts' ? isFontFoundation : !isFontFoundation;
+  });
+}
+
 export default function App() {
   const [studio, setStudio] = useState<StudioData | null>(null);
   const [mode, setMode] = useState<Mode>(initialMode);
@@ -100,6 +122,7 @@ export default function App() {
   const [editorValue, setEditorValue] = useState('');
   const [projectContext, setProjectContext] = useState<ProjectContext | null>(null);
   const [promptComponentId, setPromptComponentId] = useState('');
+  const [typographySample, setTypographySample] = useState(() => window.localStorage.getItem('aic:design-studio:typography-sample') || 'Съешь ещё этих мягких французских булок, да выпей чаю');
   const [mockupZoom, setMockupZoom] = useState(() => normalizeMockupZoom(window.localStorage.getItem('aic:design-studio:mockup-zoom')));
   const [mockupTool, setMockupTool] = useState<'pointer' | 'hand'>('pointer');
   const [isPanningMockup, setIsPanningMockup] = useState(false);
@@ -134,6 +157,7 @@ export default function App() {
   useEffect(() => { window.localStorage.setItem('aic:design-studio:expanded-tree', JSON.stringify([...expandedTreeIds])); }, [expandedTreeIds]);
   useEffect(() => { window.localStorage.setItem('aic:design-studio:zoom-levels', JSON.stringify(zoomLevels)); }, [zoomLevels]);
   useEffect(() => { window.localStorage.setItem('aic:design-studio:mockup-zoom', String(mockupZoom)); }, [mockupZoom]);
+  useEffect(() => { window.localStorage.setItem('aic:design-studio:typography-sample', typographySample); }, [typographySample]);
 
   const saveStudio = useCallback(async (next: StudioData, success = 'Изменения сохранены локально') => {
     setIsSaving(true); setMessage('Сохраняю…');
@@ -150,6 +174,11 @@ export default function App() {
   const screen = useMemo(() => studio?.screens.find((item) => item.id === screenId) || studio?.screens[0], [studio, screenId]);
   const flow = useMemo(() => studio?.flows.find((item) => item.id === flowId) || studio?.flows[0], [studio, flowId]);
   const mockup = useMemo(() => studio?.mockups.find((item) => item.id === mockupId) || studio?.mockups[0], [studio, mockupId]);
+  const activeTokenPage = useMemo<TokenPage>(() => {
+    const candidate = activeStructureId.replace(/^tokens-/, '') as TokenPage;
+    return TOKEN_PAGES.some(([page]) => page === candidate) ? candidate : 'colors';
+  }, [activeStructureId]);
+  const activeComponent = useMemo(() => studio?.components.find((item) => activeStructureId === `component-${item.id}`), [activeStructureId, studio]);
   const promptComponent = useMemo(() => studio?.components.find((item) => item.id === promptComponentId) || studio?.components[0], [studio, promptComponentId]);
   const implementationPrompt = promptComponent && projectContext
     ? `я хочу что бы ты реализовал компонент по дизайн системе - ${projectContext.studioDataPath}#components/${promptComponent.id}`
@@ -158,11 +187,12 @@ export default function App() {
   useEffect(() => {
     if (!studio) return;
     let route = `#/${mode}`;
+    if ((mode === 'components' || mode === 'tokens') && activeStructureId) route += `/${activeStructureId}`;
     if (mode === 'screens' && screenId && stateId) route += `/${screenId}/${stateId}/${viewport}`;
     if (mode === 'flows' && flowId) route += `/${flowId}`;
     if (mode === 'mockup' && mockupId && mockupNodeId) route += `/${mockupId}/${mockupNodeId}/${fixtureId}`;
     window.history.replaceState(null, '', route);
-  }, [studio, mode, screenId, stateId, viewport, flowId, mockupId, mockupNodeId, fixtureId]);
+  }, [studio, mode, activeStructureId, screenId, stateId, viewport, flowId, mockupId, mockupNodeId, fixtureId]);
   useEffect(() => {
     if (!screen) return;
     if (!screen.states.some((item) => item.id === stateId)) setStateId(screen.states[0]?.id || '');
@@ -184,6 +214,7 @@ export default function App() {
   useEffect(() => {
     const activeItems = document.querySelectorAll<HTMLElement>('.project-tree button.is-active');
     activeItems.item(activeItems.length - 1)?.scrollIntoView({ block: 'nearest' });
+    if (mode === 'components' && activeStructureId.startsWith('components-')) window.requestAnimationFrame(() => document.getElementById(activeStructureId)?.scrollIntoView({ block: 'start' }));
   }, [mode, activeStructureId, screenId, flowId, mockupId]);
   useEffect(() => {
     const selected = studio?.components.find((item) => activeStructureId === `component-${item.id}`);
@@ -255,7 +286,7 @@ export default function App() {
   const updateZoom = (value: number) => { if (zoomMode) setZoomLevels((current) => ({ ...current, [zoomMode]: value })); };
   const projectTree: ProjectTreeNode = { id: 'project-root', label: 'design-system', tone: 'project', children: [
     { id: 'base', label: 'base-system', tone: 'base', active: mode === 'base', onSelect: () => openStructureItem('base') },
-    { id: 'tokens', label: 'tokens', tone: 'tokens', count: TOKEN_GROUPS.reduce((total, [category]) => total + TOKEN_TIERS.reduce((subtotal, [tier]) => subtotal + studio.tokens[category][tier].length, 0), 0), active: mode === 'tokens' && !activeStructureId, onSelect: () => openStructureItem('tokens'), children: TOKEN_GROUPS.map(([category]) => ({ id: `tree-tokens-${category}`, label: category, tone: 'tokens', count: TOKEN_TIERS.reduce((total, [tier]) => total + studio.tokens[category][tier].length, 0), active: mode === 'tokens' && activeStructureId === `tokens-${category}`, onSelect: () => openStructureItem('tokens', `tokens-${category}`) })) },
+    { id: 'tokens', label: 'tokens', tone: 'tokens', count: TOKEN_GROUPS.reduce((total, [category]) => total + TOKEN_TIERS.reduce((subtotal, [tier]) => subtotal + studio.tokens[category][tier].length, 0), 0), active: mode === 'tokens' && !activeStructureId, onSelect: () => openStructureItem('tokens', 'tokens-colors'), children: TOKEN_PAGES.map(([page]) => ({ id: `tree-tokens-${page}`, label: page, tone: 'tokens', count: TOKEN_TIERS.reduce((total, [tier]) => total + tokensForPage(studio, page, tier).length, 0), active: mode === 'tokens' && activeTokenPage === page, onSelect: () => openStructureItem('tokens', `tokens-${page}`) })) },
     { id: 'components', label: 'components', tone: 'components', count: studio.components.length, active: mode === 'components' && !activeStructureId, onSelect: () => openStructureItem('components'), children: (['atom', 'molecule', 'organism'] as const).map((classification) => ({ id: `components-${classification}`, label: classification === 'atom' ? 'atoms' : classification === 'molecule' ? 'molecules' : 'organisms', tone: 'components', count: studio.components.filter((item) => item.classification === classification).length, active: mode === 'components' && activeStructureId === `components-${classification}`, onSelect: () => openStructureItem('components', `components-${classification}`), children: studio.components.filter((item) => item.classification === classification).map((component) => ({ id: `tree-component-${component.id}`, label: component.name, tone: 'component-file', active: mode === 'components' && activeStructureId === `component-${component.id}`, onSelect: () => openStructureItem('components', `component-${component.id}`) })) })) },
     { id: 'layouts', label: 'layouts', tone: 'layouts', count: studio.layouts.length, active: mode === 'layouts' && !activeStructureId, onSelect: () => openStructureItem('layouts'), children: studio.layouts.map((layout) => ({ id: `tree-layout-${layout.id}`, label: layout.name, tone: 'layout-file', active: mode === 'layouts' && activeStructureId === `layout-${layout.id}`, onSelect: () => openStructureItem('layouts', `layout-${layout.id}`) })) },
     { id: 'screens', label: 'screens', tone: 'screens', count: studio.screens.length, onSelect: () => setMode('screens'), children: studio.screens.map((item) => ({ id: `tree-screen-${item.id}`, label: item.name, tone: 'screen-file', count: item.states.length, active: mode === 'screens' && screen?.id === item.id, onSelect: () => { setMode('screens'); setScreenId(item.id); } })) },
@@ -279,15 +310,21 @@ export default function App() {
             <div className="definition-grid"><List title="Наследуемые принципы" items={studio.baseSystem.inheritedPrinciples} /><List title="Наследуемые компоненты" items={studio.baseSystem.inheritedComponents} /><List title="Стандартные поведения" items={studio.baseSystem.inheritedBehaviors} /><List title="Переопределения токенов" items={studio.baseSystem.tokenOverrides} /><List title="Изменённые компоненты" items={studio.baseSystem.changedComponents} /><List title="Собственные компоненты" items={studio.baseSystem.customComponents} /><List title="Проверить при обновлении" items={studio.baseSystem.upgradeReviewNotes} /></div><Questions items={studio.baseSystem.openQuestions} />
           </article>
         </section>}
-        {mode === 'tokens' && <section className="panel-stack">
-          <div className="section-heading"><div><span>02 / TOKENS</span><h2>Базовые → семантические → компонентные</h2></div><p>Каждый токен имеет устойчивый id, назначение, ссылку или значение и overrides по темам.</p></div>
-          {TOKEN_GROUPS.map(([category, categoryLabel]) => <article className="token-group" id={`tokens-${category}`} key={category}><header><h3>{categoryLabel}</h3><span>{TOKEN_TIERS.reduce((count, [tier]) => count + studio.tokens[category][tier].length, 0)} tokens</span></header>
-            {TOKEN_TIERS.map(([tier, tierLabel]) => <div className="token-tier" key={tier}><div className="token-tier__title"><strong>{tierLabel}</strong><span>{studio.tokens[category][tier].length}</span></div><div className="token-grid">{studio.tokens[category][tier].map((token) => { const resolved = theme.tokens[token.id.split('.')[0]]?.[token.id.split('.').slice(1).join('.')] || token.value; return <label className="token-card" key={token.id}>{category === 'colors' && <i style={{ background: resolved }} />}<span>{token.id}</span><small>{token.purpose}</small><input key={`${token.id}:${theme.id}`} defaultValue={token.modes?.[theme.id] ?? token.value} onBlur={(event) => event.target.value !== (token.modes?.[theme.id] ?? token.value) && updateToken(category, tier, token.id, event.target.value)} /></label>; })}</div></div>)}
-          </article>)}
+        {mode === 'tokens' && (() => { const pageLabel = TOKEN_PAGES.find(([page]) => page === activeTokenPage)?.[1] || activeTokenPage; const isTypePage = activeTokenPage === 'fonts' || activeTokenPage === 'typography'; const sourceCategory: TokenCategory = isTypePage ? 'typography' : activeTokenPage; const pageCount = TOKEN_TIERS.reduce((count, [tier]) => count + tokensForPage(studio, activeTokenPage, tier).length, 0); return <section className="panel-stack token-page">
+          <div className="section-heading"><div><span>02 / TOKENS / {activeTokenPage.toUpperCase()}</span><h2>{pageLabel}</h2></div><p>{activeTokenPage === 'fonts' ? 'Семейства и начертания шрифтов. Один font token — одна строка.' : activeTokenPage === 'typography' ? 'Размеры, межстрочные интервалы и составные текстовые стили.' : 'Базовые → семантические → компонентные токены без смешивания с другими категориями.'}</p></div>
+          <nav className="token-page-switcher" aria-label="Разделы токенов">{TOKEN_PAGES.map(([page, label]) => <button type="button" key={page} className={activeTokenPage === page ? 'is-active' : ''} onClick={() => openStructureItem('tokens', `tokens-${page}`)}>{label}<span>{TOKEN_TIERS.reduce((count, [tier]) => count + tokensForPage(studio, page, tier).length, 0)}</span></button>)}</nav>
+          <article className={`token-group ${isTypePage ? 'is-typography' : ''}`} id={`tokens-${activeTokenPage}`}><header><h3>{pageLabel}</h3><span>{pageCount} tokens</span></header>
+            {isTypePage && <label className="typography-sample"><span>Текст для проверки</span><input value={typographySample} onChange={(event) => setTypographySample(event.target.value)} placeholder="Введите текст для проверки шрифтов" /></label>}
+            {TOKEN_TIERS.map(([tier, tierLabel]) => { const pageTokens = tokensForPage(studio, activeTokenPage, tier); if (!pageTokens.length) return null; return <div className="token-tier" key={tier}><div className="token-tier__title"><strong>{tierLabel}</strong><span>{pageTokens.length}</span></div>{isTypePage ? <div className="typography-list">{pageTokens.map((token) => { const resolved = theme.tokens.typography?.[token.id.split('.').slice(1).join('.')] || token.value; const family = theme.tokens.typography?.family || theme.tokens.typography?.['family.sans'] || "'DM Sans', sans-serif"; return <div className="typography-row" key={token.id}><div className="typography-row__meta"><strong>{token.name}</strong><code>{token.id}</code><small>{token.purpose}</small></div><div className="typography-row__preview" style={typographyPreviewStyle(token.id, resolved, family)}>{typographySample || 'Введите текст для проверки'}</div><label className="typography-row__value"><span>Значение</span><input key={`${token.id}:${theme.id}`} defaultValue={token.modes?.[theme.id] ?? token.value} onBlur={(event) => event.target.value !== (token.modes?.[theme.id] ?? token.value) && updateToken('typography', tier, token.id, event.target.value)} /></label></div>; })}</div> : <div className="token-grid">{pageTokens.map((token) => { const resolved = theme.tokens[token.id.split('.')[0]]?.[token.id.split('.').slice(1).join('.')] || token.value; return <label className="token-card" key={token.id}>{activeTokenPage === 'colors' && <i style={{ background: resolved }} />}<span>{token.id}</span><small>{token.purpose}</small><input key={`${token.id}:${theme.id}`} defaultValue={token.modes?.[theme.id] ?? token.value} onBlur={(event) => event.target.value !== (token.modes?.[theme.id] ?? token.value) && updateToken(sourceCategory, tier, token.id, event.target.value)} /></label>; })}</div>}</div>; })}
+          </article>
+        </section>; })()}
+        {mode === 'components' && !activeComponent && <section className="panel-stack component-catalog">
+          <div className="section-heading"><div><span>03 / COMPONENTS</span><h2>Атомы, молекулы и организмы</h2></div><p>Выберите компонент — его варианты и состояния откроются на отдельном рабочем экране.</p></div>
+          {(['atom', 'molecule', 'organism'] as const).map((classification) => <section className="classification-section" id={`components-${classification}`} key={classification}><h3>{classification === 'atom' ? 'Атомы' : classification === 'molecule' ? 'Молекулы' : 'Организмы'}</h3><div className="component-catalog__grid">{studio.components.filter((item) => item.classification === classification).map((component) => <button type="button" className="component-catalog__item" key={component.id} onClick={() => openStructureItem('components', `component-${component.id}`)}><span>{component.classification}</span><strong>{component.name}</strong><p>{component.description || component.usage}</p><footer><code>{component.id}</code><i>{component.variants.length * component.states.length} frames →</i></footer></button>)}</div></section>)}
         </section>}
-        {mode === 'components' && <section className="panel-stack zoomable-content" style={{ zoom: zoomLevels.components / 100 }}>
-          <div className="section-heading"><div><span>03 / COMPONENTS</span><h2>Атомы, молекулы и организмы</h2></div><p>Одно основное определение компонента, варианты для изменений без смены назначения.</p></div>
-          {(['atom', 'molecule', 'organism'] as const).map((classification) => <section className="classification-section" id={`components-${classification}`} key={classification}><h3>{classification === 'atom' ? 'Атомы' : classification === 'molecule' ? 'Молекулы' : 'Организмы'}</h3>{studio.components.filter((item) => item.classification === classification).map((component) => <article className="component-spec" id={`component-${component.id}`} key={component.id}><header><div><h3>{component.name}</h3><p>{component.description}</p></div><code>{component.id}</code></header><div className="state-matrix">{component.variants.flatMap((variant) => component.states.map((state) => <div className="state-cell" key={`${variant}:${state}`}><span>{variant} / {state}</span><ComponentPreview definition={component} variant={variant} state={state} /></div>))}</div><div className="definition-grid compact"><List title="Зависимости" items={component.dependencies} /><List title="Свойства" items={component.properties} /><List title="Размеры" items={component.sizes} /><List title="События" items={component.actions} /><List title="Токены" items={component.tokenRefs} /><List title="Ограничения" items={component.restrictions} /></div><footer><span>ARIA: {component.accessibility?.role || '—'}</span><span>{component.responsiveBehavior}</span></footer></article>)}</section>)}
+        {mode === 'components' && activeComponent && <section className="component-detail" id={`component-${activeComponent.id}`}>
+          <header className="component-detail__toolbar"><div><button type="button" onClick={() => openStructureItem('components', `components-${activeComponent.classification}`)}>← {activeComponent.classification === 'atom' ? 'Атомы' : activeComponent.classification === 'molecule' ? 'Молекулы' : 'Организмы'}</button><i>/</i><strong>{activeComponent.name}</strong></div><div><code>{activeComponent.id}</code><span>{activeComponent.variants.length} variants · {activeComponent.states.length} states</span></div></header>
+          <div className="component-canvas"><div className="component-canvas__surface" style={{ zoom: zoomLevels.components / 100 }}>{activeComponent.variants.flatMap((variant) => activeComponent.states.map((state) => <article className="component-frame" key={`${variant}:${state}`}><header><strong>{activeComponent.name}</strong><span>{variant} / {state}</span></header><div className="component-frame__preview"><ComponentPreview definition={activeComponent} variant={variant} state={state} /></div><footer><code>{activeComponent.id}</code><span>{activeComponent.classification}</span></footer></article>))}</div></div>
         </section>}
         {mode === 'layouts' && <section className="panel-stack zoomable-content" style={{ zoom: zoomLevels.layouts / 100 }}>
           <div className="section-heading"><div><span>04 / LAYOUTS</span><h2>Повторно используемые структуры</h2></div><p>Лейаут задаёт области, навигацию, сетку, прокрутку, safe areas и адаптацию.</p></div>
@@ -322,6 +359,7 @@ export default function App() {
         </section>
         <label>Тема<select value={theme.id} onChange={(event) => setThemeId(event.target.value)}>{studio.tokens.themes.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label>
         {zoomMode && <ZoomControl value={zoomLevels[zoomMode]} onChange={updateZoom} />}
+        {mode === 'components' && activeComponent && <><List title="Назначение" items={[activeComponent.description || activeComponent.usage]} /><List title="Зависимости" items={activeComponent.dependencies} /><List title="Свойства" items={activeComponent.properties} /><List title="Размеры" items={activeComponent.sizes} /><List title="События" items={activeComponent.actions} /><List title="Токены" items={activeComponent.tokenRefs} /><List title="Ограничения" items={activeComponent.restrictions} /><List title="Доступность" items={[`ARIA: ${activeComponent.accessibility?.role || 'не задано'}`, activeComponent.responsiveBehavior]} /></>}
         {mode === 'screens' && screen && <>
           <label>Состояние<select value={stateId} onChange={(event) => setStateId(event.target.value)}>{screen.states.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label>
           <label>Разрешение<select value={viewport} onChange={(event) => setViewport(event.target.value)}><ViewportOptions presets={studioSettings.viewportPresets} /></select></label>
