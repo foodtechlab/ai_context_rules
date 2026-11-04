@@ -25,7 +25,7 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "AIC: design-system-example",
+      "name": "AIC: design-system-studio",
       "program": "${workspaceFolder}/ai-context/baseline/apps/design-system-studio/server.mjs",
       "cwd": "${workspaceFolder}",
       "env": {
@@ -43,36 +43,6 @@
         "uriFormat": "%s",
         "action": "openExternally"
       }
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "AIC: design-system-studio",
-      "program": "${workspaceFolder}/ai-context/baseline/apps/design-system-studio/server.mjs",
-      "cwd": "${workspaceFolder}",
-      "env": {
-        "AIC_REPO_ROOT": "${workspaceFolder}",
-        "AIC_DESIGN_SYSTEM_DIR": "${input:aicDesignSystemDirectory}",
-        "PORT": "4174"
-      },
-      "preLaunchTask": "AIC: install design-system-studio dependencies",
-      "console": "integratedTerminal",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
-      "serverReadyAction": {
-        "pattern": "Design System Studio: (http://localhost:[0-9]+)",
-        "uriFormat": "%s",
-        "action": "openExternally"
-      }
-    }
-  ],
-  "inputs": [
-    {
-      "id": "aicDesignSystemDirectory",
-      "type": "promptString",
-      "description": "Project-owned directory ending with design-system",
-      "default": "examples/design-system-example"
     }
   ]
 }

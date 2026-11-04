@@ -73,6 +73,21 @@ baseline library и отдельную проектную директорию `
 существующие project files шаблоном. После bootstrap записать выбранный путь в
 `design_system_studio.project_directory`.
 
+Настроить one-click запуск в `.vscode/launch.json` и `.vscode/tasks.json`:
+
+- конфигурация называется `AIC: design-system-studio`;
+- `AIC_DESIGN_SYSTEM_DIR` содержит resolved repo-relative project path как
+  литерал, а не `${input:...}` и не иной интерактивный prompt;
+- pre-launch task устанавливает зависимости baseline runtime и показывает
+  прогресс в integrated terminal;
+- `serverReadyAction` открывает URL из строки `Design System Studio: ...` во
+  внешнем браузере;
+- один `F5` полностью выполняет install → start → open browser без
+  дополнительных вопросов пользователю.
+
+Сохранять остальные пользовательские launch/tasks-конфигурации. При изменении
+`project_directory` синхронно обновлять literal path в launch-конфигурации.
+
 Если внутри проектной директории есть JS/TS package, подключить baseline
 library как local file dependency с относительным путём до
 `ai-context/baseline/apps/design-system-studio`. Для Flutter, Android и iOS не
@@ -85,6 +100,10 @@ npm --prefix ai-context/baseline/apps/design-system-studio install
 ```
 
 ## Запуск
+
+Основной пользовательский способ запуска — один `F5` через готовую
+конфигурацию `AIC: design-system-studio`. Не просить пользователя вводить путь
+при каждом запуске. Командный запуск ниже использовать для диагностики и CI.
 
 Из корня репозитория запустить:
 

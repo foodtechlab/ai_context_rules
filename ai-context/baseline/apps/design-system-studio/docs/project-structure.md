@@ -62,6 +62,24 @@ AIC_DESIGN_SYSTEM_DIR="apps/mobile/design-system" \
   npm --prefix ai-context/baseline/apps/design-system-studio run dev
 ```
 
+## One-click VS Code launch
+
+Repository setup must resolve the project directory once and persist it in
+`ai-context/parameters/repository-parameters.yaml` and in the VS Code launch
+configuration. Normal startup must not ask for the path again.
+
+The repository must expose a configuration named
+`AIC: design-system-studio` that performs the complete sequence with one `F5`:
+
+1. run a visible pre-launch task that installs baseline runtime dependencies;
+2. start `server.mjs` with `AIC_REPO_ROOT` and a literal repo-relative
+   `AIC_DESIGN_SYSTEM_DIR`;
+3. use `serverReadyAction` to open the reported URL automatically.
+
+Do not use `${input:...}`, `promptString` or another runtime path prompt. The
+setup skill must update the literal path when `project_directory` changes and
+must preserve unrelated user launch and task configurations.
+
 For a JavaScript or TypeScript design-system package, add a local file
 dependency whose relative path resolves to the baseline package:
 

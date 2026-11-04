@@ -87,6 +87,10 @@ AIC_REPO_ROOT="$PWD" AIC_DESIGN_SYSTEM_DIR="examples/design-system-example" \
   npm --prefix ai-context/baseline/apps/design-system-studio run dev
 ```
 
+Для повседневной работы достаточно выбрать в VS Code
+`AIC: design-system-studio` и нажать `F5`: зависимости установятся, Studio
+запустится и браузер откроется автоматически, без запроса пути.
+
 ### Для Developer
 
 ```text

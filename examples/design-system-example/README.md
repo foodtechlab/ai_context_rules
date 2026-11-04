@@ -26,7 +26,7 @@ AIC_REPO_ROOT="$PWD" AIC_DESIGN_SYSTEM_DIR="examples/design-system-example" \
 
 Открыть `http://localhost:4174`.
 
-В VS Code можно выбрать конфигурацию `AIC: design-system-example` в разделе
+В VS Code можно выбрать конфигурацию `AIC: design-system-studio` в разделе
 Run and Debug и нажать `F5`. Путь вводить не нужно: после установки
 зависимостей браузер откроется автоматически.
 

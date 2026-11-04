@@ -91,6 +91,10 @@ Design System Studio не хранит проектную дизайн-сист�
   делить tokens на три группы, а components — на atoms, molecules и organisms;
 - AI Context sync не управляет проектной директорией и никогда её не
   перезаписывает.
+- При bootstrap AI создаёт или обновляет VS Code-конфигурацию
+  `AIC: design-system-studio` с literal repo-relative project path. Один `F5`
+  обязан выполнить установку зависимостей, запуск Studio и открытие браузера;
+  runtime не должен запрашивать путь интерактивно во время запуска.
 
 Подробный layout и способ подключения baseline library описаны в
 `ai-context/baseline/apps/design-system-studio/docs/project-structure.md`.
