@@ -32,6 +32,21 @@ function Questions({ items }: { items: string[] }) {
   if (!items.length) return null;
   return <div className="open-questions"><strong>Открытые вопросы</strong>{items.map((item) => <span key={item}>{item}</span>)}</div>;
 }
+type ProjectTreeNode = { id: string; label: string; tone?: string; count?: number; active?: boolean; children?: ProjectTreeNode[]; onSelect?: () => void };
+function ProjectTreeItem({ node, level, expandedIds, onToggle }: { node: ProjectTreeNode; level: number; expandedIds: Set<string>; onToggle: (id: string) => void }) {
+  const isFolder = Boolean(node.children);
+  const isExpanded = isFolder && expandedIds.has(node.id);
+  const select = () => { if (isFolder) onToggle(node.id); node.onSelect?.(); };
+  return <div className="file-tree__item" role="treeitem" aria-expanded={isFolder ? isExpanded : undefined} aria-selected={node.active || undefined}>
+    <button className={`file-tree__row ${node.active ? 'is-active' : ''}`} data-level={level} onClick={select} title={node.label}>
+      <span className={`file-tree__chevron ${isExpanded ? 'is-expanded' : ''}`} aria-hidden="true">{isFolder ? '›' : ''}</span>
+      <span className={`file-tree__icon ${isFolder ? 'is-folder' : 'is-file'} tone-${node.tone || 'default'}`} aria-hidden="true" />
+      <span className="file-tree__label">{node.label}</span>
+      {node.count !== undefined && <span className="file-tree__meta">{node.count}</span>}
+    </button>
+    {isFolder && isExpanded && <div className="file-tree__group" role="group">{node.children?.map((child) => <ProjectTreeItem key={child.id} node={child} level={level + 1} expandedIds={expandedIds} onToggle={onToggle} />)}</div>}
+  </div>;
+}
 
 export default function App() {
   const [studio, setStudio] = useState<StudioData | null>(null);
@@ -53,6 +68,10 @@ export default function App() {
   const [activeStructureId, setActiveStructureId] = useState(INITIAL_ROUTE[1] || '');
   const [navigationCollapsed, setNavigationCollapsed] = useState(() => window.localStorage.getItem('aic:design-studio:navigation-collapsed') === 'true');
   const [inspectorCollapsed, setInspectorCollapsed] = useState(() => window.localStorage.getItem('aic:design-studio:inspector-collapsed') === 'true');
+  const [expandedTreeIds, setExpandedTreeIds] = useState<Set<string>>(() => {
+    try { const stored = JSON.parse(window.localStorage.getItem('aic:design-studio:expanded-tree') || '[]'); return new Set(['project-root', 'components', 'components-atom', initialMode(), ...(Array.isArray(stored) ? stored : [])]); }
+    catch { return new Set(['project-root', 'components', 'components-atom', initialMode()]); }
+  });
   const [editorValue, setEditorValue] = useState('');
   const [nodes, setNodes, onNodesChange] = useNodesState<FlowNode>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
@@ -73,6 +92,7 @@ export default function App() {
   useEffect(() => { loadStudio(); }, [loadStudio]);
   useEffect(() => { window.localStorage.setItem('aic:design-studio:navigation-collapsed', String(navigationCollapsed)); }, [navigationCollapsed]);
   useEffect(() => { window.localStorage.setItem('aic:design-studio:inspector-collapsed', String(inspectorCollapsed)); }, [inspectorCollapsed]);
+  useEffect(() => { window.localStorage.setItem('aic:design-studio:expanded-tree', JSON.stringify([...expandedTreeIds])); }, [expandedTreeIds]);
 
   const saveStudio = useCallback(async (next: StudioData, success = 'Изменения сохранены локально') => {
     setIsSaving(true); setMessage('Сохраняю…');
@@ -150,21 +170,22 @@ export default function App() {
     setMode(nextMode); setActiveStructureId(itemId);
     if (itemId) window.setTimeout(() => document.getElementById(itemId)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 0);
   };
+  const toggleTreeNode = (id: string) => setExpandedTreeIds((current) => { const next = new Set(current); if (next.has(id)) next.delete(id); else next.add(id); return next; });
+  const projectTree: ProjectTreeNode = { id: 'project-root', label: 'design-system', tone: 'project', children: [
+    { id: 'base', label: 'base-system', tone: 'base', active: mode === 'base', onSelect: () => openStructureItem('base') },
+    { id: 'tokens', label: 'tokens', tone: 'tokens', count: TOKEN_GROUPS.reduce((total, [category]) => total + TOKEN_TIERS.reduce((subtotal, [tier]) => subtotal + studio.tokens[category][tier].length, 0), 0), active: mode === 'tokens' && !activeStructureId, onSelect: () => openStructureItem('tokens'), children: TOKEN_GROUPS.map(([category]) => ({ id: `tree-tokens-${category}`, label: category, tone: 'tokens', count: TOKEN_TIERS.reduce((total, [tier]) => total + studio.tokens[category][tier].length, 0), active: mode === 'tokens' && activeStructureId === `tokens-${category}`, onSelect: () => openStructureItem('tokens', `tokens-${category}`) })) },
+    { id: 'components', label: 'components', tone: 'components', count: studio.components.length, active: mode === 'components' && !activeStructureId, onSelect: () => openStructureItem('components'), children: (['atom', 'molecule', 'organism'] as const).map((classification) => ({ id: `components-${classification}`, label: classification === 'atom' ? 'atoms' : classification === 'molecule' ? 'molecules' : 'organisms', tone: 'components', count: studio.components.filter((item) => item.classification === classification).length, active: mode === 'components' && activeStructureId === `components-${classification}`, onSelect: () => openStructureItem('components', `components-${classification}`), children: studio.components.filter((item) => item.classification === classification).map((component) => ({ id: `tree-component-${component.id}`, label: component.name, tone: 'component-file', active: mode === 'components' && activeStructureId === `component-${component.id}`, onSelect: () => openStructureItem('components', `component-${component.id}`) })) })) },
+    { id: 'layouts', label: 'layouts', tone: 'layouts', count: studio.layouts.length, active: mode === 'layouts' && !activeStructureId, onSelect: () => openStructureItem('layouts'), children: studio.layouts.map((layout) => ({ id: `tree-layout-${layout.id}`, label: layout.name, tone: 'layout-file', active: mode === 'layouts' && activeStructureId === `layout-${layout.id}`, onSelect: () => openStructureItem('layouts', `layout-${layout.id}`) })) },
+    { id: 'screens', label: 'screens', tone: 'screens', count: studio.screens.length, onSelect: () => setMode('screens'), children: studio.screens.map((item) => ({ id: `tree-screen-${item.id}`, label: item.name, tone: 'screen-file', count: item.states.length, active: mode === 'screens' && screen?.id === item.id, onSelect: () => { setMode('screens'); setScreenId(item.id); } })) },
+    { id: 'flows', label: 'flows', tone: 'flows', count: studio.flows.length, onSelect: () => setMode('flows'), children: studio.flows.map((item) => ({ id: `tree-flow-${item.id}`, label: item.name, tone: 'flow-file', count: item.nodes.length, active: mode === 'flows' && flow?.id === item.id, onSelect: () => { setMode('flows'); setFlowId(item.id); } })) },
+    { id: 'mockup', label: 'mockups', tone: 'mockups', count: studio.mockups.length, onSelect: () => setMode('mockup'), children: studio.mockups.map((item) => ({ id: `tree-mockup-${item.id}`, label: item.name, tone: 'mockup-file', count: item.fixtures.length, active: mode === 'mockup' && mockup?.id === item.id, onSelect: () => { setMode('mockup'); setMockupId(item.id); setMockupNodeId(''); } })) },
+  ] };
 
   return <main className={`studio-shell ${navigationCollapsed ? 'is-navigation-collapsed' : ''} ${inspectorCollapsed ? 'is-inspector-collapsed' : ''}`}>
     <aside className="studio-sidebar" id="studio-project-navigation" aria-hidden={navigationCollapsed} inert={navigationCollapsed}>
       <div className="studio-brand"><span>AIC / PROJECT</span><h1>Design System<br />Studio</h1><p>{studio.meta.name}</p></div>
-      <nav className="project-tree" aria-label="Структура проекта">
-        {NAVIGATION.map(([value, label, icon]) => <section className="project-tree__section" key={value}>
-          <button className={`project-tree__root ${mode === value ? 'is-active' : ''}`} onClick={() => openStructureItem(value)}><i>{icon}</i><span>{label}</span></button>
-          {value === 'tokens' && <div className="project-tree__children">{TOKEN_GROUPS.map(([category, categoryLabel]) => <button key={category} className={mode === value && activeStructureId === `tokens-${category}` ? 'is-active' : ''} onClick={() => openStructureItem(value, `tokens-${category}`)}><span>{categoryLabel}</span><small>{TOKEN_TIERS.reduce((count, [tier]) => count + studio.tokens[category][tier].length, 0)}</small></button>)}</div>}
-          {value === 'components' && <div className="project-tree__children">{(['atom', 'molecule', 'organism'] as const).map((classification) => <div className="project-tree__branch" key={classification}><button className={mode === value && activeStructureId === `components-${classification}` ? 'is-active' : ''} onClick={() => openStructureItem(value, `components-${classification}`)}><span>{classification === 'atom' ? 'Атомы' : classification === 'molecule' ? 'Молекулы' : 'Организмы'}</span><small>{studio.components.filter((item) => item.classification === classification).length}</small></button>{studio.components.filter((item) => item.classification === classification).map((component) => <button className={`project-tree__leaf ${mode === value && activeStructureId === `component-${component.id}` ? 'is-active' : ''}`} key={component.id} onClick={() => openStructureItem(value, `component-${component.id}`)} title={component.name}><span>{component.name}</span></button>)}</div>)}</div>}
-          {value === 'layouts' && <div className="project-tree__children">{studio.layouts.map((layout) => <button key={layout.id} className={mode === value && activeStructureId === `layout-${layout.id}` ? 'is-active' : ''} onClick={() => openStructureItem(value, `layout-${layout.id}`)}><span>{layout.name}</span></button>)}</div>}
-          {value === 'screens' && <div className="project-tree__children">{studio.screens.map((item) => <button key={item.id} className={mode === value && screen?.id === item.id ? 'is-active' : ''} onClick={() => { setMode(value); setScreenId(item.id); }}><span>{item.name}</span><small>{item.states.length}</small></button>)}</div>}
-          {value === 'flows' && <div className="project-tree__children">{studio.flows.map((item) => <button key={item.id} className={mode === value && flow?.id === item.id ? 'is-active' : ''} onClick={() => { setMode(value); setFlowId(item.id); }}><span>{item.name}</span><small>{item.nodes.length}</small></button>)}</div>}
-          {value === 'mockup' && <div className="project-tree__children">{studio.mockups.map((item) => <button key={item.id} className={mode === value && mockup?.id === item.id ? 'is-active' : ''} onClick={() => { setMode(value); setMockupId(item.id); setMockupNodeId(''); }}><span>{item.name}</span><small>{item.fixtures.length}</small></button>)}</div>}
-        </section>)}
-      </nav>
+      <div className="project-tree__toolbar"><span>Explorer</span><button type="button" onClick={() => setExpandedTreeIds(new Set(['project-root']))} title="Свернуть все папки">Свернуть</button></div>
+      <nav className="project-tree" aria-label="Структура проекта" role="tree"><ProjectTreeItem node={projectTree} level={0} expandedIds={expandedTreeIds} onToggle={toggleTreeNode} /></nav>
     </aside>
     <section className="studio-main">
       <header className="topbar"><div className="topbar__identity"><button className="panel-toggle" type="button" aria-expanded={!navigationCollapsed} aria-controls="studio-project-navigation" onClick={() => setNavigationCollapsed((current) => !current)} title={navigationCollapsed ? 'Показать меню навигации' : 'Скрыть меню навигации'}><i aria-hidden="true">{navigationCollapsed ? '→' : '←'}</i><span>{navigationCollapsed ? 'Показать меню' : 'Скрыть меню'}</span></button><div><span>DESIGN SYSTEM</span><strong>{NAVIGATION.find(([value]) => value === mode)?.[1]}</strong></div></div><div className="topbar__status"><div className="save-state"><i className={isSaving ? 'is-saving' : ''} />{message || 'Все изменения сохранены локально'}</div><button className="panel-toggle" type="button" aria-expanded={!inspectorCollapsed} aria-controls="studio-tools-panel" onClick={() => setInspectorCollapsed((current) => !current)} title={inspectorCollapsed ? 'Показать меню инструментов' : 'Скрыть меню инструментов'}><span>{inspectorCollapsed ? 'Показать инструменты' : 'Скрыть инструменты'}</span><i aria-hidden="true">{inspectorCollapsed ? '←' : '→'}</i></button></div></header>

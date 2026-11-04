@@ -18,21 +18,35 @@ button { color: inherit; }
 .studio-brand > span, .section-heading span, .topbar span, .editor-modal header span { color: var(--accent); font: 500 9px/1.4 'IBM Plex Mono', monospace; letter-spacing: .16em; }
 .studio-brand h1 { margin: 7px 0; font-size: 25px; line-height: 1.02; letter-spacing: -.045em; }
 .studio-brand p { margin: 0; color: var(--muted); font-size: 11px; }
-.project-tree { display: grid; gap: 8px; min-height: 0; padding-right: 4px; overflow: auto; scrollbar-width: thin; scrollbar-color: #343a47 transparent; }
-.project-tree__section { display: grid; gap: 3px; }
-.project-tree button { width: 100%; color: #9199aa; background: transparent; border: 0; border-radius: 7px; cursor: pointer; text-align: left; }
-.project-tree button:hover, .project-tree button.is-active { color: #fff; background: #1a1e28; }
-.project-tree__root { display: grid; grid-template-columns: 24px minmax(0, 1fr); align-items: center; padding: 9px 10px; font-size: 12px; font-weight: 600; }
-.project-tree__root.is-active { box-shadow: inset 2px 0 var(--accent); }
-.project-tree__root i { color: var(--accent); font-style: normal; }
-.project-tree__children { display: grid; gap: 2px; margin-left: 21px; padding-left: 10px; border-left: 1px solid #252a35; }
-.project-tree__children button { display: flex; justify-content: space-between; gap: 8px; min-width: 0; padding: 6px 9px; font-size: 10px; }
-.project-tree__children button span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.project-tree__children button small { flex: 0 0 auto; color: #646d7d; font: 8px 'IBM Plex Mono', monospace; }
-.project-tree__branch { display: grid; gap: 2px; }
-.project-tree__leaf { padding-left: 20px !important; color: #747d8d !important; }
-.project-tree__leaf::before { content: '·'; margin-right: -1px; color: #4d5565; }
-.project-tree__leaf.is-active { color: #fff !important; }
+.project-tree__toolbar { display: flex; justify-content: space-between; align-items: center; padding: 0 8px 8px; color: #6f7787; border-bottom: 1px solid #202530; font: 500 9px 'IBM Plex Mono', monospace; letter-spacing: .12em; text-transform: uppercase; }
+.project-tree__toolbar button { padding: 3px 5px; color: #6f7787; background: transparent; border: 0; border-radius: 4px; cursor: pointer; font-size: 8px; letter-spacing: 0; text-transform: none; }
+.project-tree__toolbar button:hover { color: #d9dde6; background: #1b202a; }
+.project-tree { min-height: 0; padding: 8px 4px 18px 0; overflow: auto; scrollbar-width: thin; scrollbar-color: #343a47 transparent; }
+.file-tree__item { min-width: 0; }
+.file-tree__group { margin-left: 11px; padding-left: 4px; border-left: 1px solid #252b36; }
+.file-tree__row { display: grid; grid-template-columns: 12px 16px minmax(0, 1fr) auto; gap: 5px; align-items: center; width: 100%; min-width: 0; min-height: 27px; padding: 4px 7px 4px 4px; color: #929aaa; background: transparent; border: 0; border-radius: 6px; cursor: pointer; text-align: left; font-size: 10px; transition: color 100ms ease, background 100ms ease, box-shadow 100ms ease; }
+.file-tree__row[data-level='0'] { min-height: 30px; color: #d4d8e1; font-weight: 600; }
+.file-tree__row:hover { color: #eef1f7; background: #181d26; }
+.file-tree__row.is-active { color: #fff; background: linear-gradient(90deg, rgba(161, 140, 255, .2), rgba(161, 140, 255, .08)); box-shadow: inset 2px 0 var(--accent), inset 0 0 0 1px rgba(161, 140, 255, .13); }
+.file-tree__row:focus-visible { outline: 2px solid color-mix(in srgb, var(--accent), transparent 25%); outline-offset: -2px; }
+.file-tree__chevron { display: grid; place-items: center; width: 12px; height: 12px; color: #626b7b; font-size: 16px; line-height: 1; transition: transform 140ms ease, color 100ms ease; }
+.file-tree__row:hover .file-tree__chevron { color: #b8bfcb; }
+.file-tree__chevron.is-expanded { transform: rotate(90deg); }
+.file-tree__label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.file-tree__meta { min-width: 16px; color: #596273; font: 8px 'IBM Plex Mono', monospace; text-align: right; }
+.file-tree__icon { --tree-icon: #7d8798; position: relative; display: inline-block; color: var(--tree-icon); }
+.file-tree__icon.is-folder { width: 14px; height: 10px; margin-top: 2px; background: color-mix(in srgb, var(--tree-icon), transparent 78%); border: 1px solid color-mix(in srgb, var(--tree-icon), transparent 25%); border-radius: 2px; }
+.file-tree__icon.is-folder::before { content: ''; position: absolute; top: -4px; left: -1px; width: 7px; height: 4px; background: color-mix(in srgb, var(--tree-icon), transparent 72%); border: 1px solid color-mix(in srgb, var(--tree-icon), transparent 25%); border-bottom: 0; border-radius: 2px 2px 0 0; }
+.file-tree__icon.is-file { width: 11px; height: 14px; background: color-mix(in srgb, var(--tree-icon), transparent 89%); border: 1px solid color-mix(in srgb, var(--tree-icon), transparent 18%); border-radius: 2px; }
+.file-tree__icon.is-file::after { content: ''; position: absolute; top: -1px; right: -1px; width: 4px; height: 4px; background: #0e1117; border-left: 1px solid color-mix(in srgb, var(--tree-icon), transparent 18%); border-bottom: 1px solid color-mix(in srgb, var(--tree-icon), transparent 18%); }
+.file-tree__icon.tone-project { --tree-icon: #a18cff; }
+.file-tree__icon.tone-base { --tree-icon: #c3a6ff; }
+.file-tree__icon.tone-tokens { --tree-icon: #f1b36d; }
+.file-tree__icon.tone-components, .file-tree__icon.tone-component-file { --tree-icon: #72dbc4; }
+.file-tree__icon.tone-layouts, .file-tree__icon.tone-layout-file { --tree-icon: #74a7ff; }
+.file-tree__icon.tone-screens, .file-tree__icon.tone-screen-file { --tree-icon: #a18cff; }
+.file-tree__icon.tone-flows, .file-tree__icon.tone-flow-file { --tree-icon: #f38ca5; }
+.file-tree__icon.tone-mockups, .file-tree__icon.tone-mockup-file { --tree-icon: #8bd477; }
 .studio-inspector label { display: grid; gap: 6px; color: var(--muted); font-size: 10px; }
 select, .token-card input { width: 100%; padding: 8px 9px; color: #dfe3eb; background: #0b0e13; border: 1px solid var(--line); border-radius: 7px; outline: none; }
 select:focus, input:focus, textarea:focus { border-color: var(--accent); }
