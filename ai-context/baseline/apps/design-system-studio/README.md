@@ -1,7 +1,7 @@
 # Design System Studio
 
-Code-first React-приложение для design tokens, каталога компонентов, экранов,
-React Flow-карт и интерактивных mockup-сценариев.
+Code-first React-приложение для семи связанных разделов дизайн-системы:
+базовая система, tokens, компоненты, layouts, экраны, flows и mockups.
 
 ## Ownership
 
@@ -42,19 +42,27 @@ AIC_REPO_ROOT="$PWD" npm --prefix ai-context/baseline/apps/design-system-studio 
 
 ## Модель
 
-`studio.json` содержит versioned platform-neutral модель:
+`studio.json` содержит обязательную versioned platform-neutral модель:
 
-- themes и semantic tokens;
-- components, variants, states и accessibility metadata;
-- screens, screen states, blocks и viewport presets;
-- React Flow screen maps и именованные transitions;
-- prototype fixtures;
+- base design system, её версию, наследуемые решения и overrides;
+- базовые, семантические и компонентные tokens по цветам, типографике и
+  остальным параметрам;
+- atoms, molecules и organisms с зависимостями, states и accessibility;
+- reusable layouts с regions, navigation, scroll и responsive rules;
+- screens и применимые screen states;
+- React Flow flows с условиями, ветвлениями и recovery;
+- воспроизводимые mockups с fixtures и границей implemented/simulated;
 - adapter settings.
 
 При чтении и записи модель проходит последовательный migration layer. Текущая
-версия — `schemaVersion: 1`; данные из будущей неизвестной версии отклоняются,
+версия — `schemaVersion: 2`; данные из v1 мигрируются автоматически, а данные
+из будущей неизвестной версии отклоняются,
 а не понижаются молча. Новая миграция добавляется в registry в
 `src/data-model.mjs` и покрывается тестом.
+
+Связи валидируются в направлении base system → tokens/components → layouts →
+screens → flows → mockups. Неопределённые решения сохраняются в
+`openQuestions`, а не замалчиваются и не заполняются догадками.
 
 Изменения из UI атомарно сохраняются в repo-local файл. JSON-редактор остается
 code-first escape hatch и проходит reference validation перед записью.

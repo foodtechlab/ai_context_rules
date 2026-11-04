@@ -1,4 +1,4 @@
-import type { StudioData, Theme } from './types';
+import { resolveTheme, type StudioData, type Theme } from './types';
 
 export type Platform = 'web' | 'flutter' | 'compose' | 'swiftui';
 
@@ -17,7 +17,7 @@ function quoted(value: string) {
 }
 
 export function exportStudio(studio: StudioData, platform: Platform) {
-  const theme = studio.themes[0];
+  const theme = resolveTheme(studio, studio.tokens.themes[0]?.id || 'default');
   const tokens = entries(theme);
   const packageName = studio.adapterSettings.packageName || 'design_system';
   const prefix = studio.adapterSettings.webPrefix || 'ds';

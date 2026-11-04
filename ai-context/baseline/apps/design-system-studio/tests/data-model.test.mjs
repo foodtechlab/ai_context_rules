@@ -17,27 +17,32 @@ test('empty studio is a valid bootstrap model', () => {
 test('unknown components and transition endpoints are rejected', () => {
   const broken = structuredClone(starter);
   broken.screens[0].states[0].blocks[0].componentId = 'missing-component';
-  broken.screenMaps[0].edges[0].target = 'missing-node';
+  broken.flows[0].transitions[0].target = 'missing-node';
   const errors = validateStudio(broken);
   assert(errors.some((error) => error.includes('unknown component')));
   assert(errors.some((error) => error.includes('unknown endpoint')));
 });
 
-test('legacy unversioned studio data migrates deterministically to schema v1', () => {
-  const legacy = emptyStudio();
-  delete legacy.schemaVersion;
-  delete legacy.adapterSettings;
+test('legacy schema v1 data migrates deterministically to seven-section schema v2', () => {
+  const legacy = {
+    schemaVersion: 1,
+    meta: { name: 'Legacy', description: '', updatedAt: new Date(0).toISOString() },
+    themes: [{ id: 'light', name: 'Light', tokens: { color: { background: '#fff' } } }],
+    components: [], screens: [], screenMaps: [], prototypes: [],
+    adapterSettings: { packageName: 'legacy', webPrefix: 'legacy' },
+  };
 
   const first = migrateStudio(legacy);
   const second = migrateStudio(legacy);
 
-  assert.equal(first.migratedFrom, 0);
-  assert.equal(first.value.schemaVersion, 1);
-  assert.deepEqual(first.value.adapterSettings, { packageName: 'design_system', webPrefix: 'ds' });
+  assert.equal(first.migratedFrom, 1);
+  assert.equal(first.value.schemaVersion, 2);
+  assert.deepEqual(first.value.adapterSettings, { packageName: 'legacy', webPrefix: 'legacy' });
+  assert.deepEqual(Object.keys(first.value).filter((key) => ['baseSystem', 'tokens', 'components', 'layouts', 'screens', 'flows', 'mockups'].includes(key)), ['baseSystem', 'tokens', 'components', 'layouts', 'screens', 'flows', 'mockups']);
   assert.deepEqual(first, second);
   assert.deepEqual(validateStudio(first.value), []);
 });
 
 test('future schema versions are rejected instead of being downgraded', () => {
-  assert.throws(() => migrateStudio({ ...emptyStudio(), schemaVersion: 2 }), /newer than supported/);
+  assert.throws(() => migrateStudio({ ...emptyStudio(), schemaVersion: 3 }), /newer than supported/);
 });

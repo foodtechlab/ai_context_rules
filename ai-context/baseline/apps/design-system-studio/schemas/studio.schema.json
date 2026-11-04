@@ -1,151 +1,153 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://ai-context.local/schemas/design-system-studio/studio.schema.json",
-  "title": "AIC Design System Studio data",
+  "title": "AIC Design System Studio schema v2",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schemaVersion", "meta", "themes", "components", "screens", "screenMaps", "prototypes", "adapterSettings"],
+  "required": ["schemaVersion", "meta", "baseSystem", "tokens", "components", "layouts", "screens", "flows", "mockups", "adapterSettings"],
   "properties": {
-    "schemaVersion": { "const": 1 },
-    "meta": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["name", "description", "updatedAt"],
-      "properties": {
-        "name": { "type": "string", "minLength": 1 },
-        "description": { "type": "string" },
-        "updatedAt": { "type": "string", "format": "date-time" }
-      }
-    },
-    "themes": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/theme" } },
+    "schemaVersion": { "const": 2 },
+    "meta": { "$ref": "#/$defs/meta" },
+    "baseSystem": { "$ref": "#/$defs/baseSystem" },
+    "tokens": { "$ref": "#/$defs/tokens" },
     "components": { "type": "array", "items": { "$ref": "#/$defs/component" } },
+    "layouts": { "type": "array", "items": { "$ref": "#/$defs/layout" } },
     "screens": { "type": "array", "items": { "$ref": "#/$defs/screen" } },
-    "screenMaps": { "type": "array", "items": { "$ref": "#/$defs/screenMap" } },
-    "prototypes": { "type": "array", "items": { "$ref": "#/$defs/prototype" } },
+    "flows": { "type": "array", "items": { "$ref": "#/$defs/flow" } },
+    "mockups": { "type": "array", "items": { "$ref": "#/$defs/mockup" } },
     "adapterSettings": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["packageName", "webPrefix"],
-      "properties": {
-        "packageName": { "type": "string", "minLength": 1 },
-        "webPrefix": { "type": "string", "minLength": 1 }
-      }
+      "type": "object", "additionalProperties": false, "required": ["packageName", "webPrefix"],
+      "properties": { "packageName": { "type": "string", "minLength": 1 }, "webPrefix": { "type": "string", "minLength": 1 } }
     }
   },
   "$defs": {
     "id": { "type": "string", "minLength": 1, "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]*$" },
-    "theme": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["id", "name", "tokens"],
+    "strings": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+    "questions": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "meta": {
+      "type": "object", "additionalProperties": false, "required": ["name", "description", "updatedAt"],
+      "properties": { "name": { "type": "string", "minLength": 1 }, "description": { "type": "string" }, "updatedAt": { "type": "string", "format": "date-time" } }
+    },
+    "baseSystem": {
+      "type": "object", "additionalProperties": false,
+      "required": ["name", "version", "platform", "componentLibrary", "inheritedPrinciples", "inheritedComponents", "inheritedBehaviors", "tokenOverrides", "changedComponents", "customComponents", "upgradeReviewNotes", "openQuestions"],
       "properties": {
-        "id": { "$ref": "#/$defs/id" },
-        "name": { "type": "string", "minLength": 1 },
-        "tokens": {
-          "type": "object",
-          "additionalProperties": { "type": "object", "additionalProperties": { "type": "string" } }
-        }
+        "name": { "type": "string", "minLength": 1 }, "version": { "type": "string", "minLength": 1 },
+        "platform": { "type": "string", "minLength": 1 }, "componentLibrary": { "type": "string", "minLength": 1 },
+        "inheritedPrinciples": { "$ref": "#/$defs/strings" }, "inheritedComponents": { "$ref": "#/$defs/strings" },
+        "inheritedBehaviors": { "$ref": "#/$defs/strings" }, "tokenOverrides": { "$ref": "#/$defs/strings" },
+        "changedComponents": { "$ref": "#/$defs/strings" }, "customComponents": { "$ref": "#/$defs/strings" },
+        "upgradeReviewNotes": { "$ref": "#/$defs/strings" }, "openQuestions": { "$ref": "#/$defs/questions" }
       }
     },
-    "component": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["id", "name", "kind", "variants", "states"],
+    "token": {
+      "type": "object", "additionalProperties": false, "required": ["id", "name", "value", "purpose"],
       "properties": {
-        "id": { "$ref": "#/$defs/id" },
-        "name": { "type": "string", "minLength": 1 },
-        "kind": { "enum": ["button", "input", "card", "text", "badge"] },
-        "description": { "type": "string" },
-        "variants": { "type": "array", "minItems": 1, "items": { "type": "string" }, "uniqueItems": true },
-        "states": { "type": "array", "minItems": 1, "items": { "type": "string" }, "uniqueItems": true },
-        "defaultProps": { "type": "object" },
-        "accessibility": { "type": "object" },
-        "platforms": { "type": "array", "items": { "type": "string" }, "uniqueItems": true }
+        "id": { "$ref": "#/$defs/id" }, "name": { "type": "string", "minLength": 1 }, "value": { "type": "string" },
+        "purpose": { "type": "string", "minLength": 1 }, "modes": { "type": "object", "additionalProperties": { "type": "string" } }
+      }
+    },
+    "tokenCategory": {
+      "type": "object", "additionalProperties": false, "required": ["base", "semantic", "component"],
+      "properties": {
+        "base": { "type": "array", "items": { "$ref": "#/$defs/token" } },
+        "semantic": { "type": "array", "items": { "$ref": "#/$defs/token" } },
+        "component": { "type": "array", "items": { "$ref": "#/$defs/token" } }
+      }
+    },
+    "tokens": {
+      "type": "object", "additionalProperties": false, "required": ["themes", "colors", "typography", "parameters"],
+      "properties": {
+        "themes": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/namedId" } },
+        "colors": { "$ref": "#/$defs/tokenCategory" }, "typography": { "$ref": "#/$defs/tokenCategory" }, "parameters": { "$ref": "#/$defs/tokenCategory" }
+      }
+    },
+    "namedId": {
+      "type": "object", "additionalProperties": false, "required": ["id", "name"],
+      "properties": { "id": { "$ref": "#/$defs/id" }, "name": { "type": "string", "minLength": 1 } }
+    },
+    "component": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "name", "kind", "classification", "dependencies", "properties", "variants", "sizes", "states", "actions", "tokenRefs", "responsiveBehavior", "usage", "restrictions"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" }, "name": { "type": "string", "minLength": 1 },
+        "kind": { "enum": ["button", "input", "card", "text", "badge"] }, "classification": { "enum": ["atom", "molecule", "organism"] },
+        "description": { "type": "string" }, "dependencies": { "$ref": "#/$defs/strings" }, "properties": { "$ref": "#/$defs/strings" },
+        "variants": { "$ref": "#/$defs/strings" }, "sizes": { "$ref": "#/$defs/strings" }, "states": { "$ref": "#/$defs/strings" },
+        "actions": { "$ref": "#/$defs/strings" }, "tokenRefs": { "$ref": "#/$defs/strings" },
+        "responsiveBehavior": { "type": "string" }, "accessibility": { "type": "object" }, "usage": { "type": "string" },
+        "restrictions": { "$ref": "#/$defs/strings" }, "defaultProps": { "type": "object" }, "platforms": { "$ref": "#/$defs/strings" }
+      }
+    },
+    "region": {
+      "type": "object", "additionalProperties": false, "required": ["id", "name", "required"],
+      "properties": { "id": { "$ref": "#/$defs/id" }, "name": { "type": "string", "minLength": 1 }, "required": { "type": "boolean" } }
+    },
+    "layout": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "name", "purpose", "regions", "navigationComponentIds", "tokenRefs", "widthRules", "scrollRules", "safeAreaRules", "responsiveBehavior", "openQuestions"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" }, "name": { "type": "string", "minLength": 1 }, "purpose": { "type": "string", "minLength": 1 },
+        "regions": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/region" } },
+        "navigationComponentIds": { "$ref": "#/$defs/strings" }, "tokenRefs": { "$ref": "#/$defs/strings" },
+        "widthRules": { "type": "string" }, "scrollRules": { "type": "string" }, "safeAreaRules": { "type": "string" },
+        "responsiveBehavior": { "type": "string" }, "openQuestions": { "$ref": "#/$defs/questions" }
       }
     },
     "block": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["id", "componentId"],
+      "type": "object", "additionalProperties": false, "required": ["id", "componentId"],
       "properties": {
-        "id": { "$ref": "#/$defs/id" },
-        "componentId": { "$ref": "#/$defs/id" },
-        "variant": { "type": "string" },
-        "state": { "type": "string" },
-        "props": { "type": "object" },
-        "actionId": { "type": "string" }
+        "id": { "$ref": "#/$defs/id" }, "componentId": { "$ref": "#/$defs/id" }, "regionId": { "$ref": "#/$defs/id" },
+        "variant": { "type": "string" }, "state": { "type": "string" }, "props": { "type": "object" }, "actionId": { "type": "string" }
       }
     },
     "screenState": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["id", "name", "blocks"],
-      "properties": {
-        "id": { "$ref": "#/$defs/id" },
-        "name": { "type": "string", "minLength": 1 },
-        "title": { "type": "string" },
-        "description": { "type": "string" },
-        "blocks": { "type": "array", "items": { "$ref": "#/$defs/block" } }
-      }
+      "type": "object", "additionalProperties": false, "required": ["id", "name", "blocks"],
+      "properties": { "id": { "$ref": "#/$defs/id" }, "name": { "type": "string" }, "title": { "type": "string" }, "description": { "type": "string" }, "blocks": { "type": "array", "items": { "$ref": "#/$defs/block" } } }
     },
     "screen": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["id", "name", "viewports", "states"],
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "name", "purpose", "userTask", "layoutId", "inputParameters", "displayedData", "actions", "entryPoints", "returnBehavior", "adaptiveNotes", "viewports", "states", "openQuestions"],
       "properties": {
-        "id": { "$ref": "#/$defs/id" },
-        "name": { "type": "string", "minLength": 1 },
-        "description": { "type": "string" },
+        "id": { "$ref": "#/$defs/id" }, "name": { "type": "string" }, "purpose": { "type": "string" }, "userTask": { "type": "string" },
+        "layoutId": { "$ref": "#/$defs/id" }, "description": { "type": "string" }, "inputParameters": { "$ref": "#/$defs/strings" },
+        "displayedData": { "$ref": "#/$defs/strings" }, "actions": { "$ref": "#/$defs/strings" }, "entryPoints": { "$ref": "#/$defs/strings" },
+        "returnBehavior": { "type": "string" }, "adaptiveNotes": { "type": "string" },
         "viewports": { "type": "array", "minItems": 1, "items": { "enum": ["phone", "tablet", "desktop"] }, "uniqueItems": true },
-        "states": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/screenState" } }
+        "states": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/screenState" } }, "openQuestions": { "$ref": "#/$defs/questions" }
       }
     },
-    "position": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["x", "y"],
-      "properties": { "x": { "type": "number" }, "y": { "type": "number" } }
+    "flowNode": {
+      "type": "object", "additionalProperties": false, "required": ["id", "screenId", "stateId", "viewport", "position"],
+      "properties": { "id": { "$ref": "#/$defs/id" }, "screenId": { "$ref": "#/$defs/id" }, "stateId": { "$ref": "#/$defs/id" }, "viewport": { "enum": ["phone", "tablet", "desktop"] }, "position": { "type": "object", "required": ["x", "y"], "properties": { "x": { "type": "number" }, "y": { "type": "number" } } } }
     },
-    "mapNode": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["id", "screenId", "stateId", "viewport", "position"],
-      "properties": {
-        "id": { "$ref": "#/$defs/id" }, "screenId": { "$ref": "#/$defs/id" }, "stateId": { "$ref": "#/$defs/id" },
-        "viewport": { "enum": ["phone", "tablet", "desktop"] }, "position": { "$ref": "#/$defs/position" }
-      }
+    "transition": {
+      "type": "object", "additionalProperties": false, "required": ["id", "source", "target", "actionId"],
+      "properties": { "id": { "$ref": "#/$defs/id" }, "source": { "$ref": "#/$defs/id" }, "target": { "$ref": "#/$defs/id" }, "actionId": { "type": "string" }, "label": { "type": "string" }, "condition": { "type": "string" } }
     },
-    "mapEdge": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["id", "source", "target", "actionId"],
+    "flow": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "name", "goal", "startConditions", "entryNodeId", "nodes", "transitions", "happyPath", "alternativePaths", "recovery", "exitRules", "completionConditions", "openQuestions"],
       "properties": {
-        "id": { "$ref": "#/$defs/id" }, "source": { "$ref": "#/$defs/id" }, "target": { "$ref": "#/$defs/id" },
-        "actionId": { "type": "string", "minLength": 1 }, "label": { "type": "string" }
-      }
-    },
-    "screenMap": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["id", "name", "startNodeId", "nodes", "edges"],
-      "properties": {
-        "id": { "$ref": "#/$defs/id" }, "name": { "type": "string", "minLength": 1 }, "startNodeId": { "$ref": "#/$defs/id" },
-        "nodes": { "type": "array", "items": { "$ref": "#/$defs/mapNode" } }, "edges": { "type": "array", "items": { "$ref": "#/$defs/mapEdge" } }
+        "id": { "$ref": "#/$defs/id" }, "name": { "type": "string" }, "goal": { "type": "string" }, "startConditions": { "$ref": "#/$defs/strings" },
+        "entryNodeId": { "$ref": "#/$defs/id" }, "nodes": { "type": "array", "items": { "$ref": "#/$defs/flowNode" } },
+        "transitions": { "type": "array", "items": { "$ref": "#/$defs/transition" } }, "happyPath": { "$ref": "#/$defs/strings" },
+        "alternativePaths": { "$ref": "#/$defs/strings" }, "recovery": { "$ref": "#/$defs/strings" }, "exitRules": { "$ref": "#/$defs/strings" },
+        "completionConditions": { "$ref": "#/$defs/strings" }, "openQuestions": { "$ref": "#/$defs/questions" }
       }
     },
     "fixture": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["id", "name", "state"],
-      "properties": { "id": { "$ref": "#/$defs/id" }, "name": { "type": "string", "minLength": 1 }, "state": { "type": "object" } }
+      "type": "object", "additionalProperties": false, "required": ["id", "name", "state"],
+      "properties": { "id": { "$ref": "#/$defs/id" }, "name": { "type": "string" }, "state": { "type": "object" } }
     },
-    "prototype": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["id", "name", "mapId", "startNodeId", "fixtures"],
+    "mockup": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "name", "flowId", "startNodeId", "fixtures", "implementedInteractions", "simulatedInteractions", "supportedThemes", "supportedViewports", "openQuestions"],
       "properties": {
-        "id": { "$ref": "#/$defs/id" }, "name": { "type": "string", "minLength": 1 }, "mapId": { "$ref": "#/$defs/id" },
-        "startNodeId": { "$ref": "#/$defs/id" }, "fixtures": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/fixture" } }
+        "id": { "$ref": "#/$defs/id" }, "name": { "type": "string" }, "flowId": { "$ref": "#/$defs/id" }, "startNodeId": { "$ref": "#/$defs/id" },
+        "fixtures": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/fixture" } },
+        "implementedInteractions": { "$ref": "#/$defs/strings" }, "simulatedInteractions": { "$ref": "#/$defs/strings" },
+        "supportedThemes": { "$ref": "#/$defs/strings" }, "supportedViewports": { "$ref": "#/$defs/strings" }, "openQuestions": { "$ref": "#/$defs/questions" }
       }
     }
   }

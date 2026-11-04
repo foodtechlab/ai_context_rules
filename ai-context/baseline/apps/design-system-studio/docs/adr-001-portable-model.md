@@ -15,9 +15,14 @@ usable without a cloud service.
 
 - `studio.json` is the canonical, serializable and versioned contract.
 - React is the editor and reference Web renderer, not the cross-platform source.
-- Components are registered by a controlled `kind`; JSON never executes code.
-- Screens compose registered components and attach named actions.
-- Screen maps connect named actions to target nodes.
+- The model has seven required sections: base system, tokens, components,
+  layouts, screens, flows and mockups.
+- Tokens follow base → semantic → component references.
+- Components are classified as atoms, molecules or organisms and registered by
+  a controlled `kind`; JSON never executes code.
+- Screens compose registered components inside reusable layouts.
+- Flows connect named actions and optional conditions to target screen states.
+- Mockups run flows with deterministic fixtures and mark simulated behavior.
 - Platform adapters read the model and write generated files into explicit
   generated boundaries. They never mutate handwritten product code.
 - Platform fidelity is reported through a capability matrix.

@@ -1,6 +1,6 @@
 ---
 name: aic-design-system-studio
-description: Устанавливать repo-local данные, проверять, запускать и безопасно развивать AIC Design System Studio текущего репозитория. Использовать, когда пользователь просит запустить студию дизайн-системы, создать или изменить tokens, компоненты, экраны, карты и mockup-сценарии либо проверить их переносимость.
+description: Устанавливать repo-local данные, проверять, запускать и безопасно развивать AIC Design System Studio текущего репозитория. Использовать, когда пользователь просит запустить студию дизайн-системы, создать или изменить базовую систему, tokens, компоненты, layouts, экраны, flows и mockups либо проверить их переносимость.
 ---
 
 # Design System Studio
@@ -48,12 +48,23 @@ AIC_REPO_ROOT="$PWD" npm --prefix ai-context/baseline/apps/design-system-studio 
 
 - Канонический контракт — repo-local `data/studio.json`, а не React runtime.
 - Использовать стабильные ids и существующую `schemaVersion`.
-- Компоненты описывать через поддерживаемый registry kind, variants, states,
-  accessibility metadata и platforms.
+- Сохранять семь обязательных разделов: `baseSystem`, `tokens`, `components`,
+  `layouts`, `screens`, `flows`, `mockups`.
+- Токены разделять на colors, typography и parameters, а внутри — на base,
+  semantic и component; ссылки направлять от component к semantic и от
+  semantic к base.
+- Компоненты классифицировать как atom, molecule или organism и описывать через
+  registry kind, dependencies, variants, states и accessibility metadata.
+- Экран должен ссылаться на существующий layout, а layout — на существующие
+  tokens и navigation components.
 - Каждый экран должен ссылаться только на существующие компоненты и содержать
   воспроизводимые states и viewport presets.
-- Карта должна ссылаться только на существующие screen states; именованные
+- Flow должен ссылаться только на существующие screen states; именованные
   `actionId` связывают интерактивный блок с transition.
+- Mockup должен ссылаться на flow, использовать воспроизводимые fixtures и
+  явно разделять implemented и simulated interactions.
+- Недостающую продуктовую информацию фиксировать в `openQuestions`, не
+  заменять догадкой.
 - Не использовать `eval`, executable strings или скрытые сетевые зависимости.
 - Не обещать автоматический production parity между Web, Flutter, Compose и
   SwiftUI: проверять capability matrix и явно называть ограничения adapters.
@@ -80,6 +91,6 @@ npm --prefix ai-context/baseline/apps/design-system-studio run build
 
 ## Результат
 
-Коротко сообщить использованный data path, URL запуска, количество themes,
-components, screens и maps, результат проверок и ограничения выбранного export
-adapter.
+Коротко сообщить использованный data path, URL запуска, выбранную base system,
+количество themes, components, layouts, screens, flows и mockups, результат
+проверок, открытые вопросы и ограничения выбранного export adapter.
