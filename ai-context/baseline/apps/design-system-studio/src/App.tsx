@@ -61,9 +61,8 @@ function ZoomControl({ value, onChange }: { value: number; onChange: (value: num
   const update = (next: number) => onChange(normalizeZoom(next));
   return <div className="zoom-control" aria-label="Масштаб рабочей области">
     <button type="button" onClick={() => update(value - 10)} disabled={value <= 40} aria-label="Уменьшить масштаб">−</button>
-    <input type="range" min="40" max="160" step="10" value={value} onChange={(event) => update(Number(event.target.value))} aria-label="Масштаб рабочей области" />
+    <button className="zoom-control__value" type="button" onClick={() => onChange(100)} title="Сбросить до 100%"><output>{Math.round(value)}%</output></button>
     <button type="button" onClick={() => update(value + 10)} disabled={value >= 160} aria-label="Увеличить масштаб">+</button>
-    <button className="zoom-control__value" type="button" onClick={() => onChange(100)} title="Сбросить до 100%"><output>{value}%</output></button>
   </div>;
 }
 

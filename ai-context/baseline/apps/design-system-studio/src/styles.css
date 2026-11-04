@@ -259,8 +259,9 @@ button:disabled { cursor: not-allowed; opacity: .5; }
 .mockup-editor__identity strong { color: #f2f2f2; }
 .mockup-editor__identity i { color: #686868; font-style: normal; }
 .mockup-editor__tools { display: flex; gap: 2px; padding: 3px; background: #202020; border: 1px solid #3a3a3a; border-radius: 6px; }
-.mockup-editor__tools button, .mockup-editor__actions button, .mockup-editor__zoom button { display: grid; place-items: center; min-width: 28px; height: 28px; padding: 0 8px; color: #c6c6c6; background: transparent; border: 0; border-radius: 4px; cursor: pointer; font-size: 11px; }
-.mockup-editor__tools button:hover, .mockup-editor__actions button:hover, .mockup-editor__zoom button:hover { color: #fff; background: #3b3b3b; }
+.mockup-editor__tools button, .mockup-editor__actions button, .mockup-editor__zoom button, .zoom-control button { display: grid; place-items: center; min-width: 28px; height: 28px; padding: 0 8px; color: #c6c6c6; background: transparent; border: 0; border-radius: 4px; cursor: pointer; font-size: 11px; }
+.mockup-editor__tools button:hover, .mockup-editor__actions button:hover, .mockup-editor__zoom button:hover, .zoom-control button:hover:not(:disabled) { color: #fff; background: #3b3b3b; }
+.zoom-control button:disabled { cursor: not-allowed; opacity: .35; }
 .mockup-editor__tools button.is-active { color: #fff; background: #0d99ff; }
 .mockup-editor__actions { justify-self: end; justify-content: flex-end; }
 .mockup-editor__actions span { color: #8e8e8e; font: 9px 'IBM Plex Mono', monospace; }
@@ -275,8 +276,9 @@ button:disabled { cursor: not-allowed; opacity: .5; }
 .mockup-frame__label strong { color: #f0f0f0; font-size: 11px; font-weight: 500; }
 .mockup-frame__label span { color: #858585; font: 8px 'IBM Plex Mono', monospace; }
 .mockup-frame .screen-frame { border: 1px solid #0d99ff; border-radius: 2px; box-shadow: 0 0 0 1px rgba(13,153,255,.18), 0 12px 38px rgba(0,0,0,.38); }
-.mockup-editor__zoom { position: absolute; z-index: 4; right: 16px; bottom: 16px; display: flex; gap: 2px; padding: 3px; background: rgba(44,44,44,.96); border: 1px solid #474747; border-radius: 7px; box-shadow: 0 6px 18px rgba(0,0,0,.3); }
-.mockup-editor__zoom .mockup-editor__zoom-value { min-width: 48px; font: 9px 'IBM Plex Mono', monospace; }
+.mockup-editor__zoom, .zoom-control { display: flex; gap: 2px; padding: 3px; background: rgba(44,44,44,.96); border: 1px solid #474747; border-radius: 7px; box-shadow: 0 6px 18px rgba(0,0,0,.3); }
+.mockup-editor__zoom { position: absolute; z-index: 4; right: 16px; bottom: 16px; }
+.mockup-editor__zoom .mockup-editor__zoom-value, .zoom-control .zoom-control__value { min-width: 48px; font: 9px 'IBM Plex Mono', monospace; }
 .studio-inspector { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; min-width: 0; min-height: 0; overflow: hidden; background: rgba(14, 17, 23, .98); border-left: 1px solid var(--line); opacity: 1; transition: opacity 120ms ease, border-color 180ms ease; }
 .studio-shell.is-inspector-collapsed .studio-inspector { border-color: transparent; opacity: 0; pointer-events: none; }
 .studio-inspector > header { padding: 20px 18px 16px; border-bottom: 1px solid var(--line); }
@@ -290,12 +292,6 @@ button:disabled { cursor: not-allowed; opacity: .5; }
 .studio-inspector__body .open-questions { border: 1px solid rgba(228,188,117,.18); border-radius: 8px; }
 .studio-inspector > footer { display: grid; gap: 7px; padding: 14px 18px; border-top: 1px solid var(--line); }
 .workspace-zoom { position: absolute; z-index: 8; right: 16px; bottom: 16px; }
-.zoom-control { display: grid; grid-template-columns: 28px 116px 28px 48px; gap: 6px; align-items: center; padding: 5px; background: rgba(18,21,28,.96); border: 1px solid #3a414f; border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,.36); backdrop-filter: blur(10px); }
-.zoom-control > button { display: grid; place-items: center; height: 28px; padding: 0; color: #d5d9e2; background: #202530; border: 1px solid #343b49; border-radius: 5px; cursor: pointer; font-size: 15px; }
-.zoom-control > button:hover:not(:disabled) { color: #fff; border-color: var(--accent); }
-.zoom-control > input { width: 100%; accent-color: var(--accent); cursor: pointer; }
-.zoom-control .zoom-control__value { color: #aeb5c2; background: transparent; border-color: transparent; font: 9px 'IBM Plex Mono', monospace; }
-.zoom-control .zoom-control__value:hover:not(:disabled) { color: #fff; background: #202530; }
 .segmented { display: flex; padding: 3px; background: #090c11; border: 1px solid var(--line); border-radius: 8px; }
 .segmented button { flex: 1; padding: 6px 4px; color: var(--muted); background: transparent; border: 0; border-radius: 5px; cursor: pointer; font-size: 9px; }
 .segmented button.is-active { color: #fff; background: #292e3a; }
