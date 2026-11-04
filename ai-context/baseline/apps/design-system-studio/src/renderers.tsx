@@ -1,7 +1,7 @@
-import type { CSSProperties } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import { Handle, Position } from '@xyflow/react';
 
-import type { ComponentDefinition, ScreenDefinition, ScreenMapNode, StudioData, Theme } from './types';
+import type { ComponentDefinition, LayoutDefinition, ScreenDefinition, ScreenMapNode, StudioData, Theme } from './types';
 import { resolveViewport } from './types';
 import PreviewErrorBoundary from './PreviewErrorBoundary';
 
@@ -75,6 +75,36 @@ export function ComponentPreview({
   }
   if (definition.kind === 'badge') return <span className={className}>{label}</span>;
   return <p className={className}>{label}</p>;
+}
+
+function LayoutSlotPlaceholder({ label, content = false }: { label: string; content?: boolean }) {
+  return <div className={`layout-slot-placeholder ${content ? 'is-content' : ''}`}><span>{label}</span></div>;
+}
+
+export function LayoutPreview({
+  definition,
+  viewport,
+  children,
+}: {
+  definition: LayoutDefinition;
+  viewport: 'desktop' | 'mobile';
+  children?: ReactNode;
+}) {
+  const regionIds = new Set(definition.regions.map((region) => region.id));
+  const composition = regionIds.has('navigation') || regionIds.has('top-bar')
+    ? 'shell'
+    : regionIds.has('brand') || regionIds.has('support')
+      ? 'centered'
+      : 'single';
+
+  return <section className={`layout-preview is-${viewport} is-${composition}`} aria-label={`${definition.name}, ${viewport}`}>
+    {definition.regions.map((region) => <div className={`layout-preview__region region-${region.id}`} data-region={region.id} key={region.id}>
+      <small>{region.name}{region.required ? '' : ' · optional'}</small>
+      {region.id === 'content'
+        ? children || <LayoutSlotPlaceholder label="Content" content />
+        : <LayoutSlotPlaceholder label={region.name} />}
+    </div>)}
+  </section>;
 }
 
 export function ScreenPreview({

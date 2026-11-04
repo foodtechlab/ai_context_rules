@@ -119,7 +119,11 @@ export function validateStudio(value) {
     for (const dependency of component.dependencies || []) if (!componentIds.has(dependency)) errors.push(`component ${component.id} references unknown dependency: ${dependency}`);
     for (const tokenId of component.tokenRefs || []) if (!tokenIds.has(tokenId)) errors.push(`component ${component.id} references unknown token: ${tokenId}`);
   }
+  const layoutRegions = new Map();
   for (const layout of value.layouts) {
+    const regionIds = collectDuplicateIds(layout.regions || [], `layout ${layout.id} regions`, errors);
+    layoutRegions.set(layout.id, regionIds);
+    if (!regionIds.has('content')) errors.push(`layout ${layout.id} must define a content region for children`);
     for (const componentId of layout.navigationComponentIds || []) if (!componentIds.has(componentId)) errors.push(`layout ${layout.id} references unknown component: ${componentId}`);
     for (const tokenId of layout.tokenRefs || []) if (!tokenIds.has(tokenId)) errors.push(`layout ${layout.id} references unknown token: ${tokenId}`);
   }
@@ -129,7 +133,10 @@ export function validateStudio(value) {
     const states = collectDuplicateIds(screen.states || [], `screen ${screen.id} states`, errors);
     screenStates.set(screen.id, states);
     for (const viewport of screen.viewports || []) if (!viewportIds.has(viewport)) errors.push(`screen ${screen.id} references unknown viewport: ${viewport}`);
-    for (const state of screen.states || []) for (const block of state.blocks || []) if (!componentIds.has(block.componentId)) errors.push(`screen ${screen.id} references unknown component: ${block.componentId}`);
+    for (const state of screen.states || []) for (const block of state.blocks || []) {
+      if (!componentIds.has(block.componentId)) errors.push(`screen ${screen.id} references unknown component: ${block.componentId}`);
+      if (block.regionId && !layoutRegions.get(screen.layoutId)?.has(block.regionId)) errors.push(`screen ${screen.id} block ${block.id} references unknown layout region: ${block.regionId}`);
+    }
   }
   const flowNodes = new Map();
   for (const flow of value.flows) {

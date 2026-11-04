@@ -3,7 +3,7 @@ import { Background, BackgroundVariant, Controls, MiniMap, ReactFlow, useEdgesSt
 
 import { CAPABILITIES, exportStudio, type Platform } from './adapters';
 import PreviewErrorBoundary from './PreviewErrorBoundary';
-import { ComponentPreview, ScreenMapNodeView, ScreenPreview } from './renderers';
+import { ComponentPreview, LayoutPreview, ScreenMapNodeView, ScreenPreview } from './renderers';
 import { DEFAULT_STUDIO_SETTINGS, getStudioSettings, resolveTheme, resolveViewport, type FlowDefinition, type StudioData, type Theme, type TokenCategory, type TokenTier, type ViewportPreset } from './types';
 
 type Mode = 'base' | 'tokens' | 'components' | 'layouts' | 'screens' | 'flows' | 'mockup' | 'settings';
@@ -184,6 +184,7 @@ export default function App() {
     return TOKEN_PAGES.some(([page]) => page === candidate) ? candidate : 'colors';
   }, [activeStructureId]);
   const activeComponent = useMemo(() => studio?.components.find((item) => activeStructureId === `component-${item.id}`), [activeStructureId, studio]);
+  const activeLayout = useMemo(() => studio?.layouts.find((item) => activeStructureId === `layout-${item.id}`), [activeStructureId, studio]);
   const promptComponent = useMemo(() => studio?.components.find((item) => item.id === promptComponentId) || studio?.components[0], [studio, promptComponentId]);
   const promptComponentPath = promptComponent && projectContext ? componentDefinitionPath(projectContext.designSystemDirectory, promptComponent) : '';
   const implementationPrompt = promptComponent && projectContext
@@ -193,7 +194,7 @@ export default function App() {
   useEffect(() => {
     if (!studio) return;
     let route = `#/${mode}`;
-    if ((mode === 'components' || mode === 'tokens') && activeStructureId) route += `/${activeStructureId}`;
+    if ((mode === 'components' || mode === 'tokens' || mode === 'layouts') && activeStructureId) route += `/${activeStructureId}`;
     if (mode === 'screens' && screenId && stateId) route += `/${screenId}/${stateId}/${viewport}`;
     if (mode === 'flows' && flowId) route += `/${flowId}`;
     if (mode === 'mockup' && mockupId && mockupNodeId) route += `/${mockupId}/${mockupNodeId}/${fixtureId}`;
@@ -332,9 +333,15 @@ export default function App() {
           <header className="component-detail__toolbar"><div><button type="button" onClick={() => openStructureItem('components', `components-${activeComponent.classification}`)}>← {activeComponent.classification === 'atom' ? 'Атомы' : activeComponent.classification === 'molecule' ? 'Молекулы' : 'Организмы'}</button><i>/</i><strong>{activeComponent.name}</strong></div><div><code>{activeComponent.id}</code><span>{activeComponent.variants.length} variants · {activeComponent.states.length} states</span></div></header>
           <div className="component-canvas"><div className="component-canvas__surface" style={{ zoom: zoomLevels.components / 100 }}>{activeComponent.variants.flatMap((variant) => activeComponent.states.map((state) => <article className="component-frame" key={`${variant}:${state}`}><header><strong>{activeComponent.name}</strong><span>{variant} / {state}</span></header><div className="component-frame__preview"><ComponentPreview definition={activeComponent} variant={variant} state={state} /></div><footer><code>{activeComponent.id}</code><span>{activeComponent.classification}</span></footer></article>))}</div></div>
         </section>}
-        {mode === 'layouts' && <section className="panel-stack zoomable-content" style={{ zoom: zoomLevels.layouts / 100 }}>
-          <div className="section-heading"><div><span>04 / LAYOUTS</span><h2>Повторно используемые структуры</h2></div><p>Лейаут задаёт области, навигацию, сетку, прокрутку, safe areas и адаптацию.</p></div>
-          {studio.layouts.map((layout) => <article className="definition-card" id={`layout-${layout.id}`} key={layout.id}><header><div><span>{layout.id}</span><h3>{layout.name}</h3><p>{layout.purpose}</p></div></header><div className="region-map">{layout.regions.map((region) => <div key={region.id} className={region.required ? 'is-required' : ''}><strong>{region.name}</strong><code>{region.id}</code><span>{region.required ? 'обязательный' : 'необязательный'}</span></div>)}</div><div className="definition-grid"><List title="Навигационные компоненты" items={layout.navigationComponentIds} /><List title="Токены" items={layout.tokenRefs} /><List title="Ширина и сетка" items={[layout.widthRules]} /><List title="Прокрутка" items={[layout.scrollRules]} /><List title="Safe area и клавиатура" items={[layout.safeAreaRules]} /><List title="Адаптация" items={[layout.responsiveBehavior]} /></div><Questions items={layout.openQuestions} /></article>)}
+        {mode === 'layouts' && !activeLayout && <section className="panel-stack component-catalog">
+          <div className="section-heading"><div><span>04 / LAYOUTS</span><h2>Лейауты как компоненты</h2></div><p>Выберите layout, чтобы увидеть, как он принимает дочерний content в desktop и mobile.</p></div>
+          <div className="component-catalog__grid">{studio.layouts.map((layout) => <button type="button" className="component-catalog__item" key={layout.id} onClick={() => openStructureItem('layouts', `layout-${layout.id}`)}><span>layout component</span><strong>{layout.name}</strong><p>{layout.purpose}</p><footer><code>{layout.id}</code><i>{layout.regions.length} slots →</i></footer></button>)}</div>
+        </section>}
+        {mode === 'layouts' && activeLayout && <section className="layout-detail component-detail" id={`layout-${activeLayout.id}`}>
+          <header className="component-detail__toolbar"><div><button type="button" onClick={() => openStructureItem('layouts')}>← Лейауты</button><i>/</i><strong>{activeLayout.name}</strong></div><div><code>{activeLayout.id}</code><span>{activeLayout.regions.length} slots · принимает children</span></div></header>
+          <div className="layout-canvas"><div className="layout-canvas__surface" style={{ zoom: zoomLevels.layouts / 100 }}>
+            {(['desktop', 'mobile'] as const).map((layoutViewport) => <article className={`layout-frame is-${layoutViewport}`} key={layoutViewport}><header><strong>{activeLayout.name}</strong><span>{layoutViewport === 'desktop' ? 'Desktop · 960 × 600' : 'Mobile · 390 × 720'}</span></header><LayoutPreview definition={activeLayout} viewport={layoutViewport}><div className="layout-content-placeholder"><span>Content placeholder</span></div></LayoutPreview><footer><code>{activeLayout.id}</code><span>{layoutViewport}</span></footer></article>)}
+          </div></div>
         </section>}
         {mode === 'screens' && screen && <section className="screen-workspace"><div className="preview-stage"><PreviewErrorBoundary><ScreenPreview studio={studio} screen={screen} stateId={stateId} viewport={viewport} theme={theme} zoom={zoomLevels.screens / 100} fixture={{ userName: 'Алекс', adminName: 'Анна', organizationName: 'Northstar', createdUserName: 'Мария Орлова', selectedUserName: 'Анна Смирнова', selectedUserEmail: 'anna@northstar.dev' }} /></PreviewErrorBoundary></div></section>}
         {mode === 'flows' && flow && <section className="map-workspace"><div className="map-toolbar"><strong>{flow.name}</strong><span>{flow.nodes.length} экранов · {flow.transitions.length} переходов</span></div><ReactFlow nodes={nodes} edges={edges} nodeTypes={NODE_TYPES} onNodesChange={onNodesChange} onEdgesChange={onEdgesChange} onNodeDragStop={(_event, node) => saveFlowPosition(node)} fitView minZoom={0.15} maxZoom={1.4} nodesConnectable={false}><Background variant={BackgroundVariant.Dots} gap={24} size={1.2} color="#313744" /><Controls position="bottom-right" /><MiniMap position="bottom-left" nodeColor="#a18cff" maskColor="rgba(10,12,18,.78)" /></ReactFlow></section>}
@@ -366,6 +373,7 @@ export default function App() {
         </section>
         <label>Тема<select value={theme.id} onChange={(event) => setThemeId(event.target.value)}>{studio.tokens.themes.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label>
         {mode === 'components' && activeComponent && <><List title="Назначение" items={[activeComponent.description || activeComponent.usage]} /><List title="Зависимости" items={activeComponent.dependencies} /><List title="Свойства" items={activeComponent.properties} /><List title="Размеры" items={activeComponent.sizes} /><List title="События" items={activeComponent.actions} /><List title="Токены" items={activeComponent.tokenRefs} /><List title="Ограничения" items={activeComponent.restrictions} /><List title="Доступность" items={[`ARIA: ${activeComponent.accessibility?.role || 'не задано'}`, activeComponent.responsiveBehavior]} /></>}
+        {mode === 'layouts' && activeLayout && <><List title="Назначение" items={[activeLayout.purpose]} /><List title="Slots" items={activeLayout.regions.map((region) => `${region.name} · ${region.id}${region.required ? '' : ' · optional'}`)} /><List title="Навигационные компоненты" items={activeLayout.navigationComponentIds} /><List title="Токены" items={activeLayout.tokenRefs} /><List title="Ширина и сетка" items={[activeLayout.widthRules]} /><List title="Прокрутка" items={[activeLayout.scrollRules]} /><List title="Safe area и клавиатура" items={[activeLayout.safeAreaRules]} /><List title="Адаптация" items={[activeLayout.responsiveBehavior]} /><Questions items={activeLayout.openQuestions} /></>}
         {mode === 'screens' && screen && <>
           <label>Состояние<select value={stateId} onChange={(event) => setStateId(event.target.value)}>{screen.states.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label>
           <label>Разрешение<select value={viewport} onChange={(event) => setViewport(event.target.value)}><ViewportOptions presets={studioSettings.viewportPresets} /></select></label>

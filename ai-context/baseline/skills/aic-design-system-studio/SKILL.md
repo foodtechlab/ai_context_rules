@@ -143,6 +143,9 @@ AIC_REPO_ROOT="$PWD" AIC_DESIGN_SYSTEM_DIR="$PROJECT_DESIGN_SYSTEM" \
   registry kind, dependencies, variants, states и accessibility metadata.
 - Экран должен ссылаться на существующий layout, а layout — на существующие
   tokens и navigation components.
+- Layout проектировать как переиспользуемый container-компонент с обязательным
+  region `content`: он принимает children экрана и не содержит product content
+  конкретного экрана. Остальные regions являются именованными slots.
 - Каждый экран должен ссылаться только на существующие компоненты и содержать
   воспроизводимые states и viewport presets.
 - Flow должен ссылаться только на существующие screen states; именованные

@@ -40,3 +40,13 @@ test('ids must be portable standalone filenames', () => {
   broken.components[0].id = 'component:inside-monolith';
   assert(validateStudio(broken).some((error) => error.includes('portable as a filename')));
 });
+
+test('layouts are containers with a content region and screen blocks use known slots', () => {
+  const withoutContent = structuredClone(starter);
+  withoutContent.layouts[0].regions = withoutContent.layouts[0].regions.filter((region) => region.id !== 'content');
+  assert(validateStudio(withoutContent).some((error) => error.includes('must define a content region for children')));
+
+  const unknownRegion = structuredClone(starter);
+  unknownRegion.screens[0].states[0].blocks[0].regionId = 'missing-slot';
+  assert(validateStudio(unknownRegion).some((error) => error.includes('unknown layout region')));
+});

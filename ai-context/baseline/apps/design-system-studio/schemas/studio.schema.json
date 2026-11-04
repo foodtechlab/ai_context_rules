@@ -105,7 +105,7 @@
       "required": ["id", "name", "purpose", "regions", "navigationComponentIds", "tokenRefs", "widthRules", "scrollRules", "safeAreaRules", "responsiveBehavior", "openQuestions"],
       "properties": {
         "id": { "$ref": "#/$defs/id" }, "name": { "type": "string", "minLength": 1 }, "purpose": { "type": "string", "minLength": 1 },
-        "regions": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/region" } },
+        "regions": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/region" }, "contains": { "type": "object", "required": ["id"], "properties": { "id": { "const": "content" } } } },
         "navigationComponentIds": { "$ref": "#/$defs/strings" }, "tokenRefs": { "$ref": "#/$defs/strings" },
         "widthRules": { "type": "string" }, "scrollRules": { "type": "string" }, "safeAreaRules": { "type": "string" },
         "responsiveBehavior": { "type": "string" }, "openQuestions": { "$ref": "#/$defs/questions" }
