@@ -25,5 +25,8 @@
   backend-сущностей.
 - `aic-design-system-studio` — bootstrap, запуск и развитие code-first
   дизайн-системы текущего репозитория.
+- `aic-reconstruct-design-system` — пошаговый анализ существующего Flutter,
+  iOS, Android или Web-приложения и создание детализированного task-list для
+  восстановления его дизайн-системы без немедленного изменения product code.
 - `aic-update-ai-context` — обновление `ai-context` из настроенного
   source-of-truth с обязательным verify.

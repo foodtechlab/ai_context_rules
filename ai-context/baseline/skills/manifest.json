@@ -18,6 +18,10 @@
       "source": "ai-context/baseline/skills/aic-design-system-studio"
     },
     {
+      "name": "aic-reconstruct-design-system",
+      "source": "ai-context/baseline/skills/aic-reconstruct-design-system"
+    },
+    {
       "name": "aic-update-ai-context",
       "source": "ai-context/baseline/skills/aic-update-ai-context"
     }
