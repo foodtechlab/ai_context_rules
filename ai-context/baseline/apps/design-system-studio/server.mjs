@@ -3,7 +3,7 @@ import { mkdir, readFile, rename, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { emptyStudio, migrateStudio, validateStudio } from './src/data-model.mjs';
+import { emptyStudio, validateStudio } from './src/data-model.mjs';
 
 const appRoot = path.dirname(fileURLToPath(import.meta.url));
 const repositoryRoot = path.resolve(process.env.AIC_REPO_ROOT || path.join(appRoot, '../../../..'));
@@ -21,11 +21,9 @@ async function writeJsonAtomic(filePath, value) {
 
 async function readStudio() {
   try {
-    const parsed = JSON.parse(await readFile(studioDataPath, 'utf8'));
-    const { value, migratedFrom } = migrateStudio(parsed);
+    const value = JSON.parse(await readFile(studioDataPath, 'utf8'));
     const errors = validateStudio(value);
     if (errors.length) throw new Error(errors.join('; '));
-    if (migratedFrom !== null) await writeJsonAtomic(studioDataPath, value);
     return value;
   } catch (error) {
     if (error?.code !== 'ENOENT') throw error;
@@ -48,18 +46,17 @@ server.get('/api/studio', async (_request, response, next) => {
 
 server.put('/api/studio', async (request, response, next) => {
   try {
-    const { value: migrated, migratedFrom } = migrateStudio(request.body);
-    const errors = validateStudio(migrated);
+    const errors = validateStudio(request.body);
     if (errors.length) {
       response.status(400).json({ error: errors.join('; ') });
       return;
     }
     const value = {
-      ...migrated,
-      meta: { ...migrated.meta, updatedAt: new Date().toISOString() },
+      ...request.body,
+      meta: { ...request.body.meta, updatedAt: new Date().toISOString() },
     };
     await writeJsonAtomic(studioDataPath, value);
-    response.json({ saved: true, migratedFrom, studio: value });
+    response.json({ saved: true, studio: value });
   } catch (error) {
     next(error);
   }

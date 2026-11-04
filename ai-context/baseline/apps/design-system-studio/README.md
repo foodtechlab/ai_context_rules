@@ -54,11 +54,9 @@ AIC_REPO_ROOT="$PWD" npm --prefix ai-context/baseline/apps/design-system-studio 
 - воспроизводимые mockups с fixtures и границей implemented/simulated;
 - adapter settings.
 
-При чтении и записи модель проходит последовательный migration layer. Текущая
-версия — `schemaVersion: 2`; данные из v1 мигрируются автоматически, а данные
-из будущей неизвестной версии отклоняются,
-а не понижаются молча. Новая миграция добавляется в registry в
-`src/data-model.mjs` и покрывается тестом.
+Текущий формат — `schemaVersion: 1`. Migration layer пока отсутствует: до
+первого стабильного релиза структура v1 изменяется напрямую. JSON с другим
+номером версии отклоняется валидацией.
 
 Связи валидируются в направлении base system → tokens/components → layouts →
 screens → flows → mockups. Неопределённые решения сохраняются в

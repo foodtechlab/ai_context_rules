@@ -1,4 +1,4 @@
-export const CURRENT_SCHEMA_VERSION = 2;
+export const CURRENT_SCHEMA_VERSION = 1;
 const tokenCategories = ['colors', 'typography', 'parameters'];
 const tokenTiers = ['base', 'semantic', 'component'];
 
@@ -29,10 +29,6 @@ function isObject(value) {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
 }
 
-function strings(value) {
-  return Array.isArray(value) ? value : [];
-}
-
 function collectDuplicateIds(items, label, errors) {
   const ids = new Set();
   for (const [index, item] of items.entries()) {
@@ -44,97 +40,6 @@ function collectDuplicateIds(items, label, errors) {
     ids.add(item.id);
   }
   return ids;
-}
-
-function migrateThemes(themes = []) {
-  const modes = themes.map(({ id, name }) => ({ id, name }));
-  const categories = { colors: blankTokenCategory(), typography: blankTokenCategory(), parameters: blankTokenCategory() };
-  const first = themes[0];
-  for (const [group, values] of Object.entries(first?.tokens || {})) {
-    const category = group === 'color' ? 'colors' : group === 'typography' ? 'typography' : 'parameters';
-    for (const [name, value] of Object.entries(values)) {
-      const id = `${group}.${name}`;
-      const modeValues = Object.fromEntries(themes.slice(1).flatMap((theme) => {
-        const override = theme.tokens?.[group]?.[name];
-        return override && override !== value ? [[theme.id, override]] : [];
-      }));
-      categories[category].semantic.push({ id, name, value, purpose: `Migrated ${group} token`, ...(Object.keys(modeValues).length ? { modes: modeValues } : {}) });
-    }
-  }
-  return { themes: modes.length ? modes : [{ id: 'default', name: 'Default' }], ...categories };
-}
-
-function migrateComponent(component) {
-  return {
-    ...component,
-    classification: component.classification || 'atom',
-    dependencies: strings(component.dependencies), properties: strings(component.properties),
-    sizes: component.sizes || ['default'], actions: strings(component.actions), tokenRefs: strings(component.tokenRefs),
-    responsiveBehavior: component.responsiveBehavior || 'Keeps intrinsic size and wraps content safely.',
-    usage: component.usage || component.description || '', restrictions: strings(component.restrictions),
-  };
-}
-
-const migrations = new Map([
-  [0, (value) => ({
-    ...value, schemaVersion: 1,
-    meta: { name: value.meta?.name || 'Untitled Design System', description: value.meta?.description || '', updatedAt: value.meta?.updatedAt || new Date(0).toISOString() },
-    themes: value.themes || [], components: value.components || [], screens: value.screens || [],
-    screenMaps: value.screenMaps || [], prototypes: value.prototypes || [],
-    adapterSettings: value.adapterSettings || { packageName: 'design_system', webPrefix: 'ds' },
-  })],
-  [1, (value) => {
-    const layouts = [{
-      id: 'default-layout', name: 'Default app layout', purpose: 'Shared content shell for migrated screens.',
-      regions: [{ id: 'content', name: 'Content', required: true }], navigationComponentIds: [],
-      tokenRefs: [], widthRules: 'Content uses the available viewport width.',
-      scrollRules: 'The content region scrolls.', safeAreaRules: 'Respect platform safe areas and keyboard insets.',
-      responsiveBehavior: 'Switches between phone, tablet and desktop constraints.',
-      openQuestions: ['Describe product-specific navigation and regions.'],
-    }];
-    return {
-      schemaVersion: 2, meta: value.meta,
-      baseSystem: {
-        name: 'Not selected', version: 'open', platform: 'open', componentLibrary: 'open',
-        inheritedPrinciples: [], inheritedComponents: [], inheritedBehaviors: [], tokenOverrides: [],
-        changedComponents: [], customComponents: [], upgradeReviewNotes: [],
-        openQuestions: ['Choose the base design system and its version.'],
-      },
-      tokens: migrateThemes(value.themes),
-      components: value.components.map(migrateComponent), layouts,
-      screens: value.screens.map((screen) => ({
-        ...screen, purpose: screen.description || screen.name, userTask: 'Describe the user task.', layoutId: 'default-layout',
-        inputParameters: [], displayedData: [], actions: [], entryPoints: [], returnBehavior: 'Restore the previous state.',
-        adaptiveNotes: 'Uses declared viewport presets.', openQuestions: ['Complete screen metadata.'],
-      })),
-      flows: value.screenMaps.map((map) => ({
-        id: map.id, name: map.name, goal: map.name, startConditions: [], entryNodeId: map.startNodeId,
-        nodes: map.nodes, transitions: map.edges, happyPath: map.edges.map((edge) => edge.id),
-        alternativePaths: [], recovery: [], exitRules: [], completionConditions: [], openQuestions: ['Complete flow conditions.'],
-      })),
-      mockups: value.prototypes.map((prototype) => ({
-        id: prototype.id, name: prototype.name, flowId: prototype.mapId, startNodeId: prototype.startNodeId,
-        fixtures: prototype.fixtures, implementedInteractions: [], simulatedInteractions: [],
-        supportedThemes: value.themes.map((theme) => theme.id), supportedViewports: ['phone', 'tablet', 'desktop'], openQuestions: [],
-      })),
-      adapterSettings: value.adapterSettings,
-    };
-  }],
-]);
-
-export function migrateStudio(input) {
-  if (!isObject(input)) return { value: input, migratedFrom: null };
-  const migratedFrom = Number.isInteger(input.schemaVersion) ? input.schemaVersion : 0;
-  if (migratedFrom > CURRENT_SCHEMA_VERSION) throw new Error(`schemaVersion ${migratedFrom} is newer than supported version ${CURRENT_SCHEMA_VERSION}`);
-  let value = structuredClone(input);
-  let version = migratedFrom;
-  while (version < CURRENT_SCHEMA_VERSION) {
-    const migration = migrations.get(version);
-    if (!migration) throw new Error(`migration from schemaVersion ${version} is not available`);
-    value = migration(value);
-    version = value.schemaVersion;
-  }
-  return { value, migratedFrom: migratedFrom === CURRENT_SCHEMA_VERSION ? null : migratedFrom };
 }
 
 export function validateStudio(value) {

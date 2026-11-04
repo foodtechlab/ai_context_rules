@@ -110,7 +110,7 @@ export interface MockupDefinition {
 }
 
 export interface StudioData {
-  schemaVersion: 2;
+  schemaVersion: 1;
   meta: { name: string; description: string; updatedAt: string };
   baseSystem: BaseDesignSystem;
   tokens: { themes: ThemeMode[]; colors: TokenCategoryDefinition; typography: TokenCategoryDefinition; parameters: TokenCategoryDefinition };
