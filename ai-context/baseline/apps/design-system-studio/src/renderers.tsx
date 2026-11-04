@@ -61,7 +61,13 @@ export function ComponentPreview({
   }
   if (definition.kind === 'card') {
     return (
-      <article className={className}>
+      <article
+        className={className}
+        onClick={onAction}
+        onKeyDown={(event) => { if (onAction && (event.key === 'Enter' || event.key === ' ')) onAction(); }}
+        role={onAction ? 'button' : undefined}
+        tabIndex={onAction ? 0 : undefined}
+      >
         <strong>{label}</strong>
         {Boolean(merged.description) && <p>{String(interpolate(merged.description, fixture))}</p>}
       </article>

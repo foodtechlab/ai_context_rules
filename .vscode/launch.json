@@ -50,7 +50,7 @@
       "id": "aicDesignSystemDirectory",
       "type": "promptString",
       "description": "Project-owned directory ending with design-system",
-      "default": "design-system"
+      "default": "examples/design-system-example"
     }
   ]
 }

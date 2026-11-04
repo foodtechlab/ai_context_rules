@@ -10,8 +10,10 @@ const configuredProjectDirectory = process.env.AIC_DESIGN_SYSTEM_DIR;
 if (!configuredProjectDirectory) throw new Error('AIC_DESIGN_SYSTEM_DIR is required');
 const designSystemDirectory = path.resolve(repositoryRoot, configuredProjectDirectory);
 const relativeDesignSystemDirectory = path.relative(repositoryRoot, designSystemDirectory);
-if (path.basename(designSystemDirectory) !== 'design-system') {
-  throw new Error('AIC_DESIGN_SYSTEM_DIR must end with the design-system directory');
+const isRepositoryExample = relativeDesignSystemDirectory.split(path.sep)[0] === 'examples'
+  && path.basename(designSystemDirectory).startsWith('design-system-');
+if (path.basename(designSystemDirectory) !== 'design-system' && !isRepositoryExample) {
+  throw new Error('AIC_DESIGN_SYSTEM_DIR must end with design-system; named examples are allowed under examples/design-system-*');
 }
 if (relativeDesignSystemDirectory.startsWith('..') || path.isAbsolute(relativeDesignSystemDirectory)) {
   throw new Error('AIC_DESIGN_SYSTEM_DIR must point inside the current repository');

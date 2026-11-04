@@ -32,6 +32,10 @@ The prefix (`apps/mobile` in the example) belongs to the target repository and
 is configured as `design_system_studio.project_directory` in
 `ai-context/parameters/repository-parameters.yaml`.
 
+The production/project convention requires the final segment `design-system`.
+Named repository examples are the only exception and may use
+`examples/design-system-<name>` so several isolated examples can coexist.
+
 ## Responsibilities
 
 - `studio.json` is the canonical index: stable ids, cross-section references,

@@ -1,0 +1,20 @@
+:root {
+  --admin-bg: #f4f7fb;
+  --admin-surface: #ffffff;
+  --admin-text: #14213d;
+  --admin-muted: #68758d;
+  --admin-primary: #2563eb;
+  --admin-border: #dce3ee;
+  --admin-success: #15803d;
+  --admin-warning: #b45309;
+  --admin-error: #c2415d;
+}
+
+[data-theme='dark'] {
+  --admin-bg: #0b1220;
+  --admin-surface: #111c2f;
+  --admin-text: #eef4ff;
+  --admin-muted: #98a7be;
+  --admin-primary: #6ea8ff;
+  --admin-border: #26344b;
+}

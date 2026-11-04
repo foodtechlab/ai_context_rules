@@ -31,10 +31,12 @@ baseline library и отдельную проектную директорию `
 2. Если значение задано, разрешить его относительно корня репозитория и
    проверить, что путь:
    - находится внутри репозитория;
-   - заканчивается сегментом `design-system`;
+   - заканчивается сегментом `design-system`; для named examples допустим
+     только путь `examples/design-system-<name>`;
    - не находится внутри `ai-context/baseline`.
-3. Если параметр не задан, найти существующие `*/design-system/studio.json`,
-   исключив `.git`, build output, dependencies и `ai-context/baseline`.
+3. Если параметр не задан, найти существующие `*/design-system/studio.json` и
+   `examples/design-system-*/studio.json`, исключив `.git`, build output,
+   dependencies и `ai-context/baseline`.
 4. Если найден ровно один путь, использовать его и предложить записать в
    repository parameters. Если не найдено ни одного или найдено несколько,
    запросить у пользователя конкретный `<project-path>/design-system`.

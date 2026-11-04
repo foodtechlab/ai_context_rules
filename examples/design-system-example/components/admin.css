@@ -1,0 +1,21 @@
+@import '../tokens/colors/admin.css';
+
+.admin-button { min-height: 48px; padding: 0 16px; border: 1px solid transparent; border-radius: 10px; font: 600 15px/1 system-ui; cursor: pointer; }
+.admin-button.is-primary { color: white; background: var(--admin-primary); }
+.admin-button.is-secondary { color: var(--admin-text); background: var(--admin-surface); border-color: var(--admin-border); }
+.admin-button.is-danger { color: white; background: var(--admin-error); }
+.admin-button.is-ghost { color: var(--admin-primary); background: transparent; }
+.admin-input { width: 100%; min-height: 48px; padding: 0 12px; color: var(--admin-text); background: var(--admin-surface); border: 1px solid var(--admin-border); border-radius: 10px; }
+.status-badge { width: fit-content; padding: 4px 8px; border-radius: 999px; background: var(--admin-border); font-size: 12px; }
+.status-badge.is-success { color: var(--admin-success); }.status-badge.is-warning { color: var(--admin-warning); }.status-badge.is-error { color: var(--admin-error); }.status-badge.is-info { color: var(--admin-primary); }
+.body-text { margin: 0; color: var(--admin-text); }.body-text.is-muted { color: var(--admin-muted); }
+.form-field, .auth-form, .user-form { display: grid; gap: 8px; }.form-field small { color: var(--admin-error); }
+.auth-form, .user-form, .stat-card, .user-list-item, .error-panel { padding: 24px; background: var(--admin-surface); border: 1px solid var(--admin-border); border-radius: 16px; }
+.admin-header, .user-list-item { display: flex; justify-content: space-between; gap: 16px; align-items: center; }.user-list-item > div { display: grid; gap: 4px; }.user-list-item span { color: var(--admin-muted); }
+.admin-navigation { display: grid; gap: 4px; }.user-table { display: grid; gap: 8px; }.error-panel { max-width: 560px; text-align: center; }.error-panel > strong { color: var(--admin-primary); font-size: 72px; }
+
+@media (max-width: 767px) {
+  .admin-header, .user-list-item { align-items: stretch; flex-direction: column; }
+  .admin-navigation { position: fixed; inset: auto 0 0; grid-template-columns: 1fr 1fr; padding: 8px; background: var(--admin-surface); border-top: 1px solid var(--admin-border); }
+  .auth-form, .user-form, .stat-card, .user-list-item, .error-panel { padding: 16px; border-radius: 12px; }
+}

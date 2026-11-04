@@ -99,6 +99,9 @@ button:disabled { cursor: not-allowed; opacity: .5; }
 .preview-component--input.is-error input { border-color: var(--danger); }
 .preview-component--input small { color: var(--danger); }
 .preview-component--card { padding: 17px; color: var(--preview-text); background: var(--preview-surface); border: 1px solid var(--preview-border); border-radius: var(--preview-radius, 12px); }
+.preview-component--card[role='button'] { cursor: pointer; transition: transform 120ms ease, border-color 120ms ease; }
+.preview-component--card[role='button']:hover { border-color: var(--preview-primary); transform: translateY(-1px); }
+.preview-component--card[role='button']:focus-visible { outline: 3px solid color-mix(in srgb, var(--preview-primary), transparent 65%); outline-offset: 2px; }
 .preview-component--card p { margin: 6px 0 0; color: color-mix(in srgb, var(--preview-text), transparent 32%); font-size: 12px; line-height: 1.5; }
 .preview-component--badge { width: fit-content; padding: 4px 8px; color: var(--preview-primary); background: color-mix(in srgb, var(--preview-primary), transparent 86%); border-radius: 999px; font-size: 10px; font-weight: 700; }
 .preview-component--text { margin: 0; color: var(--preview-text); }
