@@ -52,6 +52,7 @@ export default function App() {
   const [exportOpen, setExportOpen] = useState(false);
   const [activeStructureId, setActiveStructureId] = useState(INITIAL_ROUTE[1] || '');
   const [navigationCollapsed, setNavigationCollapsed] = useState(() => window.localStorage.getItem('aic:design-studio:navigation-collapsed') === 'true');
+  const [inspectorCollapsed, setInspectorCollapsed] = useState(() => window.localStorage.getItem('aic:design-studio:inspector-collapsed') === 'true');
   const [editorValue, setEditorValue] = useState('');
   const [nodes, setNodes, onNodesChange] = useNodesState<FlowNode>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
@@ -71,6 +72,7 @@ export default function App() {
   }, []);
   useEffect(() => { loadStudio(); }, [loadStudio]);
   useEffect(() => { window.localStorage.setItem('aic:design-studio:navigation-collapsed', String(navigationCollapsed)); }, [navigationCollapsed]);
+  useEffect(() => { window.localStorage.setItem('aic:design-studio:inspector-collapsed', String(inspectorCollapsed)); }, [inspectorCollapsed]);
 
   const saveStudio = useCallback(async (next: StudioData, success = 'Изменения сохранены локально') => {
     setIsSaving(true); setMessage('Сохраняю…');
@@ -149,7 +151,7 @@ export default function App() {
     if (itemId) window.setTimeout(() => document.getElementById(itemId)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 0);
   };
 
-  return <main className={`studio-shell ${navigationCollapsed ? 'is-navigation-collapsed' : ''}`}>
+  return <main className={`studio-shell ${navigationCollapsed ? 'is-navigation-collapsed' : ''} ${inspectorCollapsed ? 'is-inspector-collapsed' : ''}`}>
     <aside className="studio-sidebar" id="studio-project-navigation" aria-hidden={navigationCollapsed} inert={navigationCollapsed}>
       <div className="studio-brand"><span>AIC / PROJECT</span><h1>Design System<br />Studio</h1><p>{studio.meta.name}</p></div>
       <nav className="project-tree" aria-label="Структура проекта">
@@ -165,7 +167,7 @@ export default function App() {
       </nav>
     </aside>
     <section className="studio-main">
-      <header className="topbar"><div className="topbar__identity"><button className="navigation-toggle" type="button" aria-expanded={!navigationCollapsed} aria-controls="studio-project-navigation" onClick={() => setNavigationCollapsed((current) => !current)} title={navigationCollapsed ? 'Показать меню навигации' : 'Скрыть меню навигации'}><i aria-hidden="true">{navigationCollapsed ? '→' : '←'}</i><span>{navigationCollapsed ? 'Показать меню' : 'Скрыть меню'}</span></button><div><span>DESIGN SYSTEM</span><strong>{NAVIGATION.find(([value]) => value === mode)?.[1]}</strong></div></div><div className="save-state"><i className={isSaving ? 'is-saving' : ''} />{message || 'Все изменения сохранены локально'}</div></header>
+      <header className="topbar"><div className="topbar__identity"><button className="panel-toggle" type="button" aria-expanded={!navigationCollapsed} aria-controls="studio-project-navigation" onClick={() => setNavigationCollapsed((current) => !current)} title={navigationCollapsed ? 'Показать меню навигации' : 'Скрыть меню навигации'}><i aria-hidden="true">{navigationCollapsed ? '→' : '←'}</i><span>{navigationCollapsed ? 'Показать меню' : 'Скрыть меню'}</span></button><div><span>DESIGN SYSTEM</span><strong>{NAVIGATION.find(([value]) => value === mode)?.[1]}</strong></div></div><div className="topbar__status"><div className="save-state"><i className={isSaving ? 'is-saving' : ''} />{message || 'Все изменения сохранены локально'}</div><button className="panel-toggle" type="button" aria-expanded={!inspectorCollapsed} aria-controls="studio-tools-panel" onClick={() => setInspectorCollapsed((current) => !current)} title={inspectorCollapsed ? 'Показать меню инструментов' : 'Скрыть меню инструментов'}><span>{inspectorCollapsed ? 'Показать инструменты' : 'Скрыть инструменты'}</span><i aria-hidden="true">{inspectorCollapsed ? '←' : '→'}</i></button></div></header>
       <div className="workspace">
         {mode === 'base' && <section className="panel-stack">
           <div className="section-heading"><div><span>01 / FOUNDATION</span><h2>Базовая дизайн-система</h2></div><p>Фундамент продукта и явный контракт отличий, которые нужно проверять при обновлении.</p></div>
@@ -192,7 +194,7 @@ export default function App() {
         {mode === 'mockup' && mockup && activeNode && activeScreen && <section className="prototype-workspace"><div className="preview-stage is-prototype"><PreviewErrorBoundary><ScreenPreview studio={studio} screen={activeScreen} stateId={activeNode.stateId} viewport={mockupViewport} theme={theme} fixture={activeFixture?.state} onAction={performAction} /></PreviewErrorBoundary></div></section>}
       </div>
     </section>
-    <aside className="studio-inspector">
+    <aside className="studio-inspector" id="studio-tools-panel" aria-hidden={inspectorCollapsed} inert={inspectorCollapsed}>
       <header><span>TOOLS</span><h2>{mode === 'mockup' ? 'Инструменты проверки' : 'Инструменты'}</h2></header>
       <div className="studio-inspector__body">
         <label>Тема<select value={theme.id} onChange={(event) => setThemeId(event.target.value)}>{studio.tokens.themes.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label>

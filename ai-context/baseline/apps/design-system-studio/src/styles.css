@@ -9,8 +9,9 @@ button { color: inherit; }
 .spinner { width: 22px; height: 22px; border: 2px solid #303644; border-top-color: var(--accent); border-radius: 50%; animation: spin .7s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-.studio-shell { display: grid; grid-template-columns: 260px minmax(0, 1fr) 280px; height: 100vh; background: var(--bg); transition: grid-template-columns 180ms ease; }
-.studio-shell.is-navigation-collapsed { grid-template-columns: 0 minmax(0, 1fr) 280px; }
+.studio-shell { --navigation-width: 260px; --inspector-width: 280px; display: grid; grid-template-columns: var(--navigation-width) minmax(0, 1fr) var(--inspector-width); height: 100vh; background: var(--bg); transition: grid-template-columns 180ms ease; }
+.studio-shell.is-navigation-collapsed { --navigation-width: 0px; }
+.studio-shell.is-inspector-collapsed { --inspector-width: 0px; }
 .studio-sidebar { display: flex; flex-direction: column; min-width: 0; min-height: 0; padding: 24px 12px 14px; overflow: hidden; background: #0e1117; border-right: 1px solid var(--line); opacity: 1; transition: padding 180ms ease, opacity 120ms ease, border-color 180ms ease; }
 .studio-shell.is-navigation-collapsed .studio-sidebar { padding-inline: 0; border-color: transparent; opacity: 0; pointer-events: none; }
 .studio-brand { padding: 0 8px 24px; }
@@ -46,11 +47,12 @@ button:disabled { cursor: not-allowed; opacity: .5; }
 .topbar__identity { display: flex; align-items: center; gap: 13px; min-width: 0; }
 .topbar__identity > div { display: grid; gap: 2px; }
 .topbar strong { font-size: 14px; }
-.navigation-toggle { display: flex; align-items: center; gap: 6px; padding: 7px 9px; color: var(--muted); background: #11151d; border: 1px solid var(--line); border-radius: 7px; cursor: pointer; font-size: 9px; white-space: nowrap; }
-.navigation-toggle:hover { color: #fff; border-color: #404758; }
-.navigation-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.navigation-toggle i { color: var(--accent); font-style: normal; font-size: 13px; }
-.navigation-toggle span { color: inherit; font: inherit; letter-spacing: 0; }
+.topbar__status { display: flex; align-items: center; gap: 13px; min-width: 0; }
+.panel-toggle { display: flex; align-items: center; gap: 6px; padding: 7px 9px; color: var(--muted); background: #11151d; border: 1px solid var(--line); border-radius: 7px; cursor: pointer; font-size: 9px; white-space: nowrap; }
+.panel-toggle:hover { color: #fff; border-color: #404758; }
+.panel-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.panel-toggle i { color: var(--accent); font-style: normal; font-size: 13px; }
+.panel-toggle span { color: inherit; font: inherit; letter-spacing: 0; }
 .save-state { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 10px; }
 .save-state i { width: 7px; height: 7px; background: var(--accent-2); border-radius: 50%; box-shadow: 0 0 10px rgba(114, 219, 196, .5); }
 .save-state i.is-saving { background: var(--accent); animation: pulse .8s infinite alternate; }
@@ -121,7 +123,8 @@ button:disabled { cursor: not-allowed; opacity: .5; }
 .preview-component--text { margin: 0; color: var(--preview-text); }
 
 .screen-workspace, .prototype-workspace { height: 100%; min-height: 0; }
-.studio-inspector { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; min-width: 0; min-height: 0; background: rgba(14, 17, 23, .98); border-left: 1px solid var(--line); }
+.studio-inspector { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; min-width: 0; min-height: 0; overflow: hidden; background: rgba(14, 17, 23, .98); border-left: 1px solid var(--line); opacity: 1; transition: opacity 120ms ease, border-color 180ms ease; }
+.studio-shell.is-inspector-collapsed .studio-inspector { border-color: transparent; opacity: 0; pointer-events: none; }
 .studio-inspector > header { padding: 20px 18px 16px; border-bottom: 1px solid var(--line); }
 .studio-inspector > header span { color: var(--accent); font: 500 9px/1.4 'IBM Plex Mono', monospace; letter-spacing: .16em; }
 .studio-inspector > header h2 { margin: 5px 0 0; font-size: 16px; letter-spacing: -.02em; }
@@ -136,7 +139,8 @@ button:disabled { cursor: not-allowed; opacity: .5; }
 .segmented button { flex: 1; padding: 6px 4px; color: var(--muted); background: transparent; border: 0; border-radius: 5px; cursor: pointer; font-size: 9px; }
 .segmented button.is-active { color: #fff; background: #292e3a; }
 .preview-stage { display: grid; place-items: start center; min-width: 0; padding: 34px; overflow: auto; background: #080a0e; }
-.studio-shell.is-navigation-collapsed .preview-stage { padding-inline: 16px; }
+.studio-shell.is-navigation-collapsed .preview-stage,
+.studio-shell.is-inspector-collapsed .preview-stage { padding-inline: 16px; }
 .preview-stage.is-prototype { background: radial-gradient(circle at 50% 30%, rgba(161, 140, 255, .15), transparent 40%), #080a0e; }
 .screen-frame { flex: 0 0 auto; overflow: hidden; background: white; border: 1px solid #343a47; border-radius: 16px; box-shadow: 0 24px 80px rgba(0,0,0,.45); }
 .screen-preview { color: var(--preview-text); background: var(--preview-background); font-family: var(--preview-font); font-size: var(--preview-body-size); transform-origin: top left; }
@@ -186,7 +190,9 @@ button:disabled { cursor: not-allowed; opacity: .5; }
 .editor-modal footer { display: flex; justify-content: flex-end; gap: 9px; padding-top: 13px; }
 
 @media (max-width: 1180px) {
-  .studio-shell { grid-template-columns: 220px minmax(0, 1fr) 240px; }
+  .studio-shell { --navigation-width: 220px; --inspector-width: 240px; }
+  .studio-shell.is-navigation-collapsed { --navigation-width: 0px; }
+  .studio-shell.is-inspector-collapsed { --inspector-width: 0px; }
   .studio-brand h1 { font-size: 21px; }
   .panel-stack { padding: 26px; }
   .preview-stage { padding: 24px; }
@@ -194,6 +200,8 @@ button:disabled { cursor: not-allowed; opacity: .5; }
 
 @media (max-width: 860px) {
   body { overflow: auto; }
-  .studio-shell { grid-template-columns: 210px minmax(620px, 1fr) 230px; min-width: 1060px; }
+  .studio-shell { --navigation-width: 210px; --inspector-width: 230px; grid-template-columns: var(--navigation-width) minmax(620px, 1fr) var(--inspector-width); min-width: 1060px; }
+  .studio-shell.is-navigation-collapsed { --navigation-width: 0px; }
+  .studio-shell.is-inspector-collapsed { --inspector-width: 0px; }
   .export-grid { grid-template-columns: 1fr; }
 }
