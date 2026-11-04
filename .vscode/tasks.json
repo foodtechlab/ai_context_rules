@@ -38,9 +38,10 @@
       },
       "problemMatcher": [],
       "presentation": {
-        "reveal": "silent",
+        "reveal": "always",
         "panel": "shared",
-        "clear": false
+        "clear": true,
+        "focus": false
       }
     }
   ]
