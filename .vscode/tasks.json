@@ -21,6 +21,27 @@
         "panel": "shared",
         "clear": false
       }
+    },
+    {
+      "type": "process",
+      "label": "AIC: install design-system-studio dependencies",
+      "command": "npm",
+      "args": [
+        "--prefix",
+        "${workspaceFolder}/ai-context/baseline/apps/design-system-studio",
+        "install",
+        "--no-audit",
+        "--no-fund"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "panel": "shared",
+        "clear": false
+      }
     }
   ]
 }

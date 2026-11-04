@@ -23,5 +23,7 @@
 - `aic-backend-review-and-fix` — ревью и безопасное исправление backend-кода.
 - `aic-collect-backend-entities` — сбор AI-generated данных для карты
   backend-сущностей.
+- `aic-design-system-studio` — bootstrap, запуск и развитие code-first
+  дизайн-системы текущего репозитория.
 - `aic-update-ai-context` — обновление `ai-context` из настроенного
   source-of-truth с обязательным verify.

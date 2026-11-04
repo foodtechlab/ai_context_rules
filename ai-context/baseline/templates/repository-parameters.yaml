@@ -36,6 +36,9 @@ ai_context:
         runtime_directory: ai-context/baseline/apps/backend-entity-map
         generated_data_file: ai-context/apps/backend-entity-map/data/generated.json
         user_data_file: ai-context/apps/backend-entity-map/data/user.json
+      design_system_studio:
+        runtime_directory: ai-context/baseline/apps/design-system-studio
+        data_file: ai-context/apps/design-system-studio/data/studio.json
   skills:
     canonical_directory: ai-context/baseline/skills
     imports_directory: ai-context/skills/imports

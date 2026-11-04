@@ -60,6 +60,20 @@ AI-generated данные обновляет `$aic-collect-backend-entities`, а
 пользовательские данные и layout сохраняются интерфейсом в repo-local
 `ai-context/apps/backend-entity-map/data/user.json`.
 
+### Design System Studio
+
+Code-first дизайн-система, responsive-экраны, React Flow-карты и mockup-режим:
+
+```bash
+npm --prefix ai-context/baseline/apps/design-system-studio install
+AIC_REPO_ROOT="$PWD" npm --prefix ai-context/baseline/apps/design-system-studio run dev
+```
+
+Открыть `http://localhost:4174`. Tokens, компоненты, экраны, карты и сценарии
+сохраняются в repo-local
+`ai-context/apps/design-system-studio/data/studio.json`. Для запуска и развития
+можно использовать `$aic-design-system-studio`.
+
 ### Для Developer
 
 ```text

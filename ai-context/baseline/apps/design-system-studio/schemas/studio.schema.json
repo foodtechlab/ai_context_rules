@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ai-context.local/schemas/design-system-studio/studio.schema.json",
+  "title": "AIC Design System Studio data",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "meta", "themes", "components", "screens", "screenMaps", "prototypes", "adapterSettings"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "meta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "description", "updatedAt"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "description": { "type": "string" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "themes": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/theme" } },
+    "components": { "type": "array", "items": { "$ref": "#/$defs/component" } },
+    "screens": { "type": "array", "items": { "$ref": "#/$defs/screen" } },
+    "screenMaps": { "type": "array", "items": { "$ref": "#/$defs/screenMap" } },
+    "prototypes": { "type": "array", "items": { "$ref": "#/$defs/prototype" } },
+    "adapterSettings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["packageName", "webPrefix"],
+      "properties": {
+        "packageName": { "type": "string", "minLength": 1 },
+        "webPrefix": { "type": "string", "minLength": 1 }
+      }
+    }
+  },
+  "$defs": {
+    "id": { "type": "string", "minLength": 1, "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]*$" },
+    "theme": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "tokens"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "name": { "type": "string", "minLength": 1 },
+        "tokens": {
+          "type": "object",
+          "additionalProperties": { "type": "object", "additionalProperties": { "type": "string" } }
+        }
+      }
+    },
+    "component": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "kind", "variants", "states"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "name": { "type": "string", "minLength": 1 },
+        "kind": { "enum": ["button", "input", "card", "text", "badge"] },
+        "description": { "type": "string" },
+        "variants": { "type": "array", "minItems": 1, "items": { "type": "string" }, "uniqueItems": true },
+        "states": { "type": "array", "minItems": 1, "items": { "type": "string" }, "uniqueItems": true },
+        "defaultProps": { "type": "object" },
+        "accessibility": { "type": "object" },
+        "platforms": { "type": "array", "items": { "type": "string" }, "uniqueItems": true }
+      }
+    },
+    "block": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "componentId"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "componentId": { "$ref": "#/$defs/id" },
+        "variant": { "type": "string" },
+        "state": { "type": "string" },
+        "props": { "type": "object" },
+        "actionId": { "type": "string" }
+      }
+    },
+    "screenState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "blocks"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "name": { "type": "string", "minLength": 1 },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "blocks": { "type": "array", "items": { "$ref": "#/$defs/block" } }
+      }
+    },
+    "screen": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "viewports", "states"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "name": { "type": "string", "minLength": 1 },
+        "description": { "type": "string" },
+        "viewports": { "type": "array", "minItems": 1, "items": { "enum": ["phone", "tablet", "desktop"] }, "uniqueItems": true },
+        "states": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/screenState" } }
+      }
+    },
+    "position": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["x", "y"],
+      "properties": { "x": { "type": "number" }, "y": { "type": "number" } }
+    },
+    "mapNode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "screenId", "stateId", "viewport", "position"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" }, "screenId": { "$ref": "#/$defs/id" }, "stateId": { "$ref": "#/$defs/id" },
+        "viewport": { "enum": ["phone", "tablet", "desktop"] }, "position": { "$ref": "#/$defs/position" }
+      }
+    },
+    "mapEdge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "source", "target", "actionId"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" }, "source": { "$ref": "#/$defs/id" }, "target": { "$ref": "#/$defs/id" },
+        "actionId": { "type": "string", "minLength": 1 }, "label": { "type": "string" }
+      }
+    },
+    "screenMap": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "startNodeId", "nodes", "edges"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" }, "name": { "type": "string", "minLength": 1 }, "startNodeId": { "$ref": "#/$defs/id" },
+        "nodes": { "type": "array", "items": { "$ref": "#/$defs/mapNode" } }, "edges": { "type": "array", "items": { "$ref": "#/$defs/mapEdge" } }
+      }
+    },
+    "fixture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "state"],
+      "properties": { "id": { "$ref": "#/$defs/id" }, "name": { "type": "string", "minLength": 1 }, "state": { "type": "object" } }
+    },
+    "prototype": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "mapId", "startNodeId", "fixtures"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" }, "name": { "type": "string", "minLength": 1 }, "mapId": { "$ref": "#/$defs/id" },
+        "startNodeId": { "$ref": "#/$defs/id" }, "fixtures": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/fixture" } }
+      }
+    }
+  }
+}

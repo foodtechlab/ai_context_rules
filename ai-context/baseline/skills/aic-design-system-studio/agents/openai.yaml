@@ -1,0 +1,4 @@
+interface:
+  display_name: "AIC: Design System Studio"
+  short_description: "Запуск и развитие code-first дизайн-системы"
+  default_prompt: "Используй $aic-design-system-studio, чтобы установить, проверить или запустить Design System Studio в текущем репозитории."

@@ -14,6 +14,10 @@
       "source": "ai-context/baseline/skills/aic-collect-backend-entities"
     },
     {
+      "name": "aic-design-system-studio",
+      "source": "ai-context/baseline/skills/aic-design-system-studio"
+    },
+    {
       "name": "aic-update-ai-context",
       "source": "ai-context/baseline/skills/aic-update-ai-context"
     }

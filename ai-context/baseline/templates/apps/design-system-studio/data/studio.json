@@ -1,0 +1,222 @@
+{
+  "schemaVersion": 1,
+  "meta": {
+    "name": "Orbit Starter System",
+    "description": "Нейтральный пример code-first дизайн-системы.",
+    "updatedAt": "2026-11-04T16:00:00.000Z"
+  },
+  "themes": [
+    {
+      "id": "light",
+      "name": "Light",
+      "tokens": {
+        "color": {
+          "background": "#f7f8fc",
+          "surface": "#ffffff",
+          "text": "#171922",
+          "primary": "#6657d9",
+          "border": "#dddfe8"
+        },
+        "typography": {
+          "family": "Inter, system-ui, sans-serif",
+          "bodySize": "16px",
+          "headingSize": "36px"
+        },
+        "spacing": {
+          "sm": "8px",
+          "md": "16px",
+          "lg": "24px",
+          "xl": "40px"
+        },
+        "radius": {
+          "sm": "8px",
+          "md": "14px",
+          "pill": "999px"
+        },
+        "motion": {
+          "fast": "120ms",
+          "normal": "220ms"
+        }
+      }
+    },
+    {
+      "id": "dark",
+      "name": "Dark",
+      "tokens": {
+        "color": {
+          "background": "#11131a",
+          "surface": "#1b1f29",
+          "text": "#f1f3f8",
+          "primary": "#a18cff",
+          "border": "#343a49"
+        },
+        "typography": {
+          "family": "Inter, system-ui, sans-serif",
+          "bodySize": "16px",
+          "headingSize": "36px"
+        },
+        "spacing": {
+          "sm": "8px",
+          "md": "16px",
+          "lg": "24px",
+          "xl": "40px"
+        },
+        "radius": {
+          "sm": "8px",
+          "md": "14px",
+          "pill": "999px"
+        },
+        "motion": {
+          "fast": "120ms",
+          "normal": "220ms"
+        }
+      }
+    }
+  ],
+  "components": [
+    {
+      "id": "button",
+      "name": "Button",
+      "kind": "button",
+      "description": "Основное действие интерфейса.",
+      "variants": ["primary", "secondary"],
+      "states": ["default", "hover", "focus", "disabled", "loading"],
+      "defaultProps": { "label": "Продолжить" },
+      "accessibility": { "role": "button", "label": "Текст действия обязателен" },
+      "platforms": ["web", "flutter", "compose", "swiftui"]
+    },
+    {
+      "id": "input",
+      "name": "Text Field",
+      "kind": "input",
+      "description": "Однострочное текстовое поле с ошибкой и focus-state.",
+      "variants": ["default"],
+      "states": ["default", "focus", "error", "disabled"],
+      "defaultProps": { "label": "Название", "placeholder": "Введите значение", "errorText": "Поле обязательно" },
+      "accessibility": { "role": "textbox", "label": "Видимая подпись обязательна" },
+      "platforms": ["web", "flutter", "compose", "swiftui"]
+    },
+    {
+      "id": "card",
+      "name": "Content Card",
+      "kind": "card",
+      "description": "Контейнер связанного содержимого.",
+      "variants": ["default", "elevated"],
+      "states": ["default", "hover"],
+      "defaultProps": { "label": "Карточка", "description": "Содержимое карточки" },
+      "accessibility": { "role": "group" },
+      "platforms": ["web", "flutter", "compose", "swiftui"]
+    },
+    {
+      "id": "badge",
+      "name": "Status Badge",
+      "kind": "badge",
+      "description": "Короткий статус объекта.",
+      "variants": ["default"],
+      "states": ["default"],
+      "defaultProps": { "label": "Активно" },
+      "accessibility": { "role": "status" },
+      "platforms": ["web", "flutter", "compose", "swiftui"]
+    }
+  ],
+  "screens": [
+    {
+      "id": "welcome",
+      "name": "Welcome",
+      "description": "Стартовый экран сценария.",
+      "viewports": ["phone", "tablet", "desktop"],
+      "states": [
+        {
+          "id": "default",
+          "name": "Default",
+          "title": "Добро пожаловать, {{userName}}",
+          "description": "Интерактивный прототип работает без backend продукта.",
+          "blocks": [
+            { "id": "welcome-card", "componentId": "card", "variant": "default", "props": { "label": "Code-first дизайн", "description": "Tokens, components, screens и transitions хранятся в репозитории." } },
+            { "id": "welcome-action", "componentId": "button", "variant": "primary", "props": { "label": "Открыть профиль" }, "actionId": "open-profile" }
+          ]
+        },
+        {
+          "id": "loading",
+          "name": "Loading",
+          "title": "Подготавливаем пространство",
+          "description": "Пример состояния загрузки экрана.",
+          "blocks": [
+            { "id": "welcome-loading", "componentId": "button", "variant": "primary", "state": "loading", "props": { "label": "Продолжить" } }
+          ]
+        },
+        {
+          "id": "error",
+          "name": "Error",
+          "title": "Не удалось загрузить данные",
+          "description": "Состояния экрана воспроизводятся без изменения product code.",
+          "blocks": [
+            { "id": "welcome-retry", "componentId": "button", "variant": "secondary", "props": { "label": "Повторить" }, "actionId": "retry" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "profile",
+      "name": "Profile",
+      "description": "Экран профиля с наполненным и пустым состоянием.",
+      "viewports": ["phone", "tablet", "desktop"],
+      "states": [
+        {
+          "id": "default",
+          "name": "Default",
+          "title": "Профиль {{userName}}",
+          "description": "Пример второго экрана многоэкранного flow.",
+          "blocks": [
+            { "id": "profile-status", "componentId": "badge", "props": { "label": "Данные заполнены" } },
+            { "id": "profile-name", "componentId": "input", "state": "focus", "props": { "label": "Отображаемое имя", "placeholder": "{{userName}}" } },
+            { "id": "profile-clear", "componentId": "button", "variant": "secondary", "props": { "label": "Показать empty state" }, "actionId": "clear-profile" }
+          ]
+        },
+        {
+          "id": "empty",
+          "name": "Empty",
+          "title": "Профиль пока пуст",
+          "description": "Добавьте данные или вернитесь к стартовому экрану.",
+          "blocks": [
+            { "id": "profile-empty-card", "componentId": "card", "props": { "label": "Нет данных", "description": "Empty state является самостоятельным состоянием экрана." } },
+            { "id": "profile-reset", "componentId": "button", "variant": "primary", "props": { "label": "Вернуться в начало" }, "actionId": "reset" }
+          ]
+        }
+      ]
+    }
+  ],
+  "screenMaps": [
+    {
+      "id": "onboarding",
+      "name": "Onboarding flow",
+      "startNodeId": "welcome-default",
+      "nodes": [
+        { "id": "welcome-default", "screenId": "welcome", "stateId": "default", "viewport": "phone", "position": { "x": 0, "y": 120 } },
+        { "id": "profile-default", "screenId": "profile", "stateId": "default", "viewport": "phone", "position": { "x": 430, "y": 0 } },
+        { "id": "profile-empty", "screenId": "profile", "stateId": "empty", "viewport": "phone", "position": { "x": 860, "y": 120 } }
+      ],
+      "edges": [
+        { "id": "open-profile", "source": "welcome-default", "target": "profile-default", "actionId": "open-profile", "label": "Открыть профиль" },
+        { "id": "clear-profile", "source": "profile-default", "target": "profile-empty", "actionId": "clear-profile", "label": "Очистить" },
+        { "id": "reset", "source": "profile-empty", "target": "welcome-default", "actionId": "reset", "label": "Сначала" }
+      ]
+    }
+  ],
+  "prototypes": [
+    {
+      "id": "onboarding-happy-path",
+      "name": "Onboarding: happy path",
+      "mapId": "onboarding",
+      "startNodeId": "welcome-default",
+      "fixtures": [
+        { "id": "alex", "name": "Пользователь Алекс", "state": { "userName": "Алекс" } },
+        { "id": "guest", "name": "Гость", "state": { "userName": "Гость" } }
+      ]
+    }
+  ],
+  "adapterSettings": {
+    "packageName": "orbit.designsystem",
+    "webPrefix": "orbit"
+  }
+}

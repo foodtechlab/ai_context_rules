@@ -17,3 +17,5 @@ ai-context/apps/<app-name>/
 
 - `backend-entity-map/` — repo-local данные карты backend-сущностей; runtime
   приложения находится в `ai-context/baseline/apps/backend-entity-map/`.
+- `design-system-studio/` — repo-local code-first дизайн-система; runtime
+  приложения находится в `ai-context/baseline/apps/design-system-studio/`.

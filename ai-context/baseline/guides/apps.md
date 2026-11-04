@@ -36,6 +36,8 @@ ai-context/
 Текущий baseline-набор:
 
 - `backend-entity-map` — React Flow-интерфейс карты backend-сущностей.
+- `design-system-studio` — code-first studio для tokens, компонентов, экранов,
+  React Flow-карт, mockup-сценариев и platform exports.
 
 ## Именование
 
