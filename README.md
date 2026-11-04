@@ -82,7 +82,7 @@ AIC_REPO_ROOT="$PWD" AIC_DESIGN_SYSTEM_DIR="<project-path>/design-system" \
 корня репозитория:
 
 ```bash
-npm --prefix examples/design-system-example install
+npm --prefix ai-context/baseline/apps/design-system-studio install
 AIC_REPO_ROOT="$PWD" AIC_DESIGN_SYSTEM_DIR="examples/design-system-example" \
   npm --prefix ai-context/baseline/apps/design-system-studio run dev
 ```
