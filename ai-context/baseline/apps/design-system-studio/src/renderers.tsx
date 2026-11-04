@@ -86,6 +86,7 @@ export function ScreenPreview({
   fixture = {},
   onAction,
   compact = false,
+  zoom = 1,
 }: {
   studio: StudioData;
   screen: ScreenDefinition;
@@ -95,10 +96,11 @@ export function ScreenPreview({
   fixture?: Record<string, unknown>;
   onAction?: (actionId: string) => void;
   compact?: boolean;
+  zoom?: number;
 }) {
   const state = screen.states.find((item) => item.id === stateId) || screen.states[0];
   const preset = VIEWPORTS[viewport] || VIEWPORTS.desktop;
-  const scale = compact ? Math.min(1, 280 / preset.width) : 1;
+  const scale = compact ? Math.min(1, 280 / preset.width) : zoom;
   const components = new Map(studio.components.map((component) => [component.id, component]));
 
   return (

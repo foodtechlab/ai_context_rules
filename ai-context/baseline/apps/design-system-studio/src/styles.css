@@ -73,6 +73,7 @@ button:disabled { cursor: not-allowed; opacity: .5; }
 @keyframes pulse { to { opacity: .25; } }
 .workspace { min-width: 0; min-height: 0; overflow: auto; background: radial-gradient(circle at 65% 15%, rgba(161, 140, 255, .08), transparent 35%); }
 .panel-stack { display: grid; gap: 22px; max-width: 1240px; margin: 0 auto; padding: 34px; }
+.zoomable-content { transform-origin: top center; }
 .section-heading { display: flex; justify-content: space-between; align-items: end; gap: 30px; }
 .section-heading h2 { margin: 6px 0 0; font-size: 29px; letter-spacing: -.04em; }
 .section-heading > p { max-width: 520px; margin: 0; color: var(--muted); font-size: 12px; line-height: 1.55; text-align: right; }
@@ -149,6 +150,15 @@ button:disabled { cursor: not-allowed; opacity: .5; }
 .studio-inspector__body .definition-list { padding: 12px; border: 1px solid var(--line); border-radius: 8px; }
 .studio-inspector__body .open-questions { border: 1px solid rgba(228,188,117,.18); border-radius: 8px; }
 .studio-inspector > footer { display: grid; gap: 7px; padding: 14px 18px; border-top: 1px solid var(--line); }
+.zoom-control { display: grid; gap: 9px; padding: 12px; background: #0b0e13; border: 1px solid var(--line); border-radius: 9px; }
+.zoom-control__label { display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-size: 10px; }
+.zoom-control__label output { color: #dfe3eb; font: 10px 'IBM Plex Mono', monospace; }
+.zoom-control__input { display: grid; grid-template-columns: 28px minmax(0, 1fr) 28px; gap: 8px; align-items: center; }
+.zoom-control__input button { display: grid; place-items: center; width: 28px; height: 28px; padding: 0; color: #d5d9e2; background: #171b24; border: 1px solid #303644; border-radius: 6px; cursor: pointer; font-size: 16px; }
+.zoom-control__input button:hover:not(:disabled) { color: #fff; border-color: var(--accent); }
+.zoom-control__input input { width: 100%; accent-color: var(--accent); cursor: pointer; }
+.zoom-control__reset { justify-self: end; padding: 0; color: #7f8797; background: transparent; border: 0; cursor: pointer; font-size: 9px; }
+.zoom-control__reset:hover:not(:disabled) { color: #dfe3eb; }
 .segmented { display: flex; padding: 3px; background: #090c11; border: 1px solid var(--line); border-radius: 8px; }
 .segmented button { flex: 1; padding: 6px 4px; color: var(--muted); background: transparent; border: 0; border-radius: 5px; cursor: pointer; font-size: 9px; }
 .segmented button.is-active { color: #fff; background: #292e3a; }

@@ -7,6 +7,7 @@ import { ComponentPreview, ScreenMapNodeView, ScreenPreview } from './renderers'
 import { resolveTheme, VIEWPORTS, type FlowDefinition, type StudioData, type Theme, type TokenCategory, type TokenTier } from './types';
 
 type Mode = 'base' | 'tokens' | 'components' | 'layouts' | 'screens' | 'flows' | 'mockup';
+type ZoomableMode = 'components' | 'layouts' | 'screens';
 type FlowNode = Node<{ node: FlowDefinition['nodes'][number]; studio: StudioData; theme: Theme }, 'screen'>;
 const NODE_TYPES = { screen: ScreenMapNodeView };
 const NAVIGATION: Array<[Mode, string, string]> = [
@@ -16,6 +17,7 @@ const NAVIGATION: Array<[Mode, string, string]> = [
 const TOKEN_GROUPS: Array<[TokenCategory, string]> = [['colors', 'Цвета'], ['typography', 'Типографика'], ['parameters', 'Остальные параметры']];
 const TOKEN_TIERS: Array<[TokenTier, string]> = [['base', 'Базовые'], ['semantic', 'Семантические'], ['component', 'Компонентные']];
 const INITIAL_ROUTE = window.location.hash.replace(/^#\/?/, '').split('/');
+const normalizeZoom = (value: unknown) => Math.min(160, Math.max(40, Number(value) || 100));
 
 function initialMode(): Mode {
   const candidate = INITIAL_ROUTE[0] as Mode;
@@ -47,6 +49,14 @@ function ProjectTreeItem({ node, level, expandedIds, onToggle }: { node: Project
     {isFolder && isExpanded && <div className="file-tree__group" role="group">{node.children?.map((child) => <ProjectTreeItem key={child.id} node={child} level={level + 1} expandedIds={expandedIds} onToggle={onToggle} />)}</div>}
   </div>;
 }
+function ZoomControl({ value, onChange }: { value: number; onChange: (value: number) => void }) {
+  const update = (next: number) => onChange(normalizeZoom(next));
+  return <div className="zoom-control">
+    <div className="zoom-control__label"><span>Масштаб</span><output>{value}%</output></div>
+    <div className="zoom-control__input"><button type="button" onClick={() => update(value - 10)} disabled={value <= 40} aria-label="Уменьшить масштаб">−</button><input type="range" min="40" max="160" step="10" value={value} onChange={(event) => update(Number(event.target.value))} aria-label="Масштаб рабочей области" /><button type="button" onClick={() => update(value + 10)} disabled={value >= 160} aria-label="Увеличить масштаб">+</button></div>
+    <button className="zoom-control__reset" type="button" onClick={() => onChange(100)} disabled={value === 100}>Сбросить до 100%</button>
+  </div>;
+}
 
 export default function App() {
   const [studio, setStudio] = useState<StudioData | null>(null);
@@ -72,6 +82,10 @@ export default function App() {
     try { const stored = JSON.parse(window.localStorage.getItem('aic:design-studio:expanded-tree') || '[]'); return new Set(['project-root', 'components', 'components-atom', initialMode(), ...(Array.isArray(stored) ? stored : [])]); }
     catch { return new Set(['project-root', 'components', 'components-atom', initialMode()]); }
   });
+  const [zoomLevels, setZoomLevels] = useState<Record<ZoomableMode, number>>(() => {
+    try { const stored = JSON.parse(window.localStorage.getItem('aic:design-studio:zoom-levels') || '{}'); return { components: normalizeZoom(stored.components), layouts: normalizeZoom(stored.layouts), screens: normalizeZoom(stored.screens) }; }
+    catch { return { components: 100, layouts: 100, screens: 100 }; }
+  });
   const [editorValue, setEditorValue] = useState('');
   const [nodes, setNodes, onNodesChange] = useNodesState<FlowNode>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
@@ -93,6 +107,7 @@ export default function App() {
   useEffect(() => { window.localStorage.setItem('aic:design-studio:navigation-collapsed', String(navigationCollapsed)); }, [navigationCollapsed]);
   useEffect(() => { window.localStorage.setItem('aic:design-studio:inspector-collapsed', String(inspectorCollapsed)); }, [inspectorCollapsed]);
   useEffect(() => { window.localStorage.setItem('aic:design-studio:expanded-tree', JSON.stringify([...expandedTreeIds])); }, [expandedTreeIds]);
+  useEffect(() => { window.localStorage.setItem('aic:design-studio:zoom-levels', JSON.stringify(zoomLevels)); }, [zoomLevels]);
 
   const saveStudio = useCallback(async (next: StudioData, success = 'Изменения сохранены локально') => {
     setIsSaving(true); setMessage('Сохраняю…');
@@ -171,6 +186,8 @@ export default function App() {
     if (itemId) window.setTimeout(() => document.getElementById(itemId)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 0);
   };
   const toggleTreeNode = (id: string) => setExpandedTreeIds((current) => { const next = new Set(current); if (next.has(id)) next.delete(id); else next.add(id); return next; });
+  const zoomMode: ZoomableMode | null = mode === 'components' || mode === 'layouts' || mode === 'screens' ? mode : null;
+  const updateZoom = (value: number) => { if (zoomMode) setZoomLevels((current) => ({ ...current, [zoomMode]: value })); };
   const projectTree: ProjectTreeNode = { id: 'project-root', label: 'design-system', tone: 'project', children: [
     { id: 'base', label: 'base-system', tone: 'base', active: mode === 'base', onSelect: () => openStructureItem('base') },
     { id: 'tokens', label: 'tokens', tone: 'tokens', count: TOKEN_GROUPS.reduce((total, [category]) => total + TOKEN_TIERS.reduce((subtotal, [tier]) => subtotal + studio.tokens[category][tier].length, 0), 0), active: mode === 'tokens' && !activeStructureId, onSelect: () => openStructureItem('tokens'), children: TOKEN_GROUPS.map(([category]) => ({ id: `tree-tokens-${category}`, label: category, tone: 'tokens', count: TOKEN_TIERS.reduce((total, [tier]) => total + studio.tokens[category][tier].length, 0), active: mode === 'tokens' && activeStructureId === `tokens-${category}`, onSelect: () => openStructureItem('tokens', `tokens-${category}`) })) },
@@ -202,15 +219,15 @@ export default function App() {
             {TOKEN_TIERS.map(([tier, tierLabel]) => <div className="token-tier" key={tier}><div className="token-tier__title"><strong>{tierLabel}</strong><span>{studio.tokens[category][tier].length}</span></div><div className="token-grid">{studio.tokens[category][tier].map((token) => { const resolved = theme.tokens[token.id.split('.')[0]]?.[token.id.split('.').slice(1).join('.')] || token.value; return <label className="token-card" key={token.id}>{category === 'colors' && <i style={{ background: resolved }} />}<span>{token.id}</span><small>{token.purpose}</small><input key={`${token.id}:${theme.id}`} defaultValue={token.modes?.[theme.id] ?? token.value} onBlur={(event) => event.target.value !== (token.modes?.[theme.id] ?? token.value) && updateToken(category, tier, token.id, event.target.value)} /></label>; })}</div></div>)}
           </article>)}
         </section>}
-        {mode === 'components' && <section className="panel-stack">
+        {mode === 'components' && <section className="panel-stack zoomable-content" style={{ zoom: zoomLevels.components / 100 }}>
           <div className="section-heading"><div><span>03 / COMPONENTS</span><h2>Атомы, молекулы и организмы</h2></div><p>Одно основное определение компонента, варианты для изменений без смены назначения.</p></div>
           {(['atom', 'molecule', 'organism'] as const).map((classification) => <section className="classification-section" id={`components-${classification}`} key={classification}><h3>{classification === 'atom' ? 'Атомы' : classification === 'molecule' ? 'Молекулы' : 'Организмы'}</h3>{studio.components.filter((item) => item.classification === classification).map((component) => <article className="component-spec" id={`component-${component.id}`} key={component.id}><header><div><h3>{component.name}</h3><p>{component.description}</p></div><code>{component.id}</code></header><div className="state-matrix">{component.variants.flatMap((variant) => component.states.map((state) => <div className="state-cell" key={`${variant}:${state}`}><span>{variant} / {state}</span><ComponentPreview definition={component} variant={variant} state={state} /></div>))}</div><div className="definition-grid compact"><List title="Зависимости" items={component.dependencies} /><List title="Свойства" items={component.properties} /><List title="Размеры" items={component.sizes} /><List title="События" items={component.actions} /><List title="Токены" items={component.tokenRefs} /><List title="Ограничения" items={component.restrictions} /></div><footer><span>ARIA: {component.accessibility?.role || '—'}</span><span>{component.responsiveBehavior}</span></footer></article>)}</section>)}
         </section>}
-        {mode === 'layouts' && <section className="panel-stack">
+        {mode === 'layouts' && <section className="panel-stack zoomable-content" style={{ zoom: zoomLevels.layouts / 100 }}>
           <div className="section-heading"><div><span>04 / LAYOUTS</span><h2>Повторно используемые структуры</h2></div><p>Лейаут задаёт области, навигацию, сетку, прокрутку, safe areas и адаптацию.</p></div>
           {studio.layouts.map((layout) => <article className="definition-card" id={`layout-${layout.id}`} key={layout.id}><header><div><span>{layout.id}</span><h3>{layout.name}</h3><p>{layout.purpose}</p></div></header><div className="region-map">{layout.regions.map((region) => <div key={region.id} className={region.required ? 'is-required' : ''}><strong>{region.name}</strong><code>{region.id}</code><span>{region.required ? 'обязательный' : 'необязательный'}</span></div>)}</div><div className="definition-grid"><List title="Навигационные компоненты" items={layout.navigationComponentIds} /><List title="Токены" items={layout.tokenRefs} /><List title="Ширина и сетка" items={[layout.widthRules]} /><List title="Прокрутка" items={[layout.scrollRules]} /><List title="Safe area и клавиатура" items={[layout.safeAreaRules]} /><List title="Адаптация" items={[layout.responsiveBehavior]} /></div><Questions items={layout.openQuestions} /></article>)}
         </section>}
-        {mode === 'screens' && screen && <section className="screen-workspace"><div className="preview-stage"><PreviewErrorBoundary><ScreenPreview studio={studio} screen={screen} stateId={stateId} viewport={viewport} theme={theme} fixture={{ userName: 'Алекс', adminName: 'Анна', organizationName: 'Northstar', createdUserName: 'Мария Орлова', selectedUserName: 'Анна Смирнова', selectedUserEmail: 'anna@northstar.dev' }} /></PreviewErrorBoundary></div></section>}
+        {mode === 'screens' && screen && <section className="screen-workspace"><div className="preview-stage"><PreviewErrorBoundary><ScreenPreview studio={studio} screen={screen} stateId={stateId} viewport={viewport} theme={theme} zoom={zoomLevels.screens / 100} fixture={{ userName: 'Алекс', adminName: 'Анна', organizationName: 'Northstar', createdUserName: 'Мария Орлова', selectedUserName: 'Анна Смирнова', selectedUserEmail: 'anna@northstar.dev' }} /></PreviewErrorBoundary></div></section>}
         {mode === 'flows' && flow && <section className="map-workspace"><div className="map-toolbar"><strong>{flow.name}</strong><span>{flow.nodes.length} экранов · {flow.transitions.length} переходов</span></div><ReactFlow nodes={nodes} edges={edges} nodeTypes={NODE_TYPES} onNodesChange={onNodesChange} onEdgesChange={onEdgesChange} onNodeDragStop={(_event, node) => saveFlowPosition(node)} fitView minZoom={0.15} maxZoom={1.4} nodesConnectable={false}><Background variant={BackgroundVariant.Dots} gap={24} size={1.2} color="#313744" /><Controls position="bottom-right" /><MiniMap position="bottom-left" nodeColor="#a18cff" maskColor="rgba(10,12,18,.78)" /></ReactFlow></section>}
         {mode === 'mockup' && mockup && activeNode && activeScreen && <section className="prototype-workspace"><div className="preview-stage is-prototype"><PreviewErrorBoundary><ScreenPreview studio={studio} screen={activeScreen} stateId={activeNode.stateId} viewport={mockupViewport} theme={theme} fixture={activeFixture?.state} onAction={performAction} /></PreviewErrorBoundary></div></section>}
       </div>
@@ -219,6 +236,7 @@ export default function App() {
       <header><span>TOOLS</span><h2>{mode === 'mockup' ? 'Инструменты проверки' : 'Инструменты'}</h2></header>
       <div className="studio-inspector__body">
         <label>Тема<select value={theme.id} onChange={(event) => setThemeId(event.target.value)}>{studio.tokens.themes.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label>
+        {zoomMode && <ZoomControl value={zoomLevels[zoomMode]} onChange={updateZoom} />}
         {mode === 'screens' && screen && <>
           <label>Состояние<select value={stateId} onChange={(event) => setStateId(event.target.value)}>{screen.states.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label>
           <div><span>Разрешение</span><div className="segmented">{screen.viewports.map((item) => <button key={item} className={viewport === item ? 'is-active' : ''} onClick={() => setViewport(item)}>{VIEWPORTS[item]?.name || item}</button>)}</div></div>
