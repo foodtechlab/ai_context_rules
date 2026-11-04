@@ -60,6 +60,14 @@ server.get('/api/studio', async (_request, response, next) => {
   }
 });
 
+server.get('/api/project-context', (_request, response) => {
+  response.json({
+    repositoryRoot,
+    designSystemDirectory,
+    studioDataPath,
+  });
+});
+
 server.put('/api/studio', async (request, response, next) => {
   try {
     const errors = validateStudio(request.body);

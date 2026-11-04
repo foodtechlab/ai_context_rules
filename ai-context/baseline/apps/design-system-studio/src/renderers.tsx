@@ -2,7 +2,7 @@ import type { CSSProperties } from 'react';
 import { Handle, Position } from '@xyflow/react';
 
 import type { ComponentDefinition, ScreenDefinition, ScreenMapNode, StudioData, Theme } from './types';
-import { VIEWPORTS } from './types';
+import { resolveViewport } from './types';
 import PreviewErrorBoundary from './PreviewErrorBoundary';
 
 function interpolate(value: unknown, fixture: Record<string, unknown>) {
@@ -99,7 +99,7 @@ export function ScreenPreview({
   zoom?: number;
 }) {
   const state = screen.states.find((item) => item.id === stateId) || screen.states[0];
-  const preset = VIEWPORTS[viewport] || VIEWPORTS.desktop;
+  const preset = resolveViewport(studio, viewport);
   const scale = compact ? Math.min(1, 280 / preset.width) : zoom;
   const components = new Map(studio.components.map((component) => [component.id, component]));
 

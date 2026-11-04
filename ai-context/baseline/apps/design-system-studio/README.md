@@ -36,6 +36,12 @@ AIC_REPO_ROOT="$PWD" AIC_DESIGN_SYSTEM_DIR="<project-path>/design-system" \
 
 Открыть `http://localhost:4174`.
 
+В правой панели всегда доступен готовый AI-промт для реализации компонента.
+Компонент можно выбрать в самом инструменте; выбор элемента в дереве
+`components` синхронизирует промт автоматически. Кнопка копирования добавляет
+абсолютный локальный путь к каноническому `studio.json` и устойчивый id
+компонента в виде `studio.json#components/<component-id>`.
+
 Проверки:
 
 ```bash
@@ -61,6 +67,9 @@ AIC_REPO_ROOT="$PWD" AIC_DESIGN_SYSTEM_DIR="<project-path>/design-system" \
 `<project-path>/design-system/studio.json` содержит обязательную versioned
 platform-neutral модель:
 
+- project settings: default viewport и именованные Mobile/Desktop presets с
+  шириной, высотой и назначением проверки; Studio по умолчанию поставляется с
+  14 профилями от iPhone SE и Android Compact до Desktop QHD;
 - base design system, её версию, наследуемые решения и overrides;
 - базовые, семантические и компонентные tokens по цветам, типографике и
   остальным параметрам;
@@ -70,6 +79,12 @@ platform-neutral модель:
 - React Flow flows с условиями, ветвлениями и recovery;
 - воспроизводимые mockups с fixtures и границей implemented/simulated;
 - adapter settings.
+
+Mockup открывается в отдельном prototype-canvas, близком к графическим
+редакторам: frame экрана расположен на бесконечном точечном поле, режим
+`Курсор` оставляет интерфейс интерактивным, а режим `Рука` перемещает canvas.
+Масштаб меняется кнопками, `Ctrl/Cmd + wheel` или командой `Fit`; выбранный
+масштаб сохраняется локально между перезапусками Studio.
 
 Текущий формат — `schemaVersion: 1`. Migration layer пока отсутствует: до
 первого стабильного релиза структура v1 изменяется напрямую. JSON с другим

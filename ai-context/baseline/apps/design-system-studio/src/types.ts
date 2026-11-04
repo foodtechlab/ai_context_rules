@@ -109,9 +109,13 @@ export interface MockupDefinition {
   openQuestions: string[];
 }
 
+export interface ViewportPreset { id: string; name: string; width: number; height: number; group?: 'mobile' | 'desktop'; purpose?: string }
+export interface StudioSettings { defaultViewportId: string; viewportPresets: ViewportPreset[] }
+
 export interface StudioData {
   schemaVersion: 1;
   meta: { name: string; description: string; updatedAt: string };
+  settings?: StudioSettings;
   baseSystem: BaseDesignSystem;
   tokens: { themes: ThemeMode[]; colors: TokenCategoryDefinition; typography: TokenCategoryDefinition; parameters: TokenCategoryDefinition };
   components: ComponentDefinition[];
@@ -156,8 +160,40 @@ export function resolveTheme(studio: StudioData, themeId: string): Theme {
   return { id: mode?.id || 'default', name: mode?.name || 'Default', tokens: groups };
 }
 
-export const VIEWPORTS: Record<string, { name: string; width: number; height: number }> = {
-  phone: { name: 'Phone', width: 390, height: 844 },
-  tablet: { name: 'Tablet', width: 768, height: 1024 },
-  desktop: { name: 'Desktop', width: 1280, height: 800 },
+export const VIEWPORTS: Record<string, ViewportPreset> = {
+  phone: { id: 'phone', name: 'Phone', width: 390, height: 844 },
+  tablet: { id: 'tablet', name: 'Tablet', width: 768, height: 1024 },
+  desktop: { id: 'desktop', name: 'Desktop', width: 1280, height: 800 },
 };
+
+export const DEFAULT_STUDIO_SETTINGS: StudioSettings = {
+  defaultViewportId: 'iphone-13-14',
+  viewportPresets: [
+    { id: 'iphone-se-2-3', name: 'iPhone SE, 2/3 поколения', width: 375, height: 667, group: 'mobile', purpose: 'Небольшой экран с малой высотой' },
+    { id: 'iphone-13-14', name: 'iPhone 13 / 14', width: 390, height: 844, group: 'mobile', purpose: 'Базовый iPhone' },
+    { id: 'iphone-16-pro', name: 'iPhone 16 Pro', width: 402, height: 874, group: 'mobile', purpose: 'Более широкий iPhone' },
+    { id: 'iphone-16-pro-max', name: 'iPhone 16 Pro Max', width: 440, height: 956, group: 'mobile', purpose: 'Большой iPhone' },
+    { id: 'android-compact', name: 'Android Compact', width: 360, height: 800, group: 'mobile', purpose: 'Узкий Android' },
+    { id: 'android-standard', name: 'Android Standard', width: 393, height: 873, group: 'mobile', purpose: 'Средний Android' },
+    { id: 'android-large', name: 'Android Large', width: 412, height: 915, group: 'mobile', purpose: 'Большой Android' },
+    { id: 'laptop-small', name: 'Laptop Small', width: 1280, height: 720, group: 'desktop', purpose: 'Ограниченная высота окна' },
+    { id: 'macbook-air-13', name: 'MacBook Air 13″ — профиль', width: 1470, height: 956, group: 'desktop', purpose: 'Средний ноутбук' },
+    { id: 'macbook-air-15', name: 'MacBook Air 15″ — профиль', width: 1710, height: 1107, group: 'desktop', purpose: 'Большой Air' },
+    { id: 'macbook-pro-14', name: 'MacBook Pro 14″ — профиль', width: 1512, height: 982, group: 'desktop', purpose: 'Средний Pro' },
+    { id: 'macbook-pro-16', name: 'MacBook Pro 16″ — профиль', width: 1728, height: 1117, group: 'desktop', purpose: 'Большой Pro' },
+    { id: 'desktop-full-hd', name: 'Desktop Full HD', width: 1920, height: 1080, group: 'desktop', purpose: 'Обычный монитор' },
+    { id: 'desktop-qhd', name: 'Desktop QHD', width: 2560, height: 1440, group: 'desktop', purpose: 'Большая рабочая область' },
+  ],
+};
+
+export function getStudioSettings(studio: StudioData): StudioSettings {
+  return studio.settings || DEFAULT_STUDIO_SETTINGS;
+}
+
+export function resolveViewport(studio: StudioData, viewportId: string): ViewportPreset {
+  const settings = getStudioSettings(studio);
+  return settings.viewportPresets.find((item) => item.id === viewportId)
+    || VIEWPORTS[viewportId]
+    || settings.viewportPresets.find((item) => item.id === settings.defaultViewportId)
+    || VIEWPORTS.desktop;
+}

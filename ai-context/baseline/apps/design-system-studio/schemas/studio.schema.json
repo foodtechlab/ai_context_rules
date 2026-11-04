@@ -8,6 +8,7 @@
   "properties": {
     "schemaVersion": { "const": 1 },
     "meta": { "$ref": "#/$defs/meta" },
+    "settings": { "$ref": "#/$defs/settings" },
     "baseSystem": { "$ref": "#/$defs/baseSystem" },
     "tokens": { "$ref": "#/$defs/tokens" },
     "components": { "type": "array", "items": { "$ref": "#/$defs/component" } },
@@ -27,6 +28,22 @@
     "meta": {
       "type": "object", "additionalProperties": false, "required": ["name", "description", "updatedAt"],
       "properties": { "name": { "type": "string", "minLength": 1 }, "description": { "type": "string" }, "updatedAt": { "type": "string", "format": "date-time" } }
+    },
+    "settings": {
+      "type": "object", "additionalProperties": false, "required": ["defaultViewportId", "viewportPresets"],
+      "properties": {
+        "defaultViewportId": { "$ref": "#/$defs/id" },
+        "viewportPresets": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/viewportPreset" } }
+      }
+    },
+    "viewportPreset": {
+      "type": "object", "additionalProperties": false, "required": ["id", "name", "width", "height"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" }, "name": { "type": "string", "minLength": 1 },
+        "width": { "type": "integer", "minimum": 1 }, "height": { "type": "integer", "minimum": 1 },
+        "group": { "type": "string", "enum": ["mobile", "desktop"] },
+        "purpose": { "type": "string", "minLength": 1 }
+      }
     },
     "baseSystem": {
       "type": "object", "additionalProperties": false,
@@ -113,13 +130,13 @@
         "layoutId": { "$ref": "#/$defs/id" }, "description": { "type": "string" }, "inputParameters": { "$ref": "#/$defs/strings" },
         "displayedData": { "$ref": "#/$defs/strings" }, "actions": { "$ref": "#/$defs/strings" }, "entryPoints": { "$ref": "#/$defs/strings" },
         "returnBehavior": { "type": "string" }, "adaptiveNotes": { "type": "string" },
-        "viewports": { "type": "array", "minItems": 1, "items": { "enum": ["phone", "tablet", "desktop"] }, "uniqueItems": true },
+        "viewports": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/id" }, "uniqueItems": true },
         "states": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/screenState" } }, "openQuestions": { "$ref": "#/$defs/questions" }
       }
     },
     "flowNode": {
       "type": "object", "additionalProperties": false, "required": ["id", "screenId", "stateId", "viewport", "position"],
-      "properties": { "id": { "$ref": "#/$defs/id" }, "screenId": { "$ref": "#/$defs/id" }, "stateId": { "$ref": "#/$defs/id" }, "viewport": { "enum": ["phone", "tablet", "desktop"] }, "position": { "type": "object", "required": ["x", "y"], "properties": { "x": { "type": "number" }, "y": { "type": "number" } } } }
+      "properties": { "id": { "$ref": "#/$defs/id" }, "screenId": { "$ref": "#/$defs/id" }, "stateId": { "$ref": "#/$defs/id" }, "viewport": { "$ref": "#/$defs/id" }, "position": { "type": "object", "required": ["x", "y"], "properties": { "x": { "type": "number" }, "y": { "type": "number" } } } }
     },
     "transition": {
       "type": "object", "additionalProperties": false, "required": ["id", "source", "target", "actionId"],

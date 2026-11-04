@@ -39,7 +39,12 @@ Named repository examples are the only exception and may use
 ## Responsibilities
 
 - `studio.json` is the canonical index: stable ids, cross-section references,
-  states, fixtures and adapter settings.
+  states, fixtures, project viewport presets and adapter settings. Studio
+  settings do not create an eighth design-system section.
+- Each viewport preset records `id`, display `name`, pixel `width` and `height`,
+  `mobile` or `desktop` group and the purpose of the check. New projects use
+  the 14 baseline presets and `iphone-13-14` as the default viewport; projects
+  may then customize these values in Settings.
 - The seven section directories contain project-owned documentation, source
   implementations, tests, examples and assets for their section.
 - `components/atoms`, `components/molecules` and `components/organisms` contain

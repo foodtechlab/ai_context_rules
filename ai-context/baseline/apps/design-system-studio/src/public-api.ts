@@ -1,6 +1,6 @@
 export { CAPABILITIES, exportStudio, type Platform } from './adapters';
 export { ComponentPreview, ScreenMapNodeView, ScreenPreview } from './renderers';
-export { resolveTheme, VIEWPORTS } from './types';
+export { DEFAULT_STUDIO_SETTINGS, getStudioSettings, resolveTheme, resolveViewport, VIEWPORTS } from './types';
 export type {
   BaseDesignSystem,
   ComponentDefinition,
@@ -10,7 +10,9 @@ export type {
   MockupDefinition,
   ScreenDefinition,
   StudioData,
+  StudioSettings,
   Theme,
   TokenCategory,
   TokenTier,
+  ViewportPreset,
 } from './types';
