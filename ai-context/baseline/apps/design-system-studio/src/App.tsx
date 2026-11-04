@@ -51,6 +51,7 @@ export default function App() {
   const [editorOpen, setEditorOpen] = useState(false);
   const [exportOpen, setExportOpen] = useState(false);
   const [activeStructureId, setActiveStructureId] = useState(INITIAL_ROUTE[1] || '');
+  const [navigationCollapsed, setNavigationCollapsed] = useState(() => window.localStorage.getItem('aic:design-studio:navigation-collapsed') === 'true');
   const [editorValue, setEditorValue] = useState('');
   const [nodes, setNodes, onNodesChange] = useNodesState<FlowNode>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
@@ -69,6 +70,7 @@ export default function App() {
     } catch (error) { setMessage(error instanceof Error ? error.message : String(error)); }
   }, []);
   useEffect(() => { loadStudio(); }, [loadStudio]);
+  useEffect(() => { window.localStorage.setItem('aic:design-studio:navigation-collapsed', String(navigationCollapsed)); }, [navigationCollapsed]);
 
   const saveStudio = useCallback(async (next: StudioData, success = 'Изменения сохранены локально') => {
     setIsSaving(true); setMessage('Сохраняю…');
@@ -147,8 +149,8 @@ export default function App() {
     if (itemId) window.setTimeout(() => document.getElementById(itemId)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 0);
   };
 
-  return <main className="studio-shell">
-    <aside className="studio-sidebar">
+  return <main className={`studio-shell ${navigationCollapsed ? 'is-navigation-collapsed' : ''}`}>
+    <aside className="studio-sidebar" id="studio-project-navigation" aria-hidden={navigationCollapsed} inert={navigationCollapsed}>
       <div className="studio-brand"><span>AIC / PROJECT</span><h1>Design System<br />Studio</h1><p>{studio.meta.name}</p></div>
       <nav className="project-tree" aria-label="Структура проекта">
         {NAVIGATION.map(([value, label, icon]) => <section className="project-tree__section" key={value}>
@@ -163,7 +165,7 @@ export default function App() {
       </nav>
     </aside>
     <section className="studio-main">
-      <header className="topbar"><div><span>DESIGN SYSTEM</span><strong>{NAVIGATION.find(([value]) => value === mode)?.[1]}</strong></div><div className="save-state"><i className={isSaving ? 'is-saving' : ''} />{message || 'Все изменения сохранены локально'}</div></header>
+      <header className="topbar"><div className="topbar__identity"><button className="navigation-toggle" type="button" aria-expanded={!navigationCollapsed} aria-controls="studio-project-navigation" onClick={() => setNavigationCollapsed((current) => !current)} title={navigationCollapsed ? 'Показать меню навигации' : 'Скрыть меню навигации'}><i aria-hidden="true">{navigationCollapsed ? '→' : '←'}</i><span>{navigationCollapsed ? 'Показать меню' : 'Скрыть меню'}</span></button><div><span>DESIGN SYSTEM</span><strong>{NAVIGATION.find(([value]) => value === mode)?.[1]}</strong></div></div><div className="save-state"><i className={isSaving ? 'is-saving' : ''} />{message || 'Все изменения сохранены локально'}</div></header>
       <div className="workspace">
         {mode === 'base' && <section className="panel-stack">
           <div className="section-heading"><div><span>01 / FOUNDATION</span><h2>Базовая дизайн-система</h2></div><p>Фундамент продукта и явный контракт отличий, которые нужно проверять при обновлении.</p></div>
