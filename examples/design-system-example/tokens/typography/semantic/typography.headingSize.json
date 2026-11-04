@@ -1,0 +1,6 @@
+{
+  "id": "typography.headingSize",
+  "name": "Heading style",
+  "value": "{typography.size.heading}",
+  "purpose": "Page title"
+}

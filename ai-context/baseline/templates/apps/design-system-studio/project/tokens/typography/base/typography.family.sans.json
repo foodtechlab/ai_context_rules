@@ -1,0 +1,6 @@
+{
+  "id": "typography.family.sans",
+  "name": "Sans family",
+  "value": "Inter, system-ui, sans-serif",
+  "purpose": "Основной шрифт и fallback"
+}

@@ -1,0 +1,113 @@
+{
+  "id": "profile",
+  "name": "Profile",
+  "purpose": "Просмотреть и изменить профиль.",
+  "userTask": "Проверить или очистить персональные данные.",
+  "layoutId": "top-bar-content",
+  "description": "Экран профиля с наполненным и пустым состоянием.",
+  "inputParameters": [
+    "userName"
+  ],
+  "displayedData": [
+    "Статус профиля",
+    "Отображаемое имя"
+  ],
+  "actions": [
+    "clear-profile",
+    "reset"
+  ],
+  "entryPoints": [
+    "Welcome: open-profile"
+  ],
+  "returnBehavior": "Сохраняет введённое имя до выхода из flow.",
+  "adaptiveNotes": "Форма ограничена по ширине на tablet и desktop.",
+  "viewports": [
+    "phone",
+    "tablet",
+    "desktop"
+  ],
+  "states": [
+    {
+      "id": "default",
+      "name": "Данные загружены",
+      "title": "Профиль {{userName}}",
+      "description": "Пример второго экрана flow.",
+      "blocks": [
+        {
+          "id": "profile-status",
+          "componentId": "badge",
+          "regionId": "content",
+          "props": {
+            "label": "Данные заполнены"
+          }
+        },
+        {
+          "id": "profile-name",
+          "componentId": "form-field",
+          "regionId": "content",
+          "state": "focus",
+          "props": {
+            "label": "Отображаемое имя",
+            "placeholder": "{{userName}}"
+          }
+        },
+        {
+          "id": "profile-clear",
+          "componentId": "button",
+          "regionId": "bottom-action",
+          "variant": "secondary",
+          "props": {
+            "label": "Показать empty state"
+          },
+          "actionId": "clear-profile"
+        }
+      ]
+    },
+    {
+      "id": "empty",
+      "name": "Пустой результат",
+      "title": "Профиль пока пуст",
+      "description": "Добавьте данные или вернитесь в начало.",
+      "blocks": [
+        {
+          "id": "profile-empty-card",
+          "componentId": "content-card",
+          "regionId": "content",
+          "props": {
+            "label": "Нет данных",
+            "description": "Empty state является вариантом того же экрана."
+          }
+        },
+        {
+          "id": "profile-reset",
+          "componentId": "button",
+          "regionId": "bottom-action",
+          "variant": "primary",
+          "props": {
+            "label": "Вернуться в начало"
+          },
+          "actionId": "reset"
+        }
+      ]
+    },
+    {
+      "id": "saving",
+      "name": "Выполняется действие",
+      "title": "Сохраняем профиль",
+      "description": "Локальное состояние действия.",
+      "blocks": [
+        {
+          "id": "profile-saving",
+          "componentId": "button",
+          "regionId": "bottom-action",
+          "variant": "primary",
+          "state": "loading",
+          "props": {
+            "label": "Сохранить"
+          }
+        }
+      ]
+    }
+  ],
+  "openQuestions": []
+}

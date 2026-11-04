@@ -1,0 +1,149 @@
+{
+  "id": "dashboard",
+  "name": "Dashboard",
+  "purpose": "Показать состояние системы и быстрые действия.",
+  "userTask": "Оценить показатели и перейти к пользователям.",
+  "layoutId": "admin-shell",
+  "description": "Главная страница admin console.",
+  "inputParameters": [
+    "dateRange"
+  ],
+  "displayedData": [
+    "Users total",
+    "Active users",
+    "New users",
+    "System health"
+  ],
+  "actions": [
+    "open-users",
+    "create-user",
+    "open-missing",
+    "trigger-server-error"
+  ],
+  "entryPoints": [
+    "Login success",
+    "Registration success",
+    "Primary navigation"
+  ],
+  "returnBehavior": "Сохраняет date range и scroll position.",
+  "adaptiveNotes": "4 stat columns desktop, 2 tablet, 1 mobile; sidebar becomes bottom navigation.",
+  "viewports": [
+    "phone",
+    "tablet",
+    "desktop"
+  ],
+  "states": [
+    {
+      "id": "loading",
+      "name": "Loading",
+      "title": "Загружаем dashboard",
+      "description": "Получаем актуальные показатели.",
+      "blocks": [
+        {
+          "id": "dashboard-loading",
+          "componentId": "stat-card",
+          "regionId": "content",
+          "state": "loading",
+          "props": {
+            "label": "Загрузка",
+            "description": "—"
+          }
+        }
+      ]
+    },
+    {
+      "id": "default",
+      "name": "Loaded",
+      "title": "Добро пожаловать, {{adminName}}",
+      "description": "Система работает штатно.",
+      "blocks": [
+        {
+          "id": "dashboard-header",
+          "componentId": "admin-header",
+          "regionId": "top-bar",
+          "props": {
+            "label": "Дашборд",
+            "description": "Обзор за последние 30 дней"
+          }
+        },
+        {
+          "id": "dashboard-users",
+          "componentId": "stat-card",
+          "regionId": "content",
+          "props": {
+            "label": "Пользователи",
+            "description": "1 248 · +12%"
+          },
+          "actionId": "open-users"
+        },
+        {
+          "id": "dashboard-active",
+          "componentId": "stat-card",
+          "regionId": "content",
+          "props": {
+            "label": "Активные",
+            "description": "986 · +8%"
+          }
+        },
+        {
+          "id": "dashboard-create",
+          "componentId": "admin-button",
+          "regionId": "top-bar",
+          "variant": "primary",
+          "props": {
+            "label": "Создать пользователя"
+          },
+          "actionId": "create-user"
+        },
+        {
+          "id": "dashboard-404",
+          "componentId": "admin-button",
+          "regionId": "content",
+          "variant": "ghost",
+          "props": {
+            "label": "Проверить 404"
+          },
+          "actionId": "open-missing"
+        },
+        {
+          "id": "dashboard-500",
+          "componentId": "admin-button",
+          "regionId": "content",
+          "variant": "ghost",
+          "props": {
+            "label": "Проверить 500"
+          },
+          "actionId": "trigger-server-error"
+        }
+      ]
+    },
+    {
+      "id": "error",
+      "name": "Error",
+      "title": "Показатели недоступны",
+      "description": "Остальная навигация продолжает работать.",
+      "blocks": [
+        {
+          "id": "dashboard-error",
+          "componentId": "status-badge",
+          "regionId": "content",
+          "variant": "error",
+          "props": {
+            "label": "Ошибка загрузки"
+          }
+        },
+        {
+          "id": "dashboard-error-users",
+          "componentId": "admin-button",
+          "regionId": "content",
+          "variant": "secondary",
+          "props": {
+            "label": "Открыть пользователей"
+          },
+          "actionId": "open-users"
+        }
+      ]
+    }
+  ],
+  "openQuestions": []
+}

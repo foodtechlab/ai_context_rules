@@ -1,0 +1,50 @@
+{
+  "id": "stat-card",
+  "name": "Stat Card",
+  "kind": "card",
+  "classification": "molecule",
+  "description": "Ключевой показатель dashboard.",
+  "dependencies": [
+    "body-text",
+    "status-badge"
+  ],
+  "properties": [
+    "label",
+    "value",
+    "trend"
+  ],
+  "variants": [
+    "default"
+  ],
+  "sizes": [
+    "responsive"
+  ],
+  "states": [
+    "default",
+    "loading",
+    "error"
+  ],
+  "actions": [],
+  "tokenRefs": [
+    "color.surface",
+    "color.border",
+    "typography.metric",
+    "elevation.100"
+  ],
+  "responsiveBehavior": "Четыре колонки desktop, две tablet, одна mobile.",
+  "accessibility": {
+    "role": "group",
+    "label": "Показатель имеет текстовое название"
+  },
+  "usage": "Только для агрегированного показателя.",
+  "restrictions": [
+    "Trend не передаётся только цветом"
+  ],
+  "defaultProps": {
+    "label": "Активные пользователи",
+    "description": "1 248 · +12%"
+  },
+  "platforms": [
+    "web"
+  ]
+}

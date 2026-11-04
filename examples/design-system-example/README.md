@@ -30,5 +30,7 @@ AIC_REPO_ROOT="$PWD" AIC_DESIGN_SYSTEM_DIR="examples/design-system-example" \
 Run and Debug и нажать `F5`. Путь вводить не нужно: после установки
 зависимостей браузер откроется автоматически.
 
-Локальные React-компоненты находятся в `components/`, а `studio.json` является
-каноническим индексом состояний, экранов, flows и mockup fixtures.
+Локальные React-компоненты находятся в `components/`. Каждый component, layout,
+screen, flow, mockup, theme и token имеет отдельный `<id>.json`; реализации
+компонентов также разнесены по отдельным `.tsx`. `design-system.json` содержит
+только общие metadata и настройки.

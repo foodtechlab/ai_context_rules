@@ -1,0 +1,6 @@
+{
+  "id": "typography.lineHeight.body",
+  "name": "Body line height",
+  "value": "1.5",
+  "purpose": "Межстрочный интервал текста"
+}

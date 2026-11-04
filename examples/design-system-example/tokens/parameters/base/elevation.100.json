@@ -1,0 +1,6 @@
+{
+  "id": "elevation.100",
+  "name": "Card elevation",
+  "value": "0 12px 36px rgba(20,33,61,.1)",
+  "purpose": "Floating card"
+}

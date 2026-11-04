@@ -1,0 +1,40 @@
+{
+  "id": "errors-check",
+  "name": "Error pages check",
+  "flowId": "error-recovery",
+  "startNodeId": "error-dashboard",
+  "fixtures": [
+    {
+      "id": "standard",
+      "name": "Стандартная ошибка",
+      "state": {
+        "adminName": "Анна",
+        "organizationName": "Northstar",
+        "incidentId": "INC-2048"
+      }
+    }
+  ],
+  "implementedInteractions": [
+    "Open 404",
+    "Return from 404",
+    "Open 500",
+    "Retry",
+    "Go to dashboard",
+    "Viewport switch"
+  ],
+  "simulatedInteractions": [
+    "Server failure",
+    "Incident registration",
+    "Retry response"
+  ],
+  "supportedThemes": [
+    "light",
+    "dark"
+  ],
+  "supportedViewports": [
+    "phone",
+    "tablet",
+    "desktop"
+  ],
+  "openQuestions": []
+}

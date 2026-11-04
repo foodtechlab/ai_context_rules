@@ -1,0 +1,56 @@
+{
+  "id": "form-field",
+  "name": "Form Field",
+  "kind": "input",
+  "classification": "molecule",
+  "description": "Поле, подпись и сообщение об ошибке.",
+  "dependencies": [],
+  "properties": [
+    "label",
+    "value",
+    "placeholder",
+    "errorText"
+  ],
+  "variants": [
+    "default"
+  ],
+  "sizes": [
+    "medium"
+  ],
+  "states": [
+    "default",
+    "focus",
+    "error",
+    "disabled"
+  ],
+  "actions": [
+    "change",
+    "focus",
+    "blur"
+  ],
+  "tokenRefs": [
+    "component.input.border",
+    "color.error",
+    "space.control"
+  ],
+  "responsiveBehavior": "Занимает доступную ширину до ограничения контейнера.",
+  "accessibility": {
+    "role": "textbox",
+    "label": "Видимая подпись обязательна"
+  },
+  "usage": "Для одного логически связанного значения.",
+  "restrictions": [
+    "Ошибка должна содержать текст"
+  ],
+  "defaultProps": {
+    "label": "Название",
+    "placeholder": "Введите значение",
+    "errorText": "Поле обязательно"
+  },
+  "platforms": [
+    "web",
+    "flutter",
+    "compose",
+    "swiftui"
+  ]
+}

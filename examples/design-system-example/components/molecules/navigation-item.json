@@ -1,0 +1,53 @@
+{
+  "id": "navigation-item",
+  "name": "Navigation Item",
+  "kind": "button",
+  "classification": "molecule",
+  "description": "Пункт sidebar или bottom navigation.",
+  "dependencies": [
+    "admin-button",
+    "body-text"
+  ],
+  "properties": [
+    "label",
+    "icon",
+    "active"
+  ],
+  "variants": [
+    "sidebar",
+    "bottom"
+  ],
+  "sizes": [
+    "medium"
+  ],
+  "states": [
+    "default",
+    "hover",
+    "focus",
+    "active",
+    "disabled"
+  ],
+  "actions": [
+    "navigate"
+  ],
+  "tokenRefs": [
+    "component.navigation.background",
+    "color.primary",
+    "component.button.minHeight"
+  ],
+  "responsiveBehavior": "Sidebar-вариант на desktop, bottom-вариант ниже 768px.",
+  "accessibility": {
+    "role": "link",
+    "label": "Active item использует aria-current"
+  },
+  "usage": "Основная навигация admin shell.",
+  "restrictions": [
+    "Не более пяти пунктов в bottom navigation"
+  ],
+  "defaultProps": {
+    "label": "Дашборд"
+  },
+  "platforms": [
+    "web"
+  ]
+}

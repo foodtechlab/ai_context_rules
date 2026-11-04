@@ -1,0 +1,23 @@
+{
+  "id": "error-layout",
+  "name": "Error Layout",
+  "purpose": "Изолированная route-level error page.",
+  "regions": [
+    {
+      "id": "content",
+      "name": "Centered error",
+      "required": true
+    }
+  ],
+  "navigationComponentIds": [],
+  "tokenRefs": [
+    "color.background",
+    "space.page",
+    "layout.content.maxWidth"
+  ],
+  "widthRules": "Error panel max-width 560px and centered.",
+  "scrollRules": "No nested scroll.",
+  "safeAreaRules": "Safe margins on every edge.",
+  "responsiveBehavior": "Typography and actions stack on mobile.",
+  "openQuestions": []
+}

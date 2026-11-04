@@ -1,0 +1,6 @@
+{
+  "id": "component.button.minHeight",
+  "name": "Button height",
+  "value": "{size.touchTarget}",
+  "purpose": "Button touch area"
+}

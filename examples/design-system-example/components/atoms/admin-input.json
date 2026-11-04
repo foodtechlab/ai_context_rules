@@ -1,0 +1,51 @@
+{
+  "id": "admin-input",
+  "name": "Admin Input",
+  "kind": "input",
+  "classification": "atom",
+  "description": "Базовое поле ввода.",
+  "dependencies": [],
+  "properties": [
+    "value",
+    "placeholder",
+    "type"
+  ],
+  "variants": [
+    "default"
+  ],
+  "sizes": [
+    "medium"
+  ],
+  "states": [
+    "default",
+    "focus",
+    "error",
+    "disabled"
+  ],
+  "actions": [
+    "change",
+    "focus",
+    "blur"
+  ],
+  "tokenRefs": [
+    "component.input.border",
+    "space.control",
+    "radius.md"
+  ],
+  "responsiveBehavior": "Всегда занимает ширину контейнера.",
+  "accessibility": {
+    "role": "textbox",
+    "label": "Получает label через form-field"
+  },
+  "usage": "Используется внутри form-field.",
+  "restrictions": [
+    "Не использовать без доступной подписи"
+  ],
+  "defaultProps": {
+    "label": "Значение",
+    "placeholder": "Введите значение"
+  },
+  "platforms": [
+    "web"
+  ]
+}

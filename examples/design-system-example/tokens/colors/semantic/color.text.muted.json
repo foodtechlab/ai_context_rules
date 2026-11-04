@@ -1,0 +1,9 @@
+{
+  "id": "color.text.muted",
+  "name": "Muted text",
+  "value": "{color.palette.slate.500}",
+  "purpose": "Вторичный текст",
+  "modes": {
+    "dark": "#98a7be"
+  }
+}

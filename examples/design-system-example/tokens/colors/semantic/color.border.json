@@ -1,0 +1,9 @@
+{
+  "id": "color.border",
+  "name": "Border",
+  "value": "{color.palette.slate.200}",
+  "purpose": "Границы",
+  "modes": {
+    "dark": "#26344b"
+  }
+}

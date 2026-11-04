@@ -1,0 +1,92 @@
+{
+  "id": "authentication",
+  "name": "Authentication",
+  "goal": "Войти или зарегистрироваться и открыть dashboard.",
+  "startConditions": [
+    "Пользователь не аутентифицирован"
+  ],
+  "entryNodeId": "login-default",
+  "nodes": [
+    {
+      "id": "login-default",
+      "screenId": "login",
+      "stateId": "default",
+      "viewport": "desktop",
+      "position": {
+        "x": 147.95733173076923,
+        "y": 41.28671874999992
+      }
+    },
+    {
+      "id": "registration-default",
+      "screenId": "registration",
+      "stateId": "default",
+      "viewport": "desktop",
+      "position": {
+        "x": 707.6427283653846,
+        "y": 364.3443509615385
+      }
+    },
+    {
+      "id": "dashboard-default",
+      "screenId": "dashboard",
+      "stateId": "default",
+      "viewport": "desktop",
+      "position": {
+        "x": 737.4945913461539,
+        "y": -158.48197115384616
+      }
+    }
+  ],
+  "transitions": [
+    {
+      "id": "auth-login",
+      "source": "login-default",
+      "target": "dashboard-default",
+      "actionId": "login-submit",
+      "label": "Войти",
+      "condition": "Credentials valid"
+    },
+    {
+      "id": "auth-open-registration",
+      "source": "login-default",
+      "target": "registration-default",
+      "actionId": "open-registration",
+      "label": "Регистрация"
+    },
+    {
+      "id": "auth-register",
+      "source": "registration-default",
+      "target": "dashboard-default",
+      "actionId": "registration-submit",
+      "label": "Создать аккаунт",
+      "condition": "Form valid"
+    },
+    {
+      "id": "auth-back-login",
+      "source": "registration-default",
+      "target": "login-default",
+      "actionId": "back-login",
+      "label": "Ко входу"
+    }
+  ],
+  "happyPath": [
+    "auth-login"
+  ],
+  "alternativePaths": [
+    "auth-open-registration",
+    "auth-register",
+    "auth-back-login"
+  ],
+  "recovery": [
+    "Validation error keeps values",
+    "Server error allows retry"
+  ],
+  "exitRules": [
+    "Browser back from registration returns to login"
+  ],
+  "completionConditions": [
+    "Dashboard loaded"
+  ],
+  "openQuestions": []
+}

@@ -1,0 +1,6 @@
+{
+  "id": "typography.button",
+  "name": "Button",
+  "value": "600 16px/1.2 Inter",
+  "purpose": "Составной стиль кнопки"
+}

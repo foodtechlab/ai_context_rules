@@ -39,8 +39,8 @@ AIC_REPO_ROOT="$PWD" AIC_DESIGN_SYSTEM_DIR="<project-path>/design-system" \
 В правой панели всегда доступен готовый AI-промт для реализации компонента.
 Компонент можно выбрать в самом инструменте; выбор элемента в дереве
 `components` синхронизирует промт автоматически. Кнопка копирования добавляет
-абсолютный локальный путь к каноническому `studio.json` и устойчивый id
-компонента в виде `studio.json#components/<component-id>`.
+абсолютный локальный путь к отдельному definition-файлу выбранного компонента,
+например `components/atoms/button.json`.
 
 Проверки:
 
@@ -64,8 +64,8 @@ AIC_REPO_ROOT="$PWD" AIC_DESIGN_SYSTEM_DIR="<project-path>/design-system" \
 
 ## Модель
 
-`<project-path>/design-system/studio.json` содержит обязательную versioned
-platform-neutral модель:
+`<project-path>/design-system/` содержит обязательную versioned
+platform-neutral модель в отдельных project-owned файлах:
 
 - project settings: default viewport и именованные Mobile/Desktop presets с
   шириной, высотой и назначением проверки; Studio по умолчанию поставляется с
@@ -91,6 +91,11 @@ Mockup открывается в отдельном prototype-canvas, близк
 значение; нажатие на процент возвращает 100%. Каждый раздел сохраняет свой
 масштаб в localStorage. Mockup использует собственный нижний zoom control.
 
+Screen и Mockup preview всегда имеют точные размеры выбранного viewport preset:
+контент не увеличивает высоту frame. Если содержимое превышает высоту viewport,
+оно прокручивается внутри самого экрана. Compact previews на flow-карте имеют
+те же фиксированные пропорции, но скрывают внутренний scrollbar.
+
 Текущий формат — `schemaVersion: 1`. Migration layer пока отсутствует: до
 первого стабильного релиза структура v1 изменяется напрямую. JSON с другим
 номером версии отклоняется валидацией.
@@ -114,11 +119,16 @@ line-height и составные text styles. Fonts и Typography показы�
 font-browser списком, по одному токену на строку, и применяют значения к живому
 sample-тексту. Общий текст проверки сохраняется в localStorage только как
 пользовательская настройка Studio; token values по-прежнему записываются в
-проектный `studio.json`.
+соответствующий token-файл.
 
-Изменения из UI атомарно сохраняются только в проектный `studio.json`.
-JSON-редактор остается code-first escape hatch и проходит reference validation
-перед записью.
+Каждая тема, token, component, layout, screen, flow и mockup хранится в
+отдельном `<id>.json`. `design-system.json` содержит только общие metadata,
+settings и adapter settings; `studio.json` запрещён. Полный обязательный layout
+и правило «одна сущность — один файл» описаны в `docs/project-structure.md`.
+
+Изменения из UI проходят reference validation и атомарно раскладываются обратно
+по отдельным проектным файлам. JSON-редактор показывает только временное
+сводное представление и не создаёт монолитный файл.
 
 ## Platform adapters
 

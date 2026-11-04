@@ -1,0 +1,60 @@
+{
+  "id": "not-found",
+  "name": "404",
+  "purpose": "Объяснить отсутствие route и вернуть пользователя.",
+  "userTask": "Вернуться в рабочую область.",
+  "layoutId": "error-layout",
+  "description": "Route not found.",
+  "inputParameters": [
+    "requestedPath"
+  ],
+  "displayedData": [
+    "Error code",
+    "Safe explanation"
+  ],
+  "actions": [
+    "go-dashboard"
+  ],
+  "entryPoints": [
+    "Unknown route",
+    "Removed object link"
+  ],
+  "returnBehavior": "Back использует browser history; action ведёт в dashboard.",
+  "adaptiveNotes": "Centered desktop and mobile, action full-width on phone.",
+  "viewports": [
+    "phone",
+    "tablet",
+    "desktop"
+  ],
+  "states": [
+    {
+      "id": "default",
+      "name": "Default",
+      "title": "Страница не найдена",
+      "description": "Проверьте адрес или вернитесь в dashboard.",
+      "blocks": [
+        {
+          "id": "404-panel",
+          "componentId": "error-panel",
+          "regionId": "content",
+          "variant": "not-found",
+          "props": {
+            "label": "404",
+            "description": "Страница не существует или была перемещена"
+          }
+        },
+        {
+          "id": "404-home",
+          "componentId": "admin-button",
+          "regionId": "content",
+          "variant": "primary",
+          "props": {
+            "label": "Вернуться в dashboard"
+          },
+          "actionId": "go-dashboard"
+        }
+      ]
+    }
+  ],
+  "openQuestions": []
+}

@@ -1,0 +1,99 @@
+{
+  "id": "welcome",
+  "name": "Welcome",
+  "purpose": "Начать демонстрационный сценарий.",
+  "userTask": "Понять ценность и перейти к профилю.",
+  "layoutId": "top-bar-content",
+  "description": "Стартовый экран сценария.",
+  "inputParameters": [
+    "userName"
+  ],
+  "displayedData": [
+    "Имя пользователя",
+    "Описание возможностей"
+  ],
+  "actions": [
+    "open-profile",
+    "retry"
+  ],
+  "entryPoints": [
+    "Запуск приложения",
+    "Возврат из профиля"
+  ],
+  "returnBehavior": "Восстанавливает выбранное состояние.",
+  "adaptiveNotes": "Контент центрируется; на phone занимает всю ширину.",
+  "viewports": [
+    "phone",
+    "tablet",
+    "desktop"
+  ],
+  "states": [
+    {
+      "id": "loading",
+      "name": "Начальная загрузка",
+      "title": "Подготавливаем пространство",
+      "description": "Получаем данные.",
+      "blocks": [
+        {
+          "id": "welcome-loading",
+          "componentId": "button",
+          "regionId": "content",
+          "variant": "primary",
+          "state": "loading",
+          "props": {
+            "label": "Продолжить"
+          }
+        }
+      ]
+    },
+    {
+      "id": "default",
+      "name": "Данные загружены",
+      "title": "Добро пожаловать, {{userName}}",
+      "description": "Интерактивный прототип работает без backend продукта.",
+      "blocks": [
+        {
+          "id": "welcome-card",
+          "componentId": "content-card",
+          "regionId": "content",
+          "variant": "default",
+          "props": {
+            "label": "Code-first дизайн",
+            "description": "Tokens, components, layouts, screens и flows хранятся в репозитории."
+          }
+        },
+        {
+          "id": "welcome-action",
+          "componentId": "button",
+          "regionId": "bottom-action",
+          "variant": "primary",
+          "props": {
+            "label": "Открыть профиль"
+          },
+          "actionId": "open-profile"
+        }
+      ]
+    },
+    {
+      "id": "error",
+      "name": "Ошибка",
+      "title": "Не удалось загрузить данные",
+      "description": "Можно повторить действие.",
+      "blocks": [
+        {
+          "id": "welcome-retry",
+          "componentId": "button",
+          "regionId": "content",
+          "variant": "secondary",
+          "props": {
+            "label": "Повторить"
+          },
+          "actionId": "retry"
+        }
+      ]
+    }
+  ],
+  "openQuestions": [
+    "Нужны ли состояния нет соединения и нет доступа?"
+  ]
+}

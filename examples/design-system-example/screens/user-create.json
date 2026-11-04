@@ -1,0 +1,155 @@
+{
+  "id": "user-create",
+  "name": "Create User",
+  "purpose": "Создать пользователя и назначить роль.",
+  "userTask": "Заполнить форму и сохранить пользователя.",
+  "layoutId": "admin-shell",
+  "description": "Форма создания.",
+  "inputParameters": [
+    "prefilledRole"
+  ],
+  "displayedData": [
+    "Name",
+    "Email",
+    "Role",
+    "Status"
+  ],
+  "actions": [
+    "create-submit",
+    "cancel-create",
+    "open-created-user"
+  ],
+  "entryPoints": [
+    "Dashboard action",
+    "Users list action"
+  ],
+  "returnBehavior": "При отмене возвращает в list без создания; при ошибке сохраняет values.",
+  "adaptiveNotes": "Two-column form desktop, one-column mobile, sticky submit on mobile.",
+  "viewports": [
+    "phone",
+    "tablet",
+    "desktop"
+  ],
+  "states": [
+    {
+      "id": "default",
+      "name": "Default",
+      "title": "Новый пользователь",
+      "description": "Заполните обязательные поля.",
+      "blocks": [
+        {
+          "id": "create-header",
+          "componentId": "admin-header",
+          "regionId": "top-bar",
+          "props": {
+            "label": "Создание пользователя",
+            "description": "Новая учётная запись"
+          }
+        },
+        {
+          "id": "create-form",
+          "componentId": "user-form",
+          "regionId": "content",
+          "props": {
+            "label": "Данные пользователя",
+            "description": "Имя · Email · Роль"
+          }
+        },
+        {
+          "id": "create-submit",
+          "componentId": "admin-button",
+          "regionId": "bottom-action",
+          "variant": "primary",
+          "props": {
+            "label": "Создать пользователя"
+          },
+          "actionId": "create-submit"
+        },
+        {
+          "id": "create-cancel",
+          "componentId": "admin-button",
+          "regionId": "bottom-action",
+          "variant": "ghost",
+          "props": {
+            "label": "Отмена"
+          },
+          "actionId": "cancel-create"
+        }
+      ]
+    },
+    {
+      "id": "saving",
+      "name": "Saving",
+      "title": "Создаём пользователя",
+      "description": "Сохраняем данные и права.",
+      "blocks": [
+        {
+          "id": "create-saving",
+          "componentId": "admin-button",
+          "regionId": "bottom-action",
+          "variant": "primary",
+          "state": "loading",
+          "props": {
+            "label": "Создать пользователя"
+          }
+        }
+      ]
+    },
+    {
+      "id": "success",
+      "name": "Success",
+      "title": "Пользователь создан",
+      "description": "{{createdUserName}} может войти в систему.",
+      "blocks": [
+        {
+          "id": "create-success",
+          "componentId": "status-badge",
+          "regionId": "content",
+          "variant": "success",
+          "props": {
+            "label": "Создан"
+          }
+        },
+        {
+          "id": "create-open",
+          "componentId": "admin-button",
+          "regionId": "content",
+          "variant": "primary",
+          "props": {
+            "label": "Открыть пользователя"
+          },
+          "actionId": "open-created-user"
+        }
+      ]
+    },
+    {
+      "id": "error",
+      "name": "Error",
+      "title": "Не удалось создать пользователя",
+      "description": "Исправьте ошибки; введённые данные сохранены.",
+      "blocks": [
+        {
+          "id": "create-error-form",
+          "componentId": "user-form",
+          "regionId": "content",
+          "state": "error",
+          "props": {
+            "label": "Данные пользователя",
+            "description": "Email уже используется"
+          }
+        },
+        {
+          "id": "create-error-retry",
+          "componentId": "admin-button",
+          "regionId": "bottom-action",
+          "variant": "primary",
+          "props": {
+            "label": "Повторить"
+          },
+          "actionId": "create-submit"
+        }
+      ]
+    }
+  ],
+  "openQuestions": []
+}

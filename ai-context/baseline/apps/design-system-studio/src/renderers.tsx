@@ -104,8 +104,8 @@ export function ScreenPreview({
   const components = new Map(studio.components.map((component) => [component.id, component]));
 
   return (
-    <div className={`screen-frame ${compact ? 'is-compact' : ''}`} style={{ width: preset.width * scale, minHeight: preset.height * scale }}>
-      <section className="screen-preview" style={{ ...themeStyle(theme), width: preset.width, minHeight: preset.height, transform: `scale(${scale})` }}>
+    <div className={`screen-frame ${compact ? 'is-compact' : ''}`} style={{ width: preset.width * scale, height: preset.height * scale }}>
+      <section className="screen-preview" style={{ ...themeStyle(theme), width: preset.width, height: preset.height, transform: `scale(${scale})` }}>
         <header className="screen-preview__header">
           <span>{screen.name}</span>
           <small>{state.name}</small>

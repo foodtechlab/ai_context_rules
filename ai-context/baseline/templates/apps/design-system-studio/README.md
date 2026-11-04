@@ -3,7 +3,9 @@
 Этот template копируется skill-ом в выбранную проектную директорию вида
 `<project-path>/design-system/`. Он не используется прямо из baseline.
 
-- `project/studio.json` — starter канонической модели.
+- `project/design-system.json` — project-wide manifest без коллекций сущностей.
+- Каждый token, component, layout, screen, flow и mockup уже разложен в
+  отдельный `<id>.json`.
 - `project/` повторяет семь разделов дизайн-системы и содержит места для
   project-owned реализаций.
 - Skill копирует только отсутствующие файлы и не обновляет существующий

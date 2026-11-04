@@ -1,0 +1,9 @@
+{
+  "id": "color.surface",
+  "name": "Surface",
+  "value": "{color.palette.white}",
+  "purpose": "Карточки и панели",
+  "modes": {
+    "dark": "#111c2f"
+  }
+}

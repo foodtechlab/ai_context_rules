@@ -9,7 +9,7 @@ import { DEFAULT_STUDIO_SETTINGS, getStudioSettings, resolveTheme, resolveViewpo
 type Mode = 'base' | 'tokens' | 'components' | 'layouts' | 'screens' | 'flows' | 'mockup' | 'settings';
 type ZoomableMode = 'components' | 'layouts' | 'screens';
 type FlowNode = Node<{ node: FlowDefinition['nodes'][number]; studio: StudioData; theme: Theme }, 'screen'>;
-type ProjectContext = { repositoryRoot: string; designSystemDirectory: string; studioDataPath: string };
+type ProjectContext = { repositoryRoot: string; designSystemDirectory: string; designSystemManifestPath: string };
 const NODE_TYPES = { screen: ScreenMapNodeView };
 const NAVIGATION: Array<[Mode, string, string]> = [
   ['base', 'Базовая система', '◉'], ['tokens', 'Токены', '◫'], ['components', 'Компоненты', '◇'],
@@ -30,6 +30,10 @@ function initialMode(): Mode {
 function download(filename: string, content: string) {
   const url = URL.createObjectURL(new Blob([content], { type: 'text/plain;charset=utf-8' }));
   const anchor = document.createElement('a'); anchor.href = url; anchor.download = filename; anchor.click(); URL.revokeObjectURL(url);
+}
+function componentDefinitionPath(directory: string, component: StudioData['components'][number]) {
+  const group = component.classification === 'atom' ? 'atoms' : component.classification === 'molecule' ? 'molecules' : 'organisms';
+  return `${directory}/components/${group}/${component.id}.json`;
 }
 function List({ title, items }: { title: string; items: string[] }) {
   return <div className="definition-list"><strong>{title}</strong>{items.length ? <ul>{items.map((item) => <li key={item}>{item}</li>)}</ul> : <span className="gap-marker">Нужно определить</span>}</div>;
@@ -105,7 +109,7 @@ export default function App() {
   const [mockupNodeId, setMockupNodeId] = useState(INITIAL_ROUTE[0] === 'mockup' ? INITIAL_ROUTE[2] || '' : '');
   const [mockupViewport, setMockupViewport] = useState('');
   const [history, setHistory] = useState<string[]>([]);
-  const [message, setMessage] = useState('Загрузка studio…');
+  const [message, setMessage] = useState('Загрузка дизайн-системы…');
   const [isSaving, setIsSaving] = useState(false);
   const [editorOpen, setEditorOpen] = useState(false);
   const [exportOpen, setExportOpen] = useState(false);
@@ -133,10 +137,10 @@ export default function App() {
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
 
   const loadStudio = useCallback(async (notify = false) => {
-    setMessage(notify ? 'Перечитываю данные…' : 'Загрузка studio…');
+    setMessage(notify ? 'Перечитываю данные…' : 'Загрузка дизайн-системы…');
     try {
       const response = await fetch('/api/studio'); const payload = await response.json();
-      if (!response.ok) throw new Error(payload.error || 'Не удалось загрузить studio');
+      if (!response.ok) throw new Error(payload.error || 'Не удалось загрузить дизайн-систему');
       setStudio(payload); setEditorValue(JSON.stringify(payload, null, 2));
       setThemeId((current) => current || payload.tokens.themes[0]?.id || '');
       setScreenId((current) => current || payload.screens[0]?.id || '');
@@ -164,7 +168,7 @@ export default function App() {
     setIsSaving(true); setMessage('Сохраняю…');
     try {
       const response = await fetch('/api/studio', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(next) });
-      const payload = await response.json(); if (!response.ok) throw new Error(payload.error || 'Не удалось сохранить studio');
+      const payload = await response.json(); if (!response.ok) throw new Error(payload.error || 'Не удалось сохранить дизайн-систему');
       setStudio(payload.studio); setEditorValue(JSON.stringify(payload.studio, null, 2)); setMessage(success); return true;
     } catch (error) { setMessage(error instanceof Error ? error.message : String(error)); return false; }
     finally { setIsSaving(false); }
@@ -181,8 +185,9 @@ export default function App() {
   }, [activeStructureId]);
   const activeComponent = useMemo(() => studio?.components.find((item) => activeStructureId === `component-${item.id}`), [activeStructureId, studio]);
   const promptComponent = useMemo(() => studio?.components.find((item) => item.id === promptComponentId) || studio?.components[0], [studio, promptComponentId]);
+  const promptComponentPath = promptComponent && projectContext ? componentDefinitionPath(projectContext.designSystemDirectory, promptComponent) : '';
   const implementationPrompt = promptComponent && projectContext
-    ? `я хочу что бы ты реализовал компонент по дизайн системе - ${projectContext.studioDataPath}#components/${promptComponent.id}`
+    ? `я хочу что бы ты реализовал компонент по дизайн системе - ${promptComponentPath}`
     : '';
 
   useEffect(() => {
@@ -357,7 +362,7 @@ export default function App() {
           <label>Компонент<select value={promptComponent?.id || ''} onChange={(event) => setPromptComponentId(event.target.value)}>{studio.components.map((item) => <option key={item.id} value={item.id}>{item.name} · {item.classification}</option>)}</select></label>
           <textarea value={implementationPrompt} readOnly rows={5} aria-label="Готовый промт для реализации компонента" />
           <button className="primary-button" type="button" disabled={!implementationPrompt} onClick={async () => { try { await navigator.clipboard.writeText(implementationPrompt); setMessage(`Промт для ${promptComponent?.name} скопирован`); } catch { setMessage('Не удалось скопировать промт'); } }}>Скопировать промт</button>
-          <small>{projectContext?.studioDataPath || 'Определяю локальный путь…'}</small>
+          <small>{promptComponentPath || 'Определяю локальный путь…'}</small>
         </section>
         <label>Тема<select value={theme.id} onChange={(event) => setThemeId(event.target.value)}>{studio.tokens.themes.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label>
         {mode === 'components' && activeComponent && <><List title="Назначение" items={[activeComponent.description || activeComponent.usage]} /><List title="Зависимости" items={activeComponent.dependencies} /><List title="Свойства" items={activeComponent.properties} /><List title="Размеры" items={activeComponent.sizes} /><List title="События" items={activeComponent.actions} /><List title="Токены" items={activeComponent.tokenRefs} /><List title="Ограничения" items={activeComponent.restrictions} /><List title="Доступность" items={[`ARIA: ${activeComponent.accessibility?.role || 'не задано'}`, activeComponent.responsiveBehavior]} /></>}
@@ -375,7 +380,7 @@ export default function App() {
       </div>
       <footer><button className="secondary-button" onClick={() => setEditorOpen(true)}>Редактировать JSON</button><button className="ghost-button" onClick={() => setExportOpen(true)}>Экспорт адаптеров</button><button className="ghost-button" onClick={() => loadStudio(true)}>Перечитать данные</button></footer>
     </aside>
-    {editorOpen && <div className="editor-modal" role="dialog" aria-modal="true"><div className="editor-modal__card"><header><div><span>REPO-LOCAL SOURCE</span><h2>studio.json · schema v1</h2></div><button onClick={() => setEditorOpen(false)}>×</button></header><p>Семь разделов, связи и открытые вопросы валидируются перед атомарной записью.</p><textarea value={editorValue} onChange={(event) => setEditorValue(event.target.value)} spellCheck="false" /><footer><button className="secondary-button" onClick={() => setEditorValue(JSON.stringify(studio, null, 2))}>Сбросить</button><button className="primary-button" onClick={saveJson}>Сохранить</button></footer></div></div>}
+    {editorOpen && <div className="editor-modal" role="dialog" aria-modal="true"><div className="editor-modal__card"><header><div><span>REPO-LOCAL SOURCES</span><h2>Сводное представление · schema v1</h2></div><button onClick={() => setEditorOpen(false)}>×</button></header><p>Редактор временно объединяет проектные файлы. При сохранении каждая сущность записывается обратно в свой JSON-файл.</p><textarea value={editorValue} onChange={(event) => setEditorValue(event.target.value)} spellCheck="false" /><footer><button className="secondary-button" onClick={() => setEditorValue(JSON.stringify(studio, null, 2))}>Сбросить</button><button className="primary-button" onClick={saveJson}>Сохранить по файлам</button></footer></div></div>}
     {exportOpen && <div className="editor-modal" role="dialog" aria-modal="true"><div className="editor-modal__card export-modal"><header><div><span>PLATFORM ADAPTERS</span><h2>Экспорт токенов</h2></div><button onClick={() => setExportOpen(false)}>×</button></header><div className="capability-table"><div className="capability-row is-header"><span>Платформа</span><span>Tokens</span><span>Components</span><span>Screens</span></div>{CAPABILITIES.map((row) => <div className="capability-row" key={row.platform}><strong>{row.platform}</strong><span>{row.tokens}</span><span>{row.components}</span><span>{row.screens}</span></div>)}</div><div className="export-grid">{(['web', 'flutter', 'compose', 'swiftui'] as Platform[]).map((platform) => { const result = exportStudio(studio, platform); return <article key={platform}><span>{result.language}</span><h3>{result.filename}</h3><pre>{result.content.slice(0, 420)}</pre><button className="primary-button" onClick={() => download(result.filename, result.content)}>Скачать</button></article>; })}</div></div></div>}
   </main>;
 }

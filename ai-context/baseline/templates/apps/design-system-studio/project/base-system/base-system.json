@@ -1,0 +1,24 @@
+{
+  "name": "Не выбрана",
+  "version": "Требует уточнения",
+  "platform": "Требует уточнения",
+  "componentLibrary": "Требует уточнения",
+  "inheritedPrinciples": [],
+  "inheritedComponents": [],
+  "inheritedBehaviors": [],
+  "tokenOverrides": [
+    "Собственные цвета, типографика, интервалы и скругления"
+  ],
+  "changedComponents": [],
+  "customComponents": [
+    "content-card"
+  ],
+  "upgradeReviewNotes": [
+    "Проверить token overrides",
+    "Проверить изменённые компоненты",
+    "Прогнать mockup-сценарии"
+  ],
+  "openQuestions": [
+    "Выбрать базовую дизайн-систему, платформу, библиотеку и зафиксировать версии"
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "id": "error-recovery",
+  "name": "Error Recovery",
+  "goal": "Проверить 404 и 500 recovery paths.",
+  "startConditions": [
+    "Dashboard available"
+  ],
+  "entryNodeId": "error-dashboard",
+  "nodes": [
+    {
+      "id": "error-dashboard",
+      "screenId": "dashboard",
+      "stateId": "default",
+      "viewport": "desktop",
+      "position": {
+        "x": 0,
+        "y": 120
+      }
+    },
+    {
+      "id": "error-404",
+      "screenId": "not-found",
+      "stateId": "default",
+      "viewport": "desktop",
+      "position": {
+        "x": 440,
+        "y": 0
+      }
+    },
+    {
+      "id": "error-500",
+      "screenId": "server-error",
+      "stateId": "default",
+      "viewport": "desktop",
+      "position": {
+        "x": 440,
+        "y": 280
+      }
+    }
+  ],
+  "transitions": [
+    {
+      "id": "open-404",
+      "source": "error-dashboard",
+      "target": "error-404",
+      "actionId": "open-missing",
+      "label": "Открыть 404"
+    },
+    {
+      "id": "open-500",
+      "source": "error-dashboard",
+      "target": "error-500",
+      "actionId": "trigger-server-error",
+      "label": "Открыть 500"
+    },
+    {
+      "id": "404-home",
+      "source": "error-404",
+      "target": "error-dashboard",
+      "actionId": "go-dashboard",
+      "label": "В dashboard"
+    },
+    {
+      "id": "500-retry",
+      "source": "error-500",
+      "target": "error-dashboard",
+      "actionId": "retry-server",
+      "label": "Повторить"
+    },
+    {
+      "id": "500-home",
+      "source": "error-500",
+      "target": "error-dashboard",
+      "actionId": "go-dashboard",
+      "label": "В dashboard"
+    }
+  ],
+  "happyPath": [
+    "open-404",
+    "404-home",
+    "open-500",
+    "500-retry"
+  ],
+  "alternativePaths": [
+    "500-home"
+  ],
+  "recovery": [
+    "404 returns safely",
+    "500 retries without exposing internals"
+  ],
+  "exitRules": [
+    "Browser back remains available"
+  ],
+  "completionConditions": [
+    "Dashboard restored"
+  ],
+  "openQuestions": []
+}

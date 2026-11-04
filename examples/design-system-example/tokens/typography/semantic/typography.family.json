@@ -1,0 +1,6 @@
+{
+  "id": "typography.family",
+  "name": "UI family",
+  "value": "{typography.family.sans}",
+  "purpose": "Global UI family"
+}

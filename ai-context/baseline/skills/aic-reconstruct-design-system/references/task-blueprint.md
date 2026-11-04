@@ -57,6 +57,8 @@
 
 - Section/kind и stable id.
 - Target files/directories.
+- Точный definition-файл `<id>.json`; одна задача элемента не должна помещать
+  определение в общий файл или массив.
 - Platform-specific ограничения.
 
 ## Зависимости
@@ -84,6 +86,12 @@
   evidence недостаточно для element task.
 - Target contract должен использовать существующую schema v1 и не придумывать
   unsupported fields.
+- Для component использовать
+  `components/{atoms,molecules,organisms}/<component-id>.json`, для layout —
+  `layouts/<layout-id>.json`, для screen — `screens/<screen-id>.json`, для flow
+  — `flows/<flow-id>.json`, для mockup — `mockups/<mockup-id>.json`.
+- Definition каждого элемента и его implementation source должны быть
+  отдельными файлами. Barrel-файлы разрешены только для реэкспорта.
 - Для component перечислять dependencies, props/content, variants, states,
   actions, tokens, responsive и accessibility behavior.
 - Для screen перечислять layout, blocks/components, data/actions, entry/return,

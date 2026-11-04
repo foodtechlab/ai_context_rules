@@ -2,6 +2,7 @@ export const CURRENT_SCHEMA_VERSION = 1;
 const tokenCategories = ['colors', 'typography', 'parameters'];
 const tokenTiers = ['base', 'semantic', 'component'];
 const legacyViewportIds = ['phone', 'tablet', 'desktop'];
+const portableId = /^[a-zA-Z0-9][a-zA-Z0-9._-]*$/;
 
 export const defaultViewportPresets = [
   { id: 'iphone-se-2-3', name: 'iPhone SE, 2/3 поколения', width: 375, height: 667, group: 'mobile', purpose: 'Небольшой экран с малой высотой' },
@@ -58,6 +59,7 @@ function collectDuplicateIds(items, label, errors) {
       errors.push(`${label}[${index}].id is required`);
       continue;
     }
+    if (!portableId.test(item.id)) errors.push(`${label}[${index}].id must be portable as a filename: ${item.id}`);
     if (ids.has(item.id)) errors.push(`duplicate ${label} id: ${item.id}`);
     ids.add(item.id);
   }
@@ -71,22 +73,19 @@ export function validateStudio(value) {
   if (!isObject(value.meta) || typeof value.meta.name !== 'string' || !value.meta.name) errors.push('meta.name is required');
   if (!isObject(value.baseSystem)) errors.push('baseSystem must be an object');
   if (!isObject(value.tokens)) errors.push('tokens must be an object');
-  if (value.settings !== undefined && !isObject(value.settings)) errors.push('settings must be an object');
+  if (!isObject(value.settings)) errors.push('settings must be an object');
+  if (!isObject(value.adapterSettings) || typeof value.adapterSettings.packageName !== 'string' || !value.adapterSettings.packageName || typeof value.adapterSettings.webPrefix !== 'string' || !value.adapterSettings.webPrefix) errors.push('adapterSettings packageName and webPrefix are required');
   for (const key of ['components', 'layouts', 'screens', 'flows', 'mockups']) if (!Array.isArray(value[key])) errors.push(`${key} must be an array`);
   if (errors.length) return errors;
 
-  const configuredViewportIds = value.settings
-    ? collectDuplicateIds(value.settings.viewportPresets || [], 'settings.viewportPresets', errors)
-    : new Set(legacyViewportIds);
+  const configuredViewportIds = collectDuplicateIds(value.settings.viewportPresets || [], 'settings.viewportPresets', errors);
   const viewportIds = new Set([...configuredViewportIds, ...legacyViewportIds]);
-  if (value.settings) {
-    if (!configuredViewportIds.has(value.settings.defaultViewportId)) errors.push('settings.defaultViewportId references unknown viewport');
-    for (const preset of value.settings.viewportPresets || []) {
-      if (typeof preset.name !== 'string' || !preset.name) errors.push(`viewport ${preset.id || '?'} name is required`);
-      if (!Number.isInteger(preset.width) || preset.width < 1 || !Number.isInteger(preset.height) || preset.height < 1) errors.push(`viewport ${preset.id || '?'} dimensions are invalid`);
-      if (preset.group !== undefined && !['mobile', 'desktop'].includes(preset.group)) errors.push(`viewport ${preset.id || '?'} group is invalid`);
-      if (preset.purpose !== undefined && (typeof preset.purpose !== 'string' || !preset.purpose)) errors.push(`viewport ${preset.id || '?'} purpose is invalid`);
-    }
+  if (!configuredViewportIds.has(value.settings.defaultViewportId)) errors.push('settings.defaultViewportId references unknown viewport');
+  for (const preset of value.settings.viewportPresets || []) {
+    if (typeof preset.name !== 'string' || !preset.name) errors.push(`viewport ${preset.id || '?'} name is required`);
+    if (!Number.isInteger(preset.width) || preset.width < 1 || !Number.isInteger(preset.height) || preset.height < 1) errors.push(`viewport ${preset.id || '?'} dimensions are invalid`);
+    if (preset.group !== undefined && !['mobile', 'desktop'].includes(preset.group)) errors.push(`viewport ${preset.id || '?'} group is invalid`);
+    if (preset.purpose !== undefined && (typeof preset.purpose !== 'string' || !preset.purpose)) errors.push(`viewport ${preset.id || '?'} purpose is invalid`);
   }
 
   const themeIds = collectDuplicateIds(value.tokens.themes || [], 'tokens.themes', errors);
@@ -98,6 +97,7 @@ export function validateStudio(value) {
       if (!Array.isArray(items)) { errors.push(`tokens.${category}.${tier} must be an array`); continue; }
       for (const token of items) {
         if (!token?.id) errors.push(`tokens.${category}.${tier} token id is required`);
+        else if (!portableId.test(token.id)) errors.push(`token id must be portable as a filename: ${token.id}`);
         else if (tokenIds.has(token.id)) errors.push(`duplicate token id: ${token.id}`);
         else tokenIds.add(token.id);
         if (!token?.purpose) errors.push(`token ${token?.id || '?'} purpose is required`);

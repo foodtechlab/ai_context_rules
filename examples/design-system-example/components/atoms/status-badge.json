@@ -1,0 +1,47 @@
+{
+  "id": "status-badge",
+  "name": "Status Badge",
+  "kind": "badge",
+  "classification": "atom",
+  "description": "Короткий статус пользователя или операции.",
+  "dependencies": [],
+  "properties": [
+    "label",
+    "tone"
+  ],
+  "variants": [
+    "neutral",
+    "success",
+    "warning",
+    "error",
+    "info"
+  ],
+  "sizes": [
+    "small"
+  ],
+  "states": [
+    "default"
+  ],
+  "actions": [],
+  "tokenRefs": [
+    "color.success",
+    "color.warning",
+    "color.error",
+    "color.info",
+    "radius.md"
+  ],
+  "responsiveBehavior": "Не растягивается; длинный текст сокращается.",
+  "accessibility": {
+    "role": "status"
+  },
+  "usage": "Показывает состояние, но не запускает действие.",
+  "restrictions": [
+    "Не использовать как кнопку"
+  ],
+  "defaultProps": {
+    "label": "Активен"
+  },
+  "platforms": [
+    "web"
+  ]
+}

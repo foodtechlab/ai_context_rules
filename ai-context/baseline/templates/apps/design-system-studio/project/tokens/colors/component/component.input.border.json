@@ -1,0 +1,6 @@
+{
+  "id": "component.input.border",
+  "name": "Input border",
+  "value": "{color.border}",
+  "purpose": "Граница поля ввода"
+}

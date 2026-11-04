@@ -1,10 +1,10 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://ai-context.local/schemas/design-system-studio/studio.schema.json",
-  "title": "AIC Design System Studio schema v1",
+  "title": "AIC Design System Studio aggregate runtime schema v1",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schemaVersion", "meta", "baseSystem", "tokens", "components", "layouts", "screens", "flows", "mockups", "adapterSettings"],
+  "required": ["schemaVersion", "meta", "settings", "baseSystem", "tokens", "components", "layouts", "screens", "flows", "mockups", "adapterSettings"],
   "properties": {
     "schemaVersion": { "const": 1 },
     "meta": { "$ref": "#/$defs/meta" },
@@ -22,7 +22,7 @@
     }
   },
   "$defs": {
-    "id": { "type": "string", "minLength": 1, "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]*$" },
+    "id": { "type": "string", "minLength": 1, "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._-]*$" },
     "strings": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
     "questions": { "type": "array", "items": { "type": "string", "minLength": 1 } },
     "meta": {

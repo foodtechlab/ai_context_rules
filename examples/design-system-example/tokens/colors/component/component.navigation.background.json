@@ -1,0 +1,6 @@
+{
+  "id": "component.navigation.background",
+  "name": "Navigation background",
+  "value": "{color.sidebar}",
+  "purpose": "Admin navigation background"
+}

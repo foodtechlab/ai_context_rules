@@ -1,0 +1,45 @@
+{
+  "id": "onboarding-check",
+  "name": "Проверка onboarding",
+  "flowId": "onboarding",
+  "startNodeId": "welcome-default",
+  "fixtures": [
+    {
+      "id": "alex",
+      "name": "Пользователь Алекс",
+      "state": {
+        "userName": "Алекс"
+      }
+    },
+    {
+      "id": "guest",
+      "name": "Гость",
+      "state": {
+        "userName": "Гость"
+      }
+    }
+  ],
+  "implementedInteractions": [
+    "Переход по кнопкам",
+    "Назад",
+    "Перезапуск и сброс",
+    "Выбор fixture"
+  ],
+  "simulatedInteractions": [
+    "Загрузка данных",
+    "Сохранение профиля",
+    "Ответы backend"
+  ],
+  "supportedThemes": [
+    "light",
+    "dark"
+  ],
+  "supportedViewports": [
+    "phone",
+    "tablet",
+    "desktop"
+  ],
+  "openQuestions": [
+    "Добавить отдельный fixture для ошибки сети"
+  ]
+}

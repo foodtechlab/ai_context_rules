@@ -1,0 +1,42 @@
+{
+  "id": "badge",
+  "name": "Status Badge",
+  "kind": "badge",
+  "classification": "atom",
+  "description": "Короткий статус объекта.",
+  "dependencies": [],
+  "properties": [
+    "label"
+  ],
+  "variants": [
+    "default"
+  ],
+  "sizes": [
+    "small"
+  ],
+  "states": [
+    "default"
+  ],
+  "actions": [],
+  "tokenRefs": [
+    "color.info",
+    "radius.md"
+  ],
+  "responsiveBehavior": "Не растягивается, длинный текст сокращается.",
+  "accessibility": {
+    "role": "status"
+  },
+  "usage": "Для кратких статусов.",
+  "restrictions": [
+    "Не использовать как кнопку"
+  ],
+  "defaultProps": {
+    "label": "Активно"
+  },
+  "platforms": [
+    "web",
+    "flutter",
+    "compose",
+    "swiftui"
+  ]
+}

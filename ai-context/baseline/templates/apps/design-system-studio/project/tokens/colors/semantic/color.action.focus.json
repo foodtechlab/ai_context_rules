@@ -1,0 +1,6 @@
+{
+  "id": "color.action.focus",
+  "name": "Action focus",
+  "value": "{color.palette.violet.300}",
+  "purpose": "Фокус"
+}

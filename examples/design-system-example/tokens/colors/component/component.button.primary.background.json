@@ -1,0 +1,6 @@
+{
+  "id": "component.button.primary.background",
+  "name": "Primary button",
+  "value": "{color.primary}",
+  "purpose": "Primary button background"
+}

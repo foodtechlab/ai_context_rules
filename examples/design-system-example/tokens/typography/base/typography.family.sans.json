@@ -1,0 +1,6 @@
+{
+  "id": "typography.family.sans",
+  "name": "Sans",
+  "value": "Inter, system-ui, sans-serif",
+  "purpose": "UI font stack"
+}

@@ -1,0 +1,55 @@
+{
+  "id": "user-details",
+  "name": "User Details",
+  "kind": "card",
+  "classification": "organism",
+  "description": "Профиль пользователя и metadata.",
+  "dependencies": [
+    "body-text",
+    "status-badge",
+    "admin-button"
+  ],
+  "properties": [
+    "user",
+    "permissions",
+    "activity"
+  ],
+  "variants": [
+    "default"
+  ],
+  "sizes": [
+    "responsive"
+  ],
+  "states": [
+    "loading",
+    "default",
+    "not-found",
+    "error"
+  ],
+  "actions": [
+    "back",
+    "edit",
+    "disable"
+  ],
+  "tokenRefs": [
+    "color.surface",
+    "color.border",
+    "space.section"
+  ],
+  "responsiveBehavior": "Summary и activity рядом на desktop, последовательно на mobile.",
+  "accessibility": {
+    "role": "region",
+    "label": "Данные пользователя"
+  },
+  "usage": "Просмотр одной user record.",
+  "restrictions": [
+    "Danger action отделён от основных actions"
+  ],
+  "defaultProps": {
+    "label": "Анна Смирнова",
+    "description": "anna@northstar.dev · Администратор · Активен"
+  },
+  "platforms": [
+    "web"
+  ]
+}

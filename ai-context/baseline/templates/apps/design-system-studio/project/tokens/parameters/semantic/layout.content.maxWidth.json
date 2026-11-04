@@ -1,0 +1,6 @@
+{
+  "id": "layout.content.maxWidth",
+  "name": "Content max width",
+  "value": "1200px",
+  "purpose": "Ограничение ширины контента"
+}

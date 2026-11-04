@@ -1,9 +1,9 @@
 import express from 'express';
-import { mkdir, readFile, rename, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { emptyStudio, validateStudio } from './src/data-model.mjs';
+import { validateStudio } from './src/data-model.mjs';
+import { DESIGN_SYSTEM_MANIFEST, loadProjectStudio, writeProjectStudio } from './src/file-model.mjs';
 
 const appRoot = path.dirname(fileURLToPath(import.meta.url));
 const repositoryRoot = path.resolve(process.env.AIC_REPO_ROOT || path.join(appRoot, '../../../..'));
@@ -24,29 +24,12 @@ if (relativeDesignSystemDirectory.startsWith('..') || path.isAbsolute(relativeDe
 if (relativeDesignSystemDirectory.startsWith('ai-context/baseline')) {
   throw new Error('AIC_DESIGN_SYSTEM_DIR cannot point inside immutable ai-context/baseline');
 }
-const studioDataPath = path.join(designSystemDirectory, 'studio.json');
+const designSystemManifestPath = path.join(designSystemDirectory, DESIGN_SYSTEM_MANIFEST);
 const isProduction = process.argv.includes('--production');
 const port = Number(process.env.PORT || 4174);
 
-async function writeJsonAtomic(filePath, value) {
-  await mkdir(path.dirname(filePath), { recursive: true });
-  const temporaryPath = `${filePath}.${process.pid}.${Date.now()}.tmp`;
-  await writeFile(temporaryPath, `${JSON.stringify(value, null, 2)}\n`, 'utf8');
-  await rename(temporaryPath, filePath);
-}
-
 async function readStudio() {
-  try {
-    const value = JSON.parse(await readFile(studioDataPath, 'utf8'));
-    const errors = validateStudio(value);
-    if (errors.length) throw new Error(errors.join('; '));
-    return value;
-  } catch (error) {
-    if (error?.code !== 'ENOENT') throw error;
-    const value = emptyStudio();
-    await writeJsonAtomic(studioDataPath, value);
-    return value;
-  }
+  return loadProjectStudio(designSystemDirectory, { createIfMissing: true });
 }
 
 const server = express();
@@ -64,7 +47,7 @@ server.get('/api/project-context', (_request, response) => {
   response.json({
     repositoryRoot,
     designSystemDirectory,
-    studioDataPath,
+    designSystemManifestPath,
   });
 });
 
@@ -79,7 +62,7 @@ server.put('/api/studio', async (request, response, next) => {
       ...request.body,
       meta: { ...request.body.meta, updatedAt: new Date().toISOString() },
     };
-    await writeJsonAtomic(studioDataPath, value);
+    await writeProjectStudio(designSystemDirectory, value);
     response.json({ saved: true, studio: value });
   } catch (error) {
     next(error);
@@ -106,5 +89,6 @@ server.use((error, _request, response, _next) => {
 server.listen(port, '127.0.0.1', () => {
   console.log(`Design System Studio: http://localhost:${port}`);
   console.log(`Project design system: ${designSystemDirectory}`);
-  console.log(`Canonical model: ${studioDataPath}`);
+  console.log(`Design system manifest: ${designSystemManifestPath}`);
+  console.log('Project entities: one JSON file per token, component, layout, screen, flow and mockup');
 });

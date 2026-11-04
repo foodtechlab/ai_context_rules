@@ -1,0 +1,9 @@
+{
+  "id": "color.background",
+  "name": "Background",
+  "value": "{color.palette.slate.50}",
+  "purpose": "Фон приложения",
+  "modes": {
+    "dark": "{color.palette.slate.900}"
+  }
+}

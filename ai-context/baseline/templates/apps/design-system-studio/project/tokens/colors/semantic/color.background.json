@@ -1,0 +1,9 @@
+{
+  "id": "color.background",
+  "name": "Background",
+  "value": "{color.palette.neutral.50}",
+  "purpose": "Основной фон",
+  "modes": {
+    "dark": "{color.palette.neutral.900}"
+  }
+}

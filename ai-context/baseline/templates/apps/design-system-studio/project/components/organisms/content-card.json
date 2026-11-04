@@ -1,0 +1,55 @@
+{
+  "id": "content-card",
+  "name": "Content Card",
+  "kind": "card",
+  "classification": "organism",
+  "description": "Составной блок контента и связанных действий.",
+  "dependencies": [
+    "button",
+    "badge"
+  ],
+  "properties": [
+    "title",
+    "description",
+    "status",
+    "actions"
+  ],
+  "variants": [
+    "default",
+    "elevated"
+  ],
+  "sizes": [
+    "responsive"
+  ],
+  "states": [
+    "default",
+    "hover"
+  ],
+  "actions": [
+    "open"
+  ],
+  "tokenRefs": [
+    "color.surface",
+    "color.border",
+    "elevation.100",
+    "radius.md"
+  ],
+  "responsiveBehavior": "На узкой ширине действия располагаются вертикально.",
+  "accessibility": {
+    "role": "group"
+  },
+  "usage": "Группирует законченную единицу контента.",
+  "restrictions": [
+    "Не вкладывать интерактивные карточки друг в друга"
+  ],
+  "defaultProps": {
+    "label": "Карточка",
+    "description": "Содержимое карточки"
+  },
+  "platforms": [
+    "web",
+    "flutter",
+    "compose",
+    "swiftui"
+  ]
+}

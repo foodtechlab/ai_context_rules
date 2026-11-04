@@ -1,0 +1,56 @@
+{
+  "id": "auth-form",
+  "name": "Auth Form",
+  "kind": "card",
+  "classification": "organism",
+  "description": "Login или registration form.",
+  "dependencies": [
+    "form-field",
+    "admin-button",
+    "status-badge"
+  ],
+  "properties": [
+    "mode",
+    "values",
+    "error"
+  ],
+  "variants": [
+    "login",
+    "register"
+  ],
+  "sizes": [
+    "responsive"
+  ],
+  "states": [
+    "default",
+    "submitting",
+    "error",
+    "success"
+  ],
+  "actions": [
+    "submit",
+    "switch-mode"
+  ],
+  "tokenRefs": [
+    "component.form.maxWidth",
+    "color.surface",
+    "space.section",
+    "radius.md"
+  ],
+  "responsiveBehavior": "Центрированная card до 480px; на mobile занимает ширину с 16px margins.",
+  "accessibility": {
+    "role": "form",
+    "label": "Ошибки связаны с полями и summary"
+  },
+  "usage": "Только auth screens.",
+  "restrictions": [
+    "Не объединять login и registration в одно состояние без variant"
+  ],
+  "defaultProps": {
+    "label": "Вход",
+    "description": "Email · Пароль · Продолжить"
+  },
+  "platforms": [
+    "web"
+  ]
+}

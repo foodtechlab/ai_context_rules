@@ -13,7 +13,10 @@ usable without a cloud service.
 
 ## Decision
 
-- `studio.json` is the canonical, serializable and versioned contract.
+- Project-owned entity files are the canonical, serializable and versioned
+  contract. Every entity has its own `<id>.json`; `design-system.json` contains
+  only project-wide metadata and settings.
+- The Studio aggregate exists only in memory and is never a canonical file.
 - React is the editor and reference Web renderer, not the cross-platform source.
 - The model has seven required sections: base system, tokens, components,
   layouts, screens, flows and mockups.

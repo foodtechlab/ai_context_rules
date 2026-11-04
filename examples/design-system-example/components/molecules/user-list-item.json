@@ -1,0 +1,55 @@
+{
+  "id": "user-list-item",
+  "name": "User List Item",
+  "kind": "card",
+  "classification": "molecule",
+  "description": "Responsive row пользователя.",
+  "dependencies": [
+    "body-text",
+    "status-badge",
+    "admin-button"
+  ],
+  "properties": [
+    "name",
+    "email",
+    "role",
+    "status"
+  ],
+  "variants": [
+    "row",
+    "card"
+  ],
+  "sizes": [
+    "dense",
+    "comfortable"
+  ],
+  "states": [
+    "default",
+    "hover",
+    "selected"
+  ],
+  "actions": [
+    "open-user"
+  ],
+  "tokenRefs": [
+    "component.table.divider",
+    "component.table.text",
+    "component.table.rowHeight"
+  ],
+  "responsiveBehavior": "Table row на desktop, stacked card на mobile.",
+  "accessibility": {
+    "role": "row",
+    "label": "Действие открытия доступно с клавиатуры"
+  },
+  "usage": "Одна запись списка пользователей.",
+  "restrictions": [
+    "Не скрывать email и status одновременно"
+  ],
+  "defaultProps": {
+    "label": "Анна Смирнова",
+    "description": "anna@northstar.dev · Администратор · Активен"
+  },
+  "platforms": [
+    "web"
+  ]
+}

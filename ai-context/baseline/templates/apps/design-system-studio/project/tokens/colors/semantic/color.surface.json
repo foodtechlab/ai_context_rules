@@ -1,0 +1,9 @@
+{
+  "id": "color.surface",
+  "name": "Surface",
+  "value": "{color.palette.white}",
+  "purpose": "Фон поверхностей",
+  "modes": {
+    "dark": "{color.palette.neutral.800}"
+  }
+}

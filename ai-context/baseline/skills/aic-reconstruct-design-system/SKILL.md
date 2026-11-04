@@ -36,6 +36,7 @@ code, resources, generated files или build configuration.
 - `ai-context/baseline/apps/design-system-studio/README.md`;
 - `ai-context/baseline/apps/design-system-studio/docs/project-structure.md`;
 - `ai-context/baseline/apps/design-system-studio/schemas/studio.schema.json`;
+- `ai-context/baseline/apps/design-system-studio/schemas/project.schema.json`;
 - `ai-context/baseline/guides/tasks.md`;
 - `ai-context/baseline/templates/task-details.md`;
 - `ai-context/parameters/repository-parameters.yaml`.
@@ -149,8 +150,8 @@ Marker нужен для повторного запуска:
   итоговом отчёте и при необходимости создать отдельную follow-up задачу;
 - не удалять задачи автоматически, если source element исчез.
 
-Detail должен быть исполним независимо: включать source evidence, target
-design-system paths/ids, зависимости от других task codes, конкретные шаги,
+Detail должен быть исполним независимо: включать source evidence, точный
+отдельный target-файл `<id>.json`, зависимости от других task codes, конкретные шаги,
 states/variants, вопросы и проверяемые criteria. Нельзя оставлять формулировки
 «проанализировать позже» вместо уже доступного evidence.
 
@@ -167,7 +168,13 @@ states/variants, вопросы и проверяемые criteria. Нельзя
 - dependencies не ссылаются на неизвестные task codes и не образуют цикл;
 - задачи отсортированы: bootstrap/base → tokens/themes → components → layouts
   → screens → flows → mockups → интеграционная проверка;
-- product directory и `studio.json` не изменены этим planning-запуском.
+- product directory и project-owned design-system files не изменены этим
+  planning-запуском.
+
+Каждая element-задача обязана создавать или изменять ровно один definition-
+файл своей сущности. Нельзя планировать запись components, layouts, screens,
+flows или mockups в общий JSON. `design-system.json` не является контейнером
+сущностей, а legacy `studio.json` не является допустимой целью.
 
 ## Результат
 

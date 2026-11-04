@@ -1,0 +1,152 @@
+{
+  "id": "user-management",
+  "name": "User Management",
+  "goal": "Просмотреть список, создать и открыть пользователя.",
+  "startConditions": [
+    "Administrator authenticated"
+  ],
+  "entryNodeId": "dashboard-users",
+  "nodes": [
+    {
+      "id": "dashboard-users",
+      "screenId": "dashboard",
+      "stateId": "default",
+      "viewport": "desktop",
+      "position": {
+        "x": 0,
+        "y": 160
+      }
+    },
+    {
+      "id": "users-loaded",
+      "screenId": "users-list",
+      "stateId": "default",
+      "viewport": "desktop",
+      "position": {
+        "x": 430,
+        "y": 0
+      }
+    },
+    {
+      "id": "create-default",
+      "screenId": "user-create",
+      "stateId": "default",
+      "viewport": "desktop",
+      "position": {
+        "x": 860,
+        "y": 260
+      }
+    },
+    {
+      "id": "create-success",
+      "screenId": "user-create",
+      "stateId": "success",
+      "viewport": "desktop",
+      "position": {
+        "x": 1290,
+        "y": 260
+      }
+    },
+    {
+      "id": "user-loaded",
+      "screenId": "user-details",
+      "stateId": "default",
+      "viewport": "desktop",
+      "position": {
+        "x": 1290,
+        "y": 0
+      }
+    }
+  ],
+  "transitions": [
+    {
+      "id": "users-from-dashboard",
+      "source": "dashboard-users",
+      "target": "users-loaded",
+      "actionId": "open-users",
+      "label": "Открыть пользователей"
+    },
+    {
+      "id": "create-from-dashboard",
+      "source": "dashboard-users",
+      "target": "create-default",
+      "actionId": "create-user",
+      "label": "Создать пользователя"
+    },
+    {
+      "id": "users-open-user",
+      "source": "users-loaded",
+      "target": "user-loaded",
+      "actionId": "view-user",
+      "label": "Открыть пользователя"
+    },
+    {
+      "id": "users-create-user",
+      "source": "users-loaded",
+      "target": "create-default",
+      "actionId": "create-user",
+      "label": "Создать"
+    },
+    {
+      "id": "users-back-dashboard",
+      "source": "users-loaded",
+      "target": "dashboard-users",
+      "actionId": "back-dashboard",
+      "label": "К dashboard"
+    },
+    {
+      "id": "create-cancel",
+      "source": "create-default",
+      "target": "users-loaded",
+      "actionId": "cancel-create",
+      "label": "Отмена"
+    },
+    {
+      "id": "create-submit",
+      "source": "create-default",
+      "target": "create-success",
+      "actionId": "create-submit",
+      "label": "Сохранить",
+      "condition": "Form valid"
+    },
+    {
+      "id": "create-open-user",
+      "source": "create-success",
+      "target": "user-loaded",
+      "actionId": "open-created-user",
+      "label": "Открыть созданного"
+    },
+    {
+      "id": "details-back",
+      "source": "user-loaded",
+      "target": "users-loaded",
+      "actionId": "back-users",
+      "label": "К списку"
+    }
+  ],
+  "happyPath": [
+    "users-from-dashboard",
+    "users-create-user",
+    "create-submit",
+    "create-open-user"
+  ],
+  "alternativePaths": [
+    "users-open-user",
+    "create-cancel",
+    "details-back",
+    "create-from-dashboard"
+  ],
+  "recovery": [
+    "List retry preserves filters",
+    "Create error preserves form values",
+    "Details retry stays on route"
+  ],
+  "exitRules": [
+    "Cancel returns to list",
+    "Back restores list state"
+  ],
+  "completionConditions": [
+    "User created or reviewed"
+  ],
+  "openQuestions": []
+}

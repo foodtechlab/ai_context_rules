@@ -1,0 +1,118 @@
+{
+  "id": "login",
+  "name": "Login",
+  "purpose": "Аутентифицировать администратора.",
+  "userTask": "Войти по email и паролю.",
+  "layoutId": "auth-layout",
+  "description": "Экран входа.",
+  "inputParameters": [
+    "redirectUrl"
+  ],
+  "displayedData": [
+    "Brand",
+    "Email",
+    "Password"
+  ],
+  "actions": [
+    "login-submit",
+    "open-registration"
+  ],
+  "entryPoints": [
+    "Public root",
+    "Expired session"
+  ],
+  "returnBehavior": "Возвращает на исходный защищённый URL после успешного входа.",
+  "adaptiveNotes": "Centered card desktop, padded full-width form mobile.",
+  "viewports": [
+    "phone",
+    "tablet",
+    "desktop"
+  ],
+  "states": [
+    {
+      "id": "default",
+      "name": "Default",
+      "title": "Вход в Northstar",
+      "description": "Управляйте пользователями и доступом.",
+      "blocks": [
+        {
+          "id": "login-form",
+          "componentId": "auth-form",
+          "regionId": "content",
+          "variant": "login",
+          "props": {
+            "label": "Вход",
+            "description": "Email · Пароль"
+          }
+        },
+        {
+          "id": "login-submit",
+          "componentId": "admin-button",
+          "regionId": "content",
+          "variant": "primary",
+          "props": {
+            "label": "Войти"
+          },
+          "actionId": "login-submit"
+        },
+        {
+          "id": "login-register",
+          "componentId": "admin-button",
+          "regionId": "support",
+          "variant": "ghost",
+          "props": {
+            "label": "Создать аккаунт"
+          },
+          "actionId": "open-registration"
+        }
+      ]
+    },
+    {
+      "id": "submitting",
+      "name": "Submitting",
+      "title": "Проверяем данные",
+      "description": "Это займёт несколько секунд.",
+      "blocks": [
+        {
+          "id": "login-loading",
+          "componentId": "admin-button",
+          "regionId": "content",
+          "variant": "primary",
+          "state": "loading",
+          "props": {
+            "label": "Войти"
+          }
+        }
+      ]
+    },
+    {
+      "id": "error",
+      "name": "Error",
+      "title": "Не удалось войти",
+      "description": "Проверьте email и пароль.",
+      "blocks": [
+        {
+          "id": "login-error-form",
+          "componentId": "form-field",
+          "regionId": "content",
+          "state": "error",
+          "props": {
+            "label": "Email",
+            "errorText": "Неверные данные"
+          }
+        },
+        {
+          "id": "login-error-retry",
+          "componentId": "admin-button",
+          "regionId": "content",
+          "variant": "primary",
+          "props": {
+            "label": "Повторить"
+          },
+          "actionId": "login-submit"
+        }
+      ]
+    }
+  ],
+  "openQuestions": []
+}

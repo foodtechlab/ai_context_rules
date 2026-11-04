@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ai-context.local/schemas/design-system/project.schema.json",
+  "title": "Project-owned design-system manifest schema v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "meta", "settings", "adapterSettings"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "meta": { "$ref": "studio.schema.json#/$defs/meta" },
+    "settings": { "$ref": "studio.schema.json#/$defs/settings" },
+    "adapterSettings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["packageName", "webPrefix"],
+      "properties": {
+        "packageName": { "type": "string", "minLength": 1 },
+        "webPrefix": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

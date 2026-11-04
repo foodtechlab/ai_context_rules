@@ -1,0 +1,6 @@
+{
+  "id": "component.button.background",
+  "name": "Button background",
+  "value": "{color.primary}",
+  "purpose": "Фон primary-кнопки"
+}

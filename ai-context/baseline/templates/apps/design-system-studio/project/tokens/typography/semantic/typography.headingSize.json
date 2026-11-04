@@ -1,0 +1,6 @@
+{
+  "id": "typography.headingSize",
+  "name": "Heading",
+  "value": "{typography.size.heading}",
+  "purpose": "Заголовок экрана"
+}

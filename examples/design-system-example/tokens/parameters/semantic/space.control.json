@@ -1,0 +1,6 @@
+{
+  "id": "space.control",
+  "name": "Control padding",
+  "value": "{space.200}",
+  "purpose": "Control inner padding"
+}

@@ -1,0 +1,6 @@
+{
+  "id": "space.section",
+  "name": "Section space",
+  "value": "{space.300}",
+  "purpose": "Интервал между секциями"
+}

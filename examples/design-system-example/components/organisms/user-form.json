@@ -1,0 +1,54 @@
+{
+  "id": "user-form",
+  "name": "User Form",
+  "kind": "card",
+  "classification": "organism",
+  "description": "Форма создания пользователя.",
+  "dependencies": [
+    "form-field",
+    "admin-button",
+    "status-badge"
+  ],
+  "properties": [
+    "values",
+    "roles",
+    "errors"
+  ],
+  "variants": [
+    "create"
+  ],
+  "sizes": [
+    "responsive"
+  ],
+  "states": [
+    "default",
+    "saving",
+    "success",
+    "error"
+  ],
+  "actions": [
+    "submit",
+    "cancel"
+  ],
+  "tokenRefs": [
+    "component.form.maxWidth",
+    "color.surface",
+    "space.section"
+  ],
+  "responsiveBehavior": "Две колонки desktop, одна колонка mobile; actions sticky на узком экране.",
+  "accessibility": {
+    "role": "form",
+    "label": "Create user"
+  },
+  "usage": "Создание нового пользователя.",
+  "restrictions": [
+    "Не закрывать форму до подтверждения сохранения"
+  ],
+  "defaultProps": {
+    "label": "Новый пользователь",
+    "description": "Имя · Email · Роль · Создать"
+  },
+  "platforms": [
+    "web"
+  ]
+}

@@ -1,0 +1,160 @@
+{
+  "id": "users-list",
+  "name": "Users List",
+  "purpose": "Найти пользователя и управлять списком.",
+  "userTask": "Просмотреть, отфильтровать или открыть пользователя.",
+  "layoutId": "admin-shell",
+  "description": "Список пользователей.",
+  "inputParameters": [
+    "query",
+    "status",
+    "page"
+  ],
+  "displayedData": [
+    "Name",
+    "Email",
+    "Role",
+    "Status",
+    "Created at"
+  ],
+  "actions": [
+    "view-user",
+    "create-user",
+    "retry-users",
+    "back-dashboard"
+  ],
+  "entryPoints": [
+    "Dashboard metric",
+    "Primary navigation"
+  ],
+  "returnBehavior": "Сохраняет filters, page и scroll position.",
+  "adaptiveNotes": "Dense table desktop, stacked cards mobile; filters become vertical.",
+  "viewports": [
+    "phone",
+    "tablet",
+    "desktop"
+  ],
+  "states": [
+    {
+      "id": "loading",
+      "name": "Loading",
+      "title": "Пользователи",
+      "description": "Загружаем список.",
+      "blocks": [
+        {
+          "id": "users-loading",
+          "componentId": "user-table",
+          "regionId": "content",
+          "state": "loading",
+          "props": {
+            "label": "Загрузка пользователей"
+          }
+        }
+      ]
+    },
+    {
+      "id": "default",
+      "name": "Loaded",
+      "title": "Пользователи",
+      "description": "3 пользователя · {{organizationName}}",
+      "blocks": [
+        {
+          "id": "users-header",
+          "componentId": "admin-header",
+          "regionId": "top-bar",
+          "props": {
+            "label": "Пользователи",
+            "description": "Управление доступом и ролями"
+          }
+        },
+        {
+          "id": "users-table",
+          "componentId": "user-table",
+          "regionId": "content",
+          "variant": "table",
+          "props": {
+            "label": "Анна Смирнова",
+            "description": "anna@northstar.dev · Администратор · Активен"
+          },
+          "actionId": "view-user"
+        },
+        {
+          "id": "users-create",
+          "componentId": "admin-button",
+          "regionId": "top-bar",
+          "variant": "primary",
+          "props": {
+            "label": "Создать пользователя"
+          },
+          "actionId": "create-user"
+        },
+        {
+          "id": "users-back",
+          "componentId": "admin-button",
+          "regionId": "content",
+          "variant": "ghost",
+          "props": {
+            "label": "Назад к dashboard"
+          },
+          "actionId": "back-dashboard"
+        }
+      ]
+    },
+    {
+      "id": "empty",
+      "name": "Empty",
+      "title": "Пользователей пока нет",
+      "description": "Создайте первого пользователя или измените фильтры.",
+      "blocks": [
+        {
+          "id": "users-empty",
+          "componentId": "user-table",
+          "regionId": "content",
+          "state": "empty",
+          "props": {
+            "label": "Нет результатов",
+            "description": "Попробуйте изменить поиск"
+          }
+        },
+        {
+          "id": "users-empty-create",
+          "componentId": "admin-button",
+          "regionId": "content",
+          "variant": "primary",
+          "props": {
+            "label": "Создать пользователя"
+          },
+          "actionId": "create-user"
+        }
+      ]
+    },
+    {
+      "id": "error",
+      "name": "Error",
+      "title": "Не удалось загрузить пользователей",
+      "description": "Проверьте соединение и повторите.",
+      "blocks": [
+        {
+          "id": "users-error",
+          "componentId": "user-table",
+          "regionId": "content",
+          "state": "error",
+          "props": {
+            "label": "Ошибка списка"
+          }
+        },
+        {
+          "id": "users-retry",
+          "componentId": "admin-button",
+          "regionId": "content",
+          "variant": "secondary",
+          "props": {
+            "label": "Повторить"
+          },
+          "actionId": "retry-users"
+        }
+      ]
+    }
+  ],
+  "openQuestions": []
+}

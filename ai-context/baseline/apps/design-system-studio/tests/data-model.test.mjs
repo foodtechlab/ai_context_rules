@@ -1,10 +1,12 @@
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
 import test from 'node:test';
+import { fileURLToPath } from 'node:url';
 
 import { defaultViewportPresets, emptyStudio, validateStudio } from '../src/data-model.mjs';
+import { loadProjectStudio } from '../src/file-model.mjs';
 
-const starter = JSON.parse(await readFile(new URL('../../../templates/apps/design-system-studio/project/studio.json', import.meta.url), 'utf8'));
+const starterDirectory = fileURLToPath(new URL('../../../templates/apps/design-system-studio/project/', import.meta.url));
+const starter = await loadProjectStudio(starterDirectory);
 
 test('starter studio satisfies cross-reference validation', () => {
   assert.deepEqual(validateStudio(starter), []);
@@ -31,4 +33,10 @@ test('unknown components and transition endpoints are rejected', () => {
 
 test('a different schema version is rejected without implicit migration', () => {
   assert(validateStudio({ ...emptyStudio(), schemaVersion: 2 }).some((error) => error.includes('schemaVersion must equal 1')));
+});
+
+test('ids must be portable standalone filenames', () => {
+  const broken = structuredClone(starter);
+  broken.components[0].id = 'component:inside-monolith';
+  assert(validateStudio(broken).some((error) => error.includes('portable as a filename')));
 });

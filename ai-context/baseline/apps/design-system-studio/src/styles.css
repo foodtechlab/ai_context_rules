@@ -269,14 +269,14 @@ button:disabled { cursor: not-allowed; opacity: .5; }
 .studio-shell.is-inspector-collapsed .preview-stage { padding-inline: 16px; }
 .preview-stage.is-prototype { background: radial-gradient(circle at 50% 30%, rgba(161, 140, 255, .15), transparent 40%), #080a0e; }
 .screen-frame { flex: 0 0 auto; overflow: hidden; background: white; border: 1px solid #343a47; border-radius: 16px; box-shadow: 0 24px 80px rgba(0,0,0,.45); }
-.screen-preview { color: var(--preview-text); background: var(--preview-background); font-family: var(--preview-font); font-size: var(--preview-body-size); transform-origin: top left; }
+.screen-preview { overflow: auto; overscroll-behavior: contain; color: var(--preview-text); background: var(--preview-background); font-family: var(--preview-font); font-size: var(--preview-body-size); transform-origin: top left; scrollbar-color: color-mix(in srgb, var(--preview-text), transparent 68%) transparent; scrollbar-width: thin; }
 .screen-preview__header { display: flex; justify-content: space-between; padding: 12px 18px; color: color-mix(in srgb, var(--preview-text), transparent 42%); background: var(--preview-surface); border-bottom: 1px solid var(--preview-border); font-size: 11px; }
 .screen-preview__content { display: grid; gap: 18px; max-width: 720px; margin: 0 auto; padding: clamp(24px, 8vw, 72px); }
 .screen-preview h1 { margin: 0; color: var(--preview-text); font-size: var(--preview-heading-size); letter-spacing: -.04em; }
 .screen-preview__lead { margin: -8px 0 0; color: color-mix(in srgb, var(--preview-text), transparent 30%); line-height: 1.6; }
 .screen-preview__blocks { display: grid; gap: 14px; }
 .screen-frame.is-compact { border-radius: 7px; box-shadow: none; }
-.screen-frame.is-compact .screen-preview { pointer-events: none; }
+.screen-frame.is-compact .screen-preview { overflow: hidden; pointer-events: none; }
 .missing-component { padding: 10px; color: var(--danger); border: 1px dashed var(--danger); }
 .preview-error { display: grid; gap: 5px; width: 280px; padding: 16px; color: #ffc1c9; background: rgba(255, 124, 140, .08); border: 1px dashed var(--danger); border-radius: 10px; }
 .preview-error span { color: var(--muted); font-size: 10px; }

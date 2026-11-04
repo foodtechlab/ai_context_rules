@@ -1,0 +1,55 @@
+{
+  "id": "button",
+  "name": "Button",
+  "kind": "button",
+  "classification": "atom",
+  "description": "Запускает одно действие.",
+  "dependencies": [],
+  "properties": [
+    "label",
+    "leadingIcon",
+    "trailingIcon"
+  ],
+  "variants": [
+    "primary",
+    "secondary"
+  ],
+  "sizes": [
+    "medium",
+    "large"
+  ],
+  "states": [
+    "default",
+    "hover",
+    "focus",
+    "disabled",
+    "loading"
+  ],
+  "actions": [
+    "press"
+  ],
+  "tokenRefs": [
+    "component.button.background",
+    "component.button.minHeight",
+    "typography.button",
+    "radius.md"
+  ],
+  "responsiveBehavior": "Сохраняет минимальную touch-area, текст переносится только в крайнем случае.",
+  "accessibility": {
+    "role": "button",
+    "label": "Текст действия обязателен"
+  },
+  "usage": "Одно главное действие на область.",
+  "restrictions": [
+    "Не использовать только цвет для передачи состояния"
+  ],
+  "defaultProps": {
+    "label": "Продолжить"
+  },
+  "platforms": [
+    "web",
+    "flutter",
+    "compose",
+    "swiftui"
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "id": "component.table.divider",
+  "name": "Table divider",
+  "value": "{color.border}",
+  "purpose": "User row separator"
+}

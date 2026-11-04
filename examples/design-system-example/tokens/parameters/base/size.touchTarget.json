@@ -1,0 +1,6 @@
+{
+  "id": "size.touchTarget",
+  "name": "Touch target",
+  "value": "48px",
+  "purpose": "Mobile interactive minimum"
+}

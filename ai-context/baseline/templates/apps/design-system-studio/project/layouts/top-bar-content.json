@@ -1,0 +1,35 @@
+{
+  "id": "top-bar-content",
+  "name": "Экран с верхней панелью",
+  "purpose": "Базовая структура контентного экрана.",
+  "regions": [
+    {
+      "id": "top-bar",
+      "name": "Верхняя панель",
+      "required": true
+    },
+    {
+      "id": "content",
+      "name": "Прокручиваемый контент",
+      "required": true
+    },
+    {
+      "id": "bottom-action",
+      "name": "Нижнее действие",
+      "required": false
+    }
+  ],
+  "navigationComponentIds": [],
+  "tokenRefs": [
+    "space.section",
+    "layout.content.maxWidth",
+    "color.background"
+  ],
+  "widthRules": "Контент ограничен layout.content.maxWidth и центрируется на desktop.",
+  "scrollRules": "Прокручивается только content; top-bar закреплена.",
+  "safeAreaRules": "Top-bar и bottom-action учитывают safe area; контент реагирует на экранную клавиатуру.",
+  "responsiveBehavior": "Phone: одна колонка; tablet/desktop: расширенные поля и ограничение ширины.",
+  "openQuestions": [
+    "Выбрать компонент навигационной панели после определения базовой системы"
+  ]
+}

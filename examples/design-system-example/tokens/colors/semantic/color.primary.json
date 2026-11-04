@@ -1,0 +1,9 @@
+{
+  "id": "color.primary",
+  "name": "Primary",
+  "value": "{color.palette.blue.500}",
+  "purpose": "Основное действие",
+  "modes": {
+    "dark": "{color.palette.blue.300}"
+  }
+}

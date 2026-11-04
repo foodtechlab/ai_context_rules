@@ -1,0 +1,9 @@
+{
+  "id": "color.primary",
+  "name": "Primary action",
+  "value": "{color.palette.violet.500}",
+  "purpose": "Основные действия",
+  "modes": {
+    "dark": "{color.palette.violet.300}"
+  }
+}

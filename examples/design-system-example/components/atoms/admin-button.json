@@ -1,0 +1,55 @@
+{
+  "id": "admin-button",
+  "name": "Admin Button",
+  "kind": "button",
+  "classification": "atom",
+  "description": "Действие административного интерфейса.",
+  "dependencies": [],
+  "properties": [
+    "label",
+    "icon",
+    "type"
+  ],
+  "variants": [
+    "primary",
+    "secondary",
+    "danger",
+    "ghost"
+  ],
+  "sizes": [
+    "small",
+    "medium",
+    "large"
+  ],
+  "states": [
+    "default",
+    "hover",
+    "focus",
+    "disabled",
+    "loading"
+  ],
+  "actions": [
+    "press"
+  ],
+  "tokenRefs": [
+    "component.button.primary.background",
+    "component.button.minHeight",
+    "typography.button",
+    "radius.md"
+  ],
+  "responsiveBehavior": "На mobile занимает доступную ширину в формах, touch target не меньше 48px.",
+  "accessibility": {
+    "role": "button",
+    "label": "Действие имеет видимый текст"
+  },
+  "usage": "Одно primary-действие на область.",
+  "restrictions": [
+    "Danger используется только для разрушительных действий"
+  ],
+  "defaultProps": {
+    "label": "Продолжить"
+  },
+  "platforms": [
+    "web"
+  ]
+}

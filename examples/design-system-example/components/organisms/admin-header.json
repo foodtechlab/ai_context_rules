@@ -1,0 +1,49 @@
+{
+  "id": "admin-header",
+  "name": "Admin Header",
+  "kind": "card",
+  "classification": "organism",
+  "description": "Заголовок экрана и actions.",
+  "dependencies": [
+    "body-text",
+    "admin-button"
+  ],
+  "properties": [
+    "title",
+    "breadcrumbs",
+    "actions"
+  ],
+  "variants": [
+    "default",
+    "compact"
+  ],
+  "sizes": [
+    "responsive"
+  ],
+  "states": [
+    "default"
+  ],
+  "actions": [
+    "primary-action"
+  ],
+  "tokenRefs": [
+    "color.background",
+    "space.section",
+    "typography.headingSize"
+  ],
+  "responsiveBehavior": "Actions справа на desktop и под title на mobile.",
+  "accessibility": {
+    "role": "banner"
+  },
+  "usage": "Верх admin content region.",
+  "restrictions": [
+    "Не дублировать page title"
+  ],
+  "defaultProps": {
+    "label": "Пользователи",
+    "description": "Управление доступом и ролями"
+  },
+  "platforms": [
+    "web"
+  ]
+}

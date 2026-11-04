@@ -1,0 +1,6 @@
+{
+  "id": "radius.md",
+  "name": "Control radius",
+  "value": "{radius.200}",
+  "purpose": "Shared component radius"
+}

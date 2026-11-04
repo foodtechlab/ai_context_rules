@@ -1,0 +1,87 @@
+{
+  "id": "onboarding",
+  "name": "Onboarding flow",
+  "goal": "Познакомить пользователя с продуктом и показать профиль.",
+  "startConditions": [
+    "Приложение запущено",
+    "Доступны тестовые данные"
+  ],
+  "entryNodeId": "welcome-default",
+  "nodes": [
+    {
+      "id": "welcome-default",
+      "screenId": "welcome",
+      "stateId": "default",
+      "viewport": "phone",
+      "position": {
+        "x": 0,
+        "y": 120
+      }
+    },
+    {
+      "id": "profile-default",
+      "screenId": "profile",
+      "stateId": "default",
+      "viewport": "phone",
+      "position": {
+        "x": 430,
+        "y": 0
+      }
+    },
+    {
+      "id": "profile-empty",
+      "screenId": "profile",
+      "stateId": "empty",
+      "viewport": "phone",
+      "position": {
+        "x": 860,
+        "y": 120
+      }
+    }
+  ],
+  "transitions": [
+    {
+      "id": "open-profile",
+      "source": "welcome-default",
+      "target": "profile-default",
+      "actionId": "open-profile",
+      "label": "Открыть профиль"
+    },
+    {
+      "id": "clear-profile",
+      "source": "profile-default",
+      "target": "profile-empty",
+      "actionId": "clear-profile",
+      "label": "Очистить",
+      "condition": "Пользователь подтвердил действие"
+    },
+    {
+      "id": "reset",
+      "source": "profile-empty",
+      "target": "welcome-default",
+      "actionId": "reset",
+      "label": "Сначала"
+    }
+  ],
+  "happyPath": [
+    "open-profile",
+    "clear-profile",
+    "reset"
+  ],
+  "alternativePaths": [
+    "Welcome error → retry → Welcome default"
+  ],
+  "recovery": [
+    "При ошибке показать retry без потери точки входа"
+  ],
+  "exitRules": [
+    "Назад возвращает к предыдущему узлу",
+    "Отмена завершает mockup"
+  ],
+  "completionConditions": [
+    "Пользователь открыл профиль"
+  ],
+  "openQuestions": [
+    "Нужно ли подтверждение перед очисткой профиля?"
+  ]
+}

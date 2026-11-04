@@ -1,0 +1,9 @@
+{
+  "id": "color.text",
+  "name": "Primary text",
+  "value": "{color.palette.slate.800}",
+  "purpose": "Основной текст",
+  "modes": {
+    "dark": "#eef4ff"
+  }
+}

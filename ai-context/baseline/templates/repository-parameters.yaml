@@ -40,7 +40,7 @@ ai_context:
         runtime_directory: ai-context/baseline/apps/design-system-studio
         # Required in a target repository, for example apps/mobile/design-system.
         project_directory: null
-        model_file: studio.json
+        model_file: design-system.json
   skills:
     canonical_directory: ai-context/baseline/skills
     imports_directory: ai-context/skills/imports

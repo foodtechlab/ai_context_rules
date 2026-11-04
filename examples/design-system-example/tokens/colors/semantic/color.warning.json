@@ -1,0 +1,6 @@
+{
+  "id": "color.warning",
+  "name": "Warning",
+  "value": "{color.palette.amber.700}",
+  "purpose": "Предупреждение"
+}

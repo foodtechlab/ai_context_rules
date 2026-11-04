@@ -1,0 +1,57 @@
+{
+  "id": "user-table",
+  "name": "User Table",
+  "kind": "card",
+  "classification": "organism",
+  "description": "Список пользователей с actions.",
+  "dependencies": [
+    "user-list-item",
+    "admin-button",
+    "form-field"
+  ],
+  "properties": [
+    "users",
+    "filters",
+    "pagination"
+  ],
+  "variants": [
+    "table",
+    "cards"
+  ],
+  "sizes": [
+    "responsive"
+  ],
+  "states": [
+    "loading",
+    "default",
+    "empty",
+    "error"
+  ],
+  "actions": [
+    "open-user",
+    "create-user",
+    "retry",
+    "search"
+  ],
+  "tokenRefs": [
+    "color.surface",
+    "component.table.divider",
+    "space.section"
+  ],
+  "responsiveBehavior": "Таблица desktop превращается в cards на mobile; filters складываются вертикально.",
+  "accessibility": {
+    "role": "table",
+    "label": "Колонки имеют headings; mobile cards сохраняют labels"
+  },
+  "usage": "Главный список users screen.",
+  "restrictions": [
+    "Не скрывать критичные поля без mobile label"
+  ],
+  "defaultProps": {
+    "label": "3 пользователя",
+    "description": "Анна Смирнова · Иван Петров · Мария Орлова"
+  },
+  "platforms": [
+    "web"
+  ]
+}

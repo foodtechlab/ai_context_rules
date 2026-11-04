@@ -42,7 +42,7 @@ ai_context:
         runtime_directory: ai-context/baseline/apps/design-system-studio
         # Named example used to exercise the immutable baseline library.
         project_directory: examples/design-system-example
-        model_file: studio.json
+        model_file: design-system.json
   skills:
     canonical_directory: ai-context/baseline/skills
     imports_directory: ai-context/skills/imports

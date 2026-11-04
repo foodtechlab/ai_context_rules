@@ -1,0 +1,6 @@
+{
+  "id": "motion.easing.standard",
+  "name": "Standard easing",
+  "value": "cubic-bezier(.2,0,0,1)",
+  "purpose": "Стандартная кривая"
+}

@@ -1,0 +1,164 @@
+{
+  "id": "user-details",
+  "name": "User Details",
+  "purpose": "Просмотреть данные, роль и активность пользователя.",
+  "userTask": "Проверить конкретного пользователя.",
+  "layoutId": "admin-shell",
+  "description": "Карточка пользователя.",
+  "inputParameters": [
+    "userId"
+  ],
+  "displayedData": [
+    "Profile",
+    "Role",
+    "Status",
+    "Permissions",
+    "Activity"
+  ],
+  "actions": [
+    "back-users",
+    "disable-user",
+    "retry-user"
+  ],
+  "entryPoints": [
+    "Users list row",
+    "Create success"
+  ],
+  "returnBehavior": "Назад восстанавливает filters и scroll списка.",
+  "adaptiveNotes": "Summary and activity columns desktop; one column mobile.",
+  "viewports": [
+    "phone",
+    "tablet",
+    "desktop"
+  ],
+  "states": [
+    {
+      "id": "loading",
+      "name": "Loading",
+      "title": "Загружаем пользователя",
+      "description": "Получаем профиль и права.",
+      "blocks": [
+        {
+          "id": "details-loading",
+          "componentId": "user-details",
+          "regionId": "content",
+          "state": "loading",
+          "props": {
+            "label": "Загрузка"
+          }
+        }
+      ]
+    },
+    {
+      "id": "default",
+      "name": "Loaded",
+      "title": "{{selectedUserName}}",
+      "description": "{{selectedUserEmail}}",
+      "blocks": [
+        {
+          "id": "details-header",
+          "componentId": "admin-header",
+          "regionId": "top-bar",
+          "props": {
+            "label": "Профиль пользователя",
+            "description": "Доступ и активность"
+          }
+        },
+        {
+          "id": "details-card",
+          "componentId": "user-details",
+          "regionId": "content",
+          "props": {
+            "label": "Анна Смирнова",
+            "description": "Администратор · Активен · Последний вход сегодня"
+          }
+        },
+        {
+          "id": "details-status",
+          "componentId": "status-badge",
+          "regionId": "content",
+          "variant": "success",
+          "props": {
+            "label": "Активен"
+          }
+        },
+        {
+          "id": "details-back",
+          "componentId": "admin-button",
+          "regionId": "top-bar",
+          "variant": "ghost",
+          "props": {
+            "label": "Назад к списку"
+          },
+          "actionId": "back-users"
+        },
+        {
+          "id": "details-disable",
+          "componentId": "admin-button",
+          "regionId": "content",
+          "variant": "danger",
+          "props": {
+            "label": "Отключить пользователя"
+          },
+          "actionId": "disable-user"
+        }
+      ]
+    },
+    {
+      "id": "not-found",
+      "name": "Not found",
+      "title": "Пользователь не найден",
+      "description": "Возможно, запись была удалена.",
+      "blocks": [
+        {
+          "id": "details-not-found",
+          "componentId": "error-panel",
+          "regionId": "content",
+          "variant": "not-found",
+          "props": {
+            "label": "404",
+            "description": "Пользователь не найден"
+          }
+        },
+        {
+          "id": "details-not-found-back",
+          "componentId": "admin-button",
+          "regionId": "content",
+          "variant": "primary",
+          "props": {
+            "label": "К списку"
+          },
+          "actionId": "back-users"
+        }
+      ]
+    },
+    {
+      "id": "error",
+      "name": "Error",
+      "title": "Не удалось загрузить пользователя",
+      "description": "Повторите запрос.",
+      "blocks": [
+        {
+          "id": "details-error",
+          "componentId": "user-details",
+          "regionId": "content",
+          "state": "error",
+          "props": {
+            "label": "Ошибка профиля"
+          }
+        },
+        {
+          "id": "details-retry",
+          "componentId": "admin-button",
+          "regionId": "content",
+          "variant": "secondary",
+          "props": {
+            "label": "Повторить"
+          },
+          "actionId": "retry-user"
+        }
+      ]
+    }
+  ],
+  "openQuestions": []
+}

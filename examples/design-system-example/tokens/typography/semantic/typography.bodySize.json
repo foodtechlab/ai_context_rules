@@ -1,0 +1,6 @@
+{
+  "id": "typography.bodySize",
+  "name": "Body style",
+  "value": "{typography.size.body}",
+  "purpose": "Body text"
+}

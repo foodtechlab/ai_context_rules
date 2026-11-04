@@ -1,0 +1,55 @@
+{
+  "id": "users-check",
+  "name": "User management check",
+  "flowId": "user-management",
+  "startNodeId": "dashboard-users",
+  "fixtures": [
+    {
+      "id": "with-users",
+      "name": "Организация с пользователями",
+      "state": {
+        "adminName": "Анна",
+        "organizationName": "Northstar",
+        "createdUserName": "Мария Орлова",
+        "selectedUserName": "Анна Смирнова",
+        "selectedUserEmail": "anna@northstar.dev"
+      }
+    },
+    {
+      "id": "small-team",
+      "name": "Маленькая команда",
+      "state": {
+        "adminName": "Иван",
+        "organizationName": "Acme",
+        "createdUserName": "Пётр Волков",
+        "selectedUserName": "Пётр Волков",
+        "selectedUserEmail": "petr@acme.dev"
+      }
+    }
+  ],
+  "implementedInteractions": [
+    "Dashboard → Users",
+    "Open user",
+    "Create user",
+    "Create success",
+    "Cancel",
+    "Back",
+    "Viewport switch"
+  ],
+  "simulatedInteractions": [
+    "Search and pagination",
+    "User API",
+    "Role persistence",
+    "Disable confirmation"
+  ],
+  "supportedThemes": [
+    "light",
+    "dark"
+  ],
+  "supportedViewports": [
+    "phone",
+    "tablet",
+    "desktop"
+  ],
+  "openQuestions": []
+}

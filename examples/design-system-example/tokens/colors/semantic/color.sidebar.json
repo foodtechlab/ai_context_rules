@@ -1,0 +1,9 @@
+{
+  "id": "color.sidebar",
+  "name": "Sidebar",
+  "value": "#0f1b32",
+  "purpose": "Desktop navigation surface",
+  "modes": {
+    "dark": "#070d18"
+  }
+}

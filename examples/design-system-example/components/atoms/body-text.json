@@ -1,0 +1,43 @@
+{
+  "id": "body-text",
+  "name": "Body Text",
+  "kind": "text",
+  "classification": "atom",
+  "description": "Текстовый элемент интерфейса.",
+  "dependencies": [],
+  "properties": [
+    "text",
+    "tone"
+  ],
+  "variants": [
+    "primary",
+    "muted"
+  ],
+  "sizes": [
+    "body",
+    "caption"
+  ],
+  "states": [
+    "default"
+  ],
+  "actions": [],
+  "tokenRefs": [
+    "color.text",
+    "color.text.muted",
+    "typography.bodySize"
+  ],
+  "responsiveBehavior": "Переносится по словам и не выходит за контейнер.",
+  "accessibility": {
+    "role": "paragraph"
+  },
+  "usage": "Описание и вспомогательный текст.",
+  "restrictions": [
+    "Не имитировать heading только размером"
+  ],
+  "defaultProps": {
+    "label": "Описание"
+  },
+  "platforms": [
+    "web"
+  ]
+}

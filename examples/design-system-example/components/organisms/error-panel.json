@@ -1,0 +1,54 @@
+{
+  "id": "error-panel",
+  "name": "Error Panel",
+  "kind": "card",
+  "classification": "organism",
+  "description": "Полноэкранная ошибка 404 или 500.",
+  "dependencies": [
+    "body-text",
+    "admin-button"
+  ],
+  "properties": [
+    "code",
+    "title",
+    "description",
+    "action"
+  ],
+  "variants": [
+    "not-found",
+    "server-error"
+  ],
+  "sizes": [
+    "responsive"
+  ],
+  "states": [
+    "default",
+    "retrying"
+  ],
+  "actions": [
+    "go-dashboard",
+    "retry"
+  ],
+  "tokenRefs": [
+    "color.background",
+    "color.error",
+    "typography.headingSize",
+    "space.section"
+  ],
+  "responsiveBehavior": "Центрируется и сохраняет 16px margins на mobile.",
+  "accessibility": {
+    "role": "alert",
+    "label": "Код и описание ошибки"
+  },
+  "usage": "Route-level failures.",
+  "restrictions": [
+    "500 не раскрывает технические детали"
+  ],
+  "defaultProps": {
+    "label": "404",
+    "description": "Страница не найдена"
+  },
+  "platforms": [
+    "web"
+  ]
+}

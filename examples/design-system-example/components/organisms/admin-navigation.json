@@ -1,0 +1,49 @@
+{
+  "id": "admin-navigation",
+  "name": "Admin Navigation",
+  "kind": "card",
+  "classification": "organism",
+  "description": "Основная навигация панели.",
+  "dependencies": [
+    "navigation-item"
+  ],
+  "properties": [
+    "items",
+    "activeId"
+  ],
+  "variants": [
+    "sidebar",
+    "bottom"
+  ],
+  "sizes": [
+    "responsive"
+  ],
+  "states": [
+    "default",
+    "collapsed"
+  ],
+  "actions": [
+    "navigate"
+  ],
+  "tokenRefs": [
+    "component.navigation.background",
+    "size.sidebar",
+    "layer.navigation"
+  ],
+  "responsiveBehavior": "Sidebar desktop; compact rail tablet; bottom navigation mobile.",
+  "accessibility": {
+    "role": "navigation",
+    "label": "Основная навигация"
+  },
+  "usage": "Одна основная навигация на admin shell.",
+  "restrictions": [
+    "Не помещать product actions в navigation"
+  ],
+  "defaultProps": {
+    "label": "Навигация",
+    "description": "Дашборд · Пользователи"
+  },
+  "platforms": [
+    "web"
+  ]
+}

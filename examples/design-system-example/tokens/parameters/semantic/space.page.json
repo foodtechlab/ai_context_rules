@@ -1,0 +1,9 @@
+{
+  "id": "space.page",
+  "name": "Page padding",
+  "value": "{space.400}",
+  "purpose": "Desktop page padding",
+  "modes": {
+    "dark": "{space.400}"
+  }
+}

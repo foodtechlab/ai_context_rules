@@ -1,0 +1,33 @@
+{
+  "id": "auth-layout",
+  "name": "Auth Layout",
+  "purpose": "Центрированная authentication form.",
+  "regions": [
+    {
+      "id": "brand",
+      "name": "Brand",
+      "required": true
+    },
+    {
+      "id": "content",
+      "name": "Auth content",
+      "required": true
+    },
+    {
+      "id": "support",
+      "name": "Support link",
+      "required": false
+    }
+  ],
+  "navigationComponentIds": [],
+  "tokenRefs": [
+    "color.background",
+    "component.form.maxWidth",
+    "space.page"
+  ],
+  "widthRules": "Form max-width 480px; desktop uses centered card; mobile uses full available width.",
+  "scrollRules": "Page scrolls only when keyboard or small-height viewport requires it.",
+  "safeAreaRules": "16px minimum safe margin; keyboard keeps focused field visible.",
+  "responsiveBehavior": "Desktop: centered panel; mobile: edge-to-edge background and padded form.",
+  "openQuestions": []
+}

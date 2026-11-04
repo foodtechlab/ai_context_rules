@@ -1,0 +1,6 @@
+{
+  "id": "color.success",
+  "name": "Success",
+  "value": "{color.palette.green.600}",
+  "purpose": "Успешное действие"
+}

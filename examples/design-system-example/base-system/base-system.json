@@ -1,0 +1,49 @@
+{
+  "name": "Material Design 3",
+  "version": "3",
+  "platform": "Responsive Web / React",
+  "componentLibrary": "AIC Design System Studio reference library",
+  "inheritedPrinciples": [
+    "Понятная иерархия",
+    "Доступные touch targets",
+    "Предсказуемая обратная связь",
+    "Адаптивные layout patterns"
+  ],
+  "inheritedComponents": [
+    "Button",
+    "Text field",
+    "Badge",
+    "Card"
+  ],
+  "inheritedBehaviors": [
+    "Keyboard focus",
+    "Disabled state",
+    "Loading feedback",
+    "Responsive navigation"
+  ],
+  "tokenOverrides": [
+    "Northstar blue palette",
+    "Плотная desktop-сетка",
+    "Контрастная dark theme",
+    "Mobile touch spacing"
+  ],
+  "changedComponents": [
+    "Navigation item",
+    "Dense user row",
+    "Admin form field"
+  ],
+  "customComponents": [
+    "Stat card",
+    "Admin header",
+    "Admin navigation",
+    "User table",
+    "Error panel"
+  ],
+  "upgradeReviewNotes": [
+    "Focus ring и contrast",
+    "Touch target 48px",
+    "Поведение sidebar и bottom navigation",
+    "Dense table на desktop"
+  ],
+  "openQuestions": []
+}

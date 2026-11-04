@@ -1,0 +1,90 @@
+{
+  "id": "server-error",
+  "name": "500",
+  "purpose": "Сообщить о server failure и предложить восстановление.",
+  "userTask": "Повторить действие или безопасно вернуться.",
+  "layoutId": "error-layout",
+  "description": "Server error.",
+  "inputParameters": [
+    "incidentId"
+  ],
+  "displayedData": [
+    "Error code",
+    "Incident reference",
+    "Recovery action"
+  ],
+  "actions": [
+    "retry-server",
+    "go-dashboard"
+  ],
+  "entryPoints": [
+    "Unhandled server response",
+    "Critical loading failure"
+  ],
+  "returnBehavior": "Retry возвращает к предыдущему безопасному экрану.",
+  "adaptiveNotes": "Centered desktop and mobile; no technical stack trace.",
+  "viewports": [
+    "phone",
+    "tablet",
+    "desktop"
+  ],
+  "states": [
+    {
+      "id": "default",
+      "name": "Default",
+      "title": "Что-то пошло не так",
+      "description": "Данные не потеряны. Попробуйте ещё раз.",
+      "blocks": [
+        {
+          "id": "500-panel",
+          "componentId": "error-panel",
+          "regionId": "content",
+          "variant": "server-error",
+          "props": {
+            "label": "500",
+            "description": "Сервис временно недоступен"
+          }
+        },
+        {
+          "id": "500-retry",
+          "componentId": "admin-button",
+          "regionId": "content",
+          "variant": "primary",
+          "props": {
+            "label": "Повторить"
+          },
+          "actionId": "retry-server"
+        },
+        {
+          "id": "500-home",
+          "componentId": "admin-button",
+          "regionId": "content",
+          "variant": "ghost",
+          "props": {
+            "label": "В dashboard"
+          },
+          "actionId": "go-dashboard"
+        }
+      ]
+    },
+    {
+      "id": "retrying",
+      "name": "Retrying",
+      "title": "Повторяем запрос",
+      "description": "Проверяем доступность сервиса.",
+      "blocks": [
+        {
+          "id": "500-loading",
+          "componentId": "admin-button",
+          "regionId": "content",
+          "variant": "primary",
+          "state": "loading",
+          "props": {
+            "label": "Повторить"
+          }
+        }
+      ]
+    }
+  ],
+  "openQuestions": []
+}

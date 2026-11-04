@@ -1,0 +1,9 @@
+{
+  "id": "color.border",
+  "name": "Border",
+  "value": "{color.palette.neutral.200}",
+  "purpose": "Границы и разделители",
+  "modes": {
+    "dark": "#343a49"
+  }
+}

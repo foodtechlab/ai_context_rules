@@ -1,0 +1,6 @@
+{
+  "id": "component.form.maxWidth",
+  "name": "Form width",
+  "value": "480px",
+  "purpose": "Auth and user form width"
+}

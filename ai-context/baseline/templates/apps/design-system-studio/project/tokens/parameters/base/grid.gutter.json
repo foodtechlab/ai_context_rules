@@ -1,0 +1,6 @@
+{
+  "id": "grid.gutter",
+  "name": "Grid gutter",
+  "value": "24px",
+  "purpose": "Промежуток сетки"
+}

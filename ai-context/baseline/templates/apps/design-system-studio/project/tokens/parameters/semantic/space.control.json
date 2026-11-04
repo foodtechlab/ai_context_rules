@@ -1,0 +1,6 @@
+{
+  "id": "space.control",
+  "name": "Control space",
+  "value": "{space.200}",
+  "purpose": "Внутренние отступы контролов"
+}

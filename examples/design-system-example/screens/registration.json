@@ -1,0 +1,119 @@
+{
+  "id": "registration",
+  "name": "Registration",
+  "purpose": "Создать первый administrator account.",
+  "userTask": "Зарегистрироваться и перейти в dashboard.",
+  "layoutId": "auth-layout",
+  "description": "Экран регистрации.",
+  "inputParameters": [
+    "inviteCode"
+  ],
+  "displayedData": [
+    "Name",
+    "Email",
+    "Password",
+    "Terms"
+  ],
+  "actions": [
+    "registration-submit",
+    "back-login"
+  ],
+  "entryPoints": [
+    "Login: open-registration",
+    "Invite link"
+  ],
+  "returnBehavior": "Назад возвращает введённый email на login.",
+  "adaptiveNotes": "Form is centered desktop and single-column mobile.",
+  "viewports": [
+    "phone",
+    "tablet",
+    "desktop"
+  ],
+  "states": [
+    {
+      "id": "default",
+      "name": "Default",
+      "title": "Создайте аккаунт",
+      "description": "Настройка занимает меньше минуты.",
+      "blocks": [
+        {
+          "id": "registration-form",
+          "componentId": "auth-form",
+          "regionId": "content",
+          "variant": "register",
+          "props": {
+            "label": "Регистрация",
+            "description": "Имя · Email · Пароль"
+          }
+        },
+        {
+          "id": "registration-submit",
+          "componentId": "admin-button",
+          "regionId": "content",
+          "variant": "primary",
+          "props": {
+            "label": "Создать аккаунт"
+          },
+          "actionId": "registration-submit"
+        },
+        {
+          "id": "registration-login",
+          "componentId": "admin-button",
+          "regionId": "support",
+          "variant": "ghost",
+          "props": {
+            "label": "Уже есть аккаунт"
+          },
+          "actionId": "back-login"
+        }
+      ]
+    },
+    {
+      "id": "submitting",
+      "name": "Submitting",
+      "title": "Создаём аккаунт",
+      "description": "Подготавливаем рабочее пространство.",
+      "blocks": [
+        {
+          "id": "registration-loading",
+          "componentId": "admin-button",
+          "regionId": "content",
+          "variant": "primary",
+          "state": "loading",
+          "props": {
+            "label": "Создать аккаунт"
+          }
+        }
+      ]
+    },
+    {
+      "id": "error",
+      "name": "Error",
+      "title": "Регистрация не завершена",
+      "description": "Email уже используется.",
+      "blocks": [
+        {
+          "id": "registration-error",
+          "componentId": "form-field",
+          "regionId": "content",
+          "state": "error",
+          "props": {
+            "label": "Email",
+            "errorText": "Аккаунт уже существует"
+          }
+        },
+        {
+          "id": "registration-error-back",
+          "componentId": "admin-button",
+          "regionId": "support",
+          "variant": "ghost",
+          "props": {
+            "label": "Вернуться ко входу"
+          },
+          "actionId": "back-login"
+        }
+      ]
+    }
+  ],
+  "openQuestions": []
+}

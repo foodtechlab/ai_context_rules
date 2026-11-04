@@ -1,0 +1,47 @@
+{
+  "id": "auth-check",
+  "name": "Authentication check",
+  "flowId": "authentication",
+  "startNodeId": "login-default",
+  "fixtures": [
+    {
+      "id": "admin",
+      "name": "Администратор",
+      "state": {
+        "adminName": "Анна",
+        "organizationName": "Northstar"
+      }
+    },
+    {
+      "id": "new-admin",
+      "name": "Новый администратор",
+      "state": {
+        "adminName": "Иван",
+        "organizationName": "Новая команда"
+      }
+    }
+  ],
+  "implementedInteractions": [
+    "Login → Dashboard",
+    "Login → Registration",
+    "Registration → Dashboard",
+    "Back to login",
+    "History back",
+    "Viewport switch"
+  ],
+  "simulatedInteractions": [
+    "Credential validation",
+    "Account creation",
+    "Session creation"
+  ],
+  "supportedThemes": [
+    "light",
+    "dark"
+  ],
+  "supportedViewports": [
+    "phone",
+    "tablet",
+    "desktop"
+  ],
+  "openQuestions": []
+}

@@ -3,90 +3,81 @@
 ## Ownership boundary
 
 `ai-context/baseline/apps/design-system-studio/` is an immutable runtime and
-library delivered by AI Context. A target repository must never place product
-tokens, components, layouts, screens, flows or mocks there.
+library delivered by AI Context. Product data and implementations always live
+outside `ai-context/baseline` in a project-owned directory whose last segment
+is `design-system` (named examples may use `examples/design-system-<name>`).
 
-The project implementation lives outside `ai-context/baseline` in a directory
-whose last segment is `design-system`, for example:
+## Mandatory file layout
 
 ```text
 apps/mobile/design-system/
-  studio.json
-  README.md
+  design-system.json
   base-system/
+    base-system.json
   tokens/
-    colors/
-    typography/
-    parameters/
+    themes/<theme-id>.json
+    colors/{base,semantic,component}/<token-id>.json
+    typography/{base,semantic,component}/<token-id>.json
+    parameters/{base,semantic,component}/<token-id>.json
   components/
-    atoms/
-    molecules/
-    organisms/
-  layouts/
-  screens/
-  flows/
-  mockups/
+    atoms/<component-id>.json
+    molecules/<component-id>.json
+    organisms/<component-id>.json
+  layouts/<layout-id>.json
+  screens/<screen-id>.json
+  flows/<flow-id>.json
+  mockups/<mockup-id>.json
 ```
 
-The prefix (`apps/mobile` in the example) belongs to the target repository and
-is configured as `design_system_studio.project_directory` in
-`ai-context/parameters/repository-parameters.yaml`.
+This is a strict storage contract:
 
-The production/project convention requires the final segment `design-system`.
-Named repository examples are the only exception and may use
-`examples/design-system-<name>` so several isolated examples can coexist.
+- one theme, token, component, layout, screen, flow or mockup equals one JSON
+  file;
+- the filename must be exactly `<id>.json` and ids must be portable filenames;
+- a file contains one object, never an array or collection of entities;
+- `design-system.json` contains only schema version, metadata, Studio settings
+  and adapter settings; entity collections are forbidden there;
+- `base-system/base-system.json` is the single definition of the inherited base
+  system;
+- `studio.json` is legacy and is rejected by the runtime;
+- implementation source, tests, stories and assets may sit beside definitions,
+  but every implementation entity must also keep its own source file. Barrel
+  files may only re-export and must not contain several implementations.
+
+Studio aggregates these files only in memory for validation and rendering. A
+save operation decomposes the aggregate again and atomically writes each entity
+to its own project-owned file. The aggregate API payload is not a storage
+format.
 
 ## Responsibilities
 
-- `studio.json` is the canonical index: stable ids, cross-section references,
-  states, fixtures, project viewport presets and adapter settings. Studio
-  settings do not create an eighth design-system section.
-- Each viewport preset records `id`, display `name`, pixel `width` and `height`,
-  `mobile` or `desktop` group and the purpose of the check. New projects use
-  the 14 baseline presets and `iphone-13-14` as the default viewport; projects
-  may then customize these values in Settings.
-- The seven section directories contain project-owned documentation, source
-  implementations, tests, examples and assets for their section.
+- `design-system.json` stores project-wide metadata, viewport presets and
+  adapter settings.
+- Every entity file stores stable ids, states and cross-section references for
+  exactly one entity.
+- The seven section directories contain project-owned definitions,
+  implementations, tests, examples and assets.
 - `components/atoms`, `components/molecules` and `components/organisms` contain
-  the actual project component implementations. They are not added to the
+  the actual project component implementations; they are never added to the
   baseline runtime.
-- `tokens/colors`, `tokens/typography` and `tokens/parameters` preserve the
-  token grouping. Base, semantic and component tiers remain explicit in files
-  or subdirectories chosen by the project.
-- Missing decisions stay visible in `openQuestions` in `studio.json` and in the
-  corresponding section documentation.
+- Missing decisions remain visible in the corresponding entity's
+  `openQuestions`.
+
+The project prefix is configured as
+`apps.catalog.design_system_studio.project_directory` in
+`ai-context/parameters/repository-parameters.yaml`.
 
 ## Using the baseline library
 
-The project directory consumes the runtime/library from
-`ai-context/baseline/apps/design-system-studio`; it does not copy or fork it.
-The Studio process receives the project path explicitly:
+The project consumes the runtime from
+`ai-context/baseline/apps/design-system-studio`; it does not copy or fork it:
 
 ```bash
 AIC_DESIGN_SYSTEM_DIR="apps/mobile/design-system" \
   npm --prefix ai-context/baseline/apps/design-system-studio run dev
 ```
 
-## One-click VS Code launch
-
-Repository setup must resolve the project directory once and persist it in
-`ai-context/parameters/repository-parameters.yaml` and in the VS Code launch
-configuration. Normal startup must not ask for the path again.
-
-The repository must expose a configuration named
-`AIC: design-system-studio` that performs the complete sequence with one `F5`:
-
-1. run a visible pre-launch task that installs baseline runtime dependencies;
-2. start `server.mjs` with `AIC_REPO_ROOT` and a literal repo-relative
-   `AIC_DESIGN_SYSTEM_DIR`;
-3. use `serverReadyAction` to open the reported URL automatically.
-
-Do not use `${input:...}`, `promptString` or another runtime path prompt. The
-setup skill must update the literal path when `project_directory` changes and
-must preserve unrelated user launch and task configurations.
-
-For a JavaScript or TypeScript design-system package, add a local file
-dependency whose relative path resolves to the baseline package:
+For JavaScript or TypeScript, a project package may use a local dependency:
 
 ```json
 {
@@ -96,18 +87,28 @@ dependency whose relative path resolves to the baseline package:
 }
 ```
 
-The exact relative prefix depends on the selected project directory. Flutter,
-Android and iOS projects use `studio.json`, generated adapters and the same
-seven-section ownership model instead of importing React source into product
-runtime.
+Flutter, Android and iOS use the same project files and generated adapters;
+they do not import the React runtime into the product.
 
-## Update rule
+## One-click VS Code launch
 
-AI Context updates may replace every file under
-`ai-context/baseline/apps/design-system-studio/`. They must not create, edit,
-move or delete the project `…/design-system/` directory. Project changes must
-never be implemented by patching baseline files.
+Repository setup resolves the project directory once and persists it in
+repository parameters and `.vscode/launch.json`. The configuration
+`AIC: design-system-studio` must perform install → start → open browser with one
+`F5`, use a literal `AIC_DESIGN_SYSTEM_DIR`, preserve unrelated configurations
+and never prompt for the path at runtime.
 
-Legacy `ai-context/apps/design-system-studio/data/studio.json` is not a valid
-project location under this standard. Move it once into the selected project
-directory, validate the new location, and only then retire the legacy copy.
+## Update and conversion rule
+
+AI Context updates may replace every baseline runtime file but must never edit
+or delete the project `…/design-system/` directory.
+
+If a pre-standard project still has `studio.json`, split it once with:
+
+```bash
+npm --prefix ai-context/baseline/apps/design-system-studio run split:data -- \
+  <project-path>/design-system
+```
+
+The command validates the aggregate, writes all separate files, verifies the
+result and only then removes the legacy file. Never create a new `studio.json`.

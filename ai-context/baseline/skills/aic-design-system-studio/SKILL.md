@@ -15,6 +15,7 @@ baseline library и отдельную проектную директорию `
    - `ai-context/baseline/apps/design-system-studio/README.md`;
    - `ai-context/baseline/apps/design-system-studio/docs/project-structure.md`;
    - `ai-context/baseline/apps/design-system-studio/schemas/studio.schema.json`;
+   - `ai-context/baseline/apps/design-system-studio/schemas/project.schema.json`;
    - `ai-context/parameters/repository-parameters.yaml`.
 3. Считать все файлы внутри
    `ai-context/baseline/apps/design-system-studio/` неизменяемыми в целевом
@@ -34,18 +35,16 @@ baseline library и отдельную проектную директорию `
    - заканчивается сегментом `design-system`; для named examples допустим
      только путь `examples/design-system-<name>`;
    - не находится внутри `ai-context/baseline`.
-3. Если параметр не задан, найти существующие `*/design-system/studio.json` и
-   `examples/design-system-*/studio.json`, исключив `.git`, build output,
+3. Если параметр не задан, найти существующие `*/design-system/design-system.json` и
+   `examples/design-system-*/design-system.json`, исключив `.git`, build output,
    dependencies и `ai-context/baseline`.
 4. Если найден ровно один путь, использовать его и предложить записать в
    repository parameters. Если не найдено ни одного или найдено несколько,
    запросить у пользователя конкретный `<project-path>/design-system`.
 
-Если существует legacy-файл
-`ai-context/apps/design-system-studio/data/studio.json`, не продолжать работать
-с ним. После выбора project directory предложить перенести модель в
-`<project-path>/design-system/studio.json`, сохранив исходник до успешной
-валидации нового расположения.
+Если в выбранной директории существует legacy `studio.json`, не запускать
+Studio и не редактировать монолит. Разделить его штатной командой `split:data`,
+проверить новую файловую структуру и только после успешной валидации продолжить.
 
 Не выбирать `xxx` и не придумывать принадлежность директории без контекста
 целевого проекта.
@@ -60,8 +59,10 @@ baseline library и отдельную проектную директорию `
 
 ```text
 <project-path>/design-system/
-  base-system/
-  tokens/{colors,typography,parameters}/
+  design-system.json
+  base-system/base-system.json
+  tokens/themes/
+  tokens/{colors,typography,parameters}/{base,semantic,component}/
   components/{atoms,molecules,organisms}/
   layouts/
   screens/
@@ -113,13 +114,22 @@ AIC_REPO_ROOT="$PWD" AIC_DESIGN_SYSTEM_DIR="$PROJECT_DESIGN_SYSTEM" \
   npm --prefix ai-context/baseline/apps/design-system-studio run dev
 ```
 
-Сообщить пользователю URL и resolved project directory из stdout. Не менять
-`studio.json` только ради запуска приложения.
+Сообщить пользователю URL и resolved project directory из stdout. Не создавать
+монолитный `studio.json` ради запуска приложения.
 
 ## Изменение дизайн-системы
 
-- Канонический контракт — `<project-path>/design-system/studio.json`, а не
-  baseline React runtime.
+- Канонический контракт — отдельные файлы внутри
+  `<project-path>/design-system/`, а не baseline React runtime и не агрегат.
+- Жёстко соблюдать правило «одна сущность — один файл»: одна theme, token,
+  component, layout, screen, flow или mockup записывается только в собственный
+  `<id>.json`. Имя файла обязано совпадать с `id`.
+- `design-system.json` содержит только schemaVersion, meta, settings и
+  adapterSettings. Запрещено помещать туда массивы сущностей или создавать
+  `studio.json`.
+- Definition и реализация компонента являются project-owned файлами. Для
+  каждой реализации использовать отдельный source-файл; barrel-файл может
+  только реэкспортировать и не должен содержать несколько компонентов.
 - Реализации и документацию раскладывать по семи project-owned директориям;
   компоненты реализовывать только в `components/atoms`, `molecules` или
   `organisms`.
@@ -164,6 +174,8 @@ npm --prefix ai-context/baseline/apps/design-system-studio run build
   цвета, токена, layout, экрана, flow, mockup или компонента.
 - Не хранить проектную дизайн-систему в
   `ai-context/apps/design-system-studio/`.
+- Не объединять несколько сущностей в одном JSON или source-файле даже для
+  маленького примера, starter template или временной реализации.
 - Не перезаписывать repo-local данные при повторном запуске или обновлении.
 - Не включать Studio в production bundle основного продукта.
 - Не изменять product code и generated platform files без отдельного запроса.

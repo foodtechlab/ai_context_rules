@@ -1,0 +1,6 @@
+{
+  "id": "layer.overlay",
+  "name": "Overlay layer",
+  "value": "1000",
+  "purpose": "Модальные поверхности"
+}

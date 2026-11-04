@@ -1,0 +1,9 @@
+{
+  "id": "color.text",
+  "name": "Primary text",
+  "value": "{color.palette.neutral.900}",
+  "purpose": "Основной текст и иконки",
+  "modes": {
+    "dark": "{color.palette.white}"
+  }
+}

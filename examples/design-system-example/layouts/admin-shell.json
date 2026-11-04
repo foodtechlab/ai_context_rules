@@ -1,0 +1,43 @@
+{
+  "id": "admin-shell",
+  "name": "Admin Shell",
+  "purpose": "Основная responsive структура административной панели.",
+  "regions": [
+    {
+      "id": "navigation",
+      "name": "Primary navigation",
+      "required": true
+    },
+    {
+      "id": "top-bar",
+      "name": "Top bar",
+      "required": true
+    },
+    {
+      "id": "content",
+      "name": "Content",
+      "required": true
+    },
+    {
+      "id": "bottom-action",
+      "name": "Mobile primary action",
+      "required": false
+    }
+  ],
+  "navigationComponentIds": [
+    "admin-navigation",
+    "admin-header"
+  ],
+  "tokenRefs": [
+    "color.background",
+    "component.navigation.background",
+    "size.sidebar",
+    "space.page",
+    "layout.content.maxWidth"
+  ],
+  "widthRules": "Desktop reserves 248px sidebar and max content 1440px; tablet uses compact rail; mobile is one column.",
+  "scrollRules": "Navigation and top-bar stay fixed; content scrolls independently on desktop and as a page on mobile.",
+  "safeAreaRules": "Bottom navigation and sticky actions include safe-area inset; forms react to keyboard.",
+  "responsiveBehavior": "Sidebar >=1200px, compact navigation 768–1199px, bottom navigation <768px.",
+  "openQuestions": []
+}

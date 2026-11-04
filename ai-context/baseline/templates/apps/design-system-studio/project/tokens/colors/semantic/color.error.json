@@ -1,0 +1,6 @@
+{
+  "id": "color.error",
+  "name": "Error",
+  "value": "{color.palette.red.500}",
+  "purpose": "Ошибка"
+}

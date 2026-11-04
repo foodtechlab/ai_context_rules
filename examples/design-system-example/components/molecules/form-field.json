@@ -1,0 +1,57 @@
+{
+  "id": "form-field",
+  "name": "Form Field",
+  "kind": "input",
+  "classification": "molecule",
+  "description": "Label, input, hint и error.",
+  "dependencies": [
+    "admin-input",
+    "body-text"
+  ],
+  "properties": [
+    "label",
+    "value",
+    "placeholder",
+    "errorText",
+    "type"
+  ],
+  "variants": [
+    "default"
+  ],
+  "sizes": [
+    "medium"
+  ],
+  "states": [
+    "default",
+    "focus",
+    "error",
+    "disabled"
+  ],
+  "actions": [
+    "change",
+    "focus",
+    "blur"
+  ],
+  "tokenRefs": [
+    "component.input.border",
+    "color.error",
+    "space.control"
+  ],
+  "responsiveBehavior": "Занимает всю ширину формы на всех viewport.",
+  "accessibility": {
+    "role": "group",
+    "label": "Label связан с input; error объявляется screen reader"
+  },
+  "usage": "Для одного значения формы.",
+  "restrictions": [
+    "Ошибка всегда содержит текст"
+  ],
+  "defaultProps": {
+    "label": "Email",
+    "placeholder": "name@company.ru",
+    "errorText": "Проверьте значение"
+  },
+  "platforms": [
+    "web"
+  ]
+}
