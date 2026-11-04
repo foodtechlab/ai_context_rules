@@ -5,11 +5,15 @@ Code-first React-приложение для семи связанных раз�
 
 ## Ownership
 
-- Runtime, schemas, reference renderers и adapters находятся в replaceable
-  `ai-context/baseline/apps/design-system-studio/`.
-- Дизайн текущего репозитория находится в repo-local
-  `ai-context/apps/design-system-studio/data/studio.json`.
-- Baseline-sync обновляет runtime и не перезаписывает существующий `studio.json`.
+- Все файлы в `ai-context/baseline/apps/design-system-studio/` принадлежат
+  baseline, считаются неизменяемыми в целевом репозитории и могут быть целиком
+  заменены при обновлении AI Context.
+- Дизайн и реализации текущего проекта находятся вне `ai-context/baseline` в
+  настраиваемой директории вида `<project-path>/design-system/`.
+- Проектная директория использует runtime/library из baseline, но не копирует и
+  не изменяет её.
+- Полный обязательный layout описан в
+  [`docs/project-structure.md`](docs/project-structure.md).
 
 ## Запуск
 
@@ -17,7 +21,8 @@ Code-first React-приложение для семи связанных раз�
 
 ```bash
 npm --prefix ai-context/baseline/apps/design-system-studio install
-AIC_REPO_ROOT="$PWD" npm --prefix ai-context/baseline/apps/design-system-studio run dev
+AIC_REPO_ROOT="$PWD" AIC_DESIGN_SYSTEM_DIR="<project-path>/design-system" \
+  npm --prefix ai-context/baseline/apps/design-system-studio run dev
 ```
 
 Открыть `http://localhost:4174`.
@@ -27,7 +32,8 @@ AIC_REPO_ROOT="$PWD" npm --prefix ai-context/baseline/apps/design-system-studio 
 ```bash
 npm --prefix ai-context/baseline/apps/design-system-studio run typecheck
 npm --prefix ai-context/baseline/apps/design-system-studio test
-AIC_REPO_ROOT="$PWD" npm --prefix ai-context/baseline/apps/design-system-studio run validate:data
+AIC_REPO_ROOT="$PWD" AIC_DESIGN_SYSTEM_DIR="<project-path>/design-system" \
+  npm --prefix ai-context/baseline/apps/design-system-studio run validate:data
 npm --prefix ai-context/baseline/apps/design-system-studio run build
 ```
 
@@ -35,14 +41,16 @@ Production-like запуск:
 
 ```bash
 npm --prefix ai-context/baseline/apps/design-system-studio run build
-AIC_REPO_ROOT="$PWD" npm --prefix ai-context/baseline/apps/design-system-studio start
+AIC_REPO_ROOT="$PWD" AIC_DESIGN_SYSTEM_DIR="<project-path>/design-system" \
+  npm --prefix ai-context/baseline/apps/design-system-studio start
 ```
 
 Порт меняется через `PORT`.
 
 ## Модель
 
-`studio.json` содержит обязательную versioned platform-neutral модель:
+`<project-path>/design-system/studio.json` содержит обязательную versioned
+platform-neutral модель:
 
 - base design system, её версию, наследуемые решения и overrides;
 - базовые, семантические и компонентные tokens по цветам, типографике и
@@ -62,8 +70,9 @@ AIC_REPO_ROOT="$PWD" npm --prefix ai-context/baseline/apps/design-system-studio 
 screens → flows → mockups. Неопределённые решения сохраняются в
 `openQuestions`, а не замалчиваются и не заполняются догадками.
 
-Изменения из UI атомарно сохраняются в repo-local файл. JSON-редактор остается
-code-first escape hatch и проходит reference validation перед записью.
+Изменения из UI атомарно сохраняются только в проектный `studio.json`.
+JSON-редактор остается code-first escape hatch и проходит reference validation
+перед записью.
 
 ## Platform adapters
 
@@ -78,6 +87,7 @@ Adapters не обещают автоматический production parity. Г�
 ## Безопасность
 
 - JSON не выполняется через `eval`.
-- Runtime пишет только в фиксированный app data path.
+- Runtime пишет только в переданную через `AIC_DESIGN_SYSTEM_DIR` проектную
+  директорию внутри репозитория и запрещает путь в `ai-context/baseline`.
 - Ошибочные references блокируют запись и возвращают диагностику.
 - Product runtime не зависит от studio и не включает его в production bundle.

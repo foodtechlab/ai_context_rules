@@ -36,8 +36,8 @@ ai-context/
 Текущий baseline-набор:
 
 - `backend-entity-map` — React Flow-интерфейс карты backend-сущностей.
-- `design-system-studio` — code-first studio для tokens, компонентов, экранов,
-  React Flow-карт, mockup-сценариев и platform exports.
+- `design-system-studio` — неизменяемые runtime/library для проектной
+  code-first дизайн-системы, расположенной в `<project-path>/design-system/`.
 
 ## Именование
 
@@ -74,3 +74,23 @@ ai-context/
 - Код baseline-приложения обновляется вместе с baseline. Его repo-local data
   после bootstrap сохраняется без перезаписи.
 - Каждое приложение обязано явно разделять baseline runtime и repo-local data.
+
+### Особое правило Design System Studio
+
+Design System Studio не хранит проектную дизайн-систему в
+`ai-context/apps/design-system-studio/`:
+
+- `ai-context/baseline/apps/design-system-studio/` — только неизменяемые
+  runtime, library, schema, adapters и templates;
+- `<project-path>/design-system/` — проектные tokens, компоненты, layouts,
+  screens, flows и mockups;
+- путь `<project-path>/design-system` задаётся в
+  `apps.catalog.design_system_studio.project_directory` файла
+  `ai-context/parameters/repository-parameters.yaml`;
+- локальная директория обязана повторять семь разделов модели и дополнительно
+  делить tokens на три группы, а components — на atoms, molecules и organisms;
+- AI Context sync не управляет проектной директорией и никогда её не
+  перезаписывает.
+
+Подробный layout и способ подключения baseline library описаны в
+`ai-context/baseline/apps/design-system-studio/docs/project-structure.md`.

@@ -62,12 +62,6 @@
         "path": "ai-context/apps/backend-entity-map/data"
       },
       {
-        "path": "ai-context/apps/design-system-studio"
-      },
-      {
-        "path": "ai-context/apps/design-system-studio/data"
-      },
-      {
         "path": "ai-context/content"
       },
       {
@@ -132,14 +126,6 @@
       {
         "source": "ai-context/baseline/templates/apps/backend-entity-map/data/user.json",
         "target": "ai-context/apps/backend-entity-map/data/user.json"
-      },
-      {
-        "source": "ai-context/baseline/templates/apps/design-system-studio/README.md",
-        "target": "ai-context/apps/design-system-studio/README.md"
-      },
-      {
-        "source": "ai-context/baseline/templates/apps/design-system-studio/data/studio.json",
-        "target": "ai-context/apps/design-system-studio/data/studio.json"
       },
       {
         "source": "ai-context/baseline/templates/content/.gitkeep",

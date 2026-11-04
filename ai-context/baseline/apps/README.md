@@ -9,5 +9,6 @@ templates и общие schemas.
 ## Приложения
 
 - `backend-entity-map/` — интерактивная карта domain-сущностей backend.
-- `design-system-studio/` — code-first дизайн-система, экранные карты и
-  интерактивные mockup-сценарии.
+- `design-system-studio/` — неизменяемые runtime/library для проектной
+  code-first дизайн-системы; project-owned реализация находится в отдельной
+  директории `<project-path>/design-system/`.

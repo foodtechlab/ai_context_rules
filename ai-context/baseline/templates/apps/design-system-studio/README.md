@@ -1,12 +1,12 @@
-# Design System Studio Data
+# Design System Studio Project Template
 
-Repo-local source of truth для Design System Studio.
+Этот template копируется skill-ом в выбранную проектную директорию вида
+`<project-path>/design-system/`. Он не используется прямо из baseline.
 
-- `data/studio.json` хранит семь обязательных разделов: базовую систему, tokens,
-  компоненты, layouts, экраны, flows и mockups.
-- Недостающие решения явно фиксируются в `openQuestions`.
-- Файл изменяется через Studio или вручную как code-first JSON.
-- Baseline-sync не должен перезаписывать существующий файл.
-- Перед commit рекомендуется запустить `validate:data`, `typecheck`, tests и build.
+- `project/studio.json` — starter канонической модели.
+- `project/` повторяет семь разделов дизайн-системы и содержит места для
+  project-owned реализаций.
+- Skill копирует только отсутствующие файлы и не обновляет существующий
+  проектный дизайн шаблоном.
 
 Runtime находится в `ai-context/baseline/apps/design-system-studio/`.

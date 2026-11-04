@@ -4,7 +4,7 @@ import test from 'node:test';
 
 import { emptyStudio, validateStudio } from '../src/data-model.mjs';
 
-const starter = JSON.parse(await readFile(new URL('../../../templates/apps/design-system-studio/data/studio.json', import.meta.url), 'utf8'));
+const starter = JSON.parse(await readFile(new URL('../../../templates/apps/design-system-studio/project/studio.json', import.meta.url), 'utf8'));
 
 test('starter studio satisfies cross-reference validation', () => {
   assert.deepEqual(validateStudio(starter), []);

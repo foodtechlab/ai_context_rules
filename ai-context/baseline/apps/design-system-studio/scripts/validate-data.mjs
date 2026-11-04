@@ -6,7 +6,20 @@ import { validateStudio } from '../src/data-model.mjs';
 
 const appRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const repositoryRoot = path.resolve(process.env.AIC_REPO_ROOT || path.join(appRoot, '../../../..'));
-const dataPath = path.join(repositoryRoot, 'ai-context/apps/design-system-studio/data/studio.json');
+const configuredProjectDirectory = process.env.AIC_DESIGN_SYSTEM_DIR;
+if (!configuredProjectDirectory) throw new Error('AIC_DESIGN_SYSTEM_DIR is required');
+const designSystemDirectory = path.resolve(repositoryRoot, configuredProjectDirectory);
+const relativeDesignSystemDirectory = path.relative(repositoryRoot, designSystemDirectory);
+if (path.basename(designSystemDirectory) !== 'design-system') {
+  throw new Error('AIC_DESIGN_SYSTEM_DIR must end with the design-system directory');
+}
+if (relativeDesignSystemDirectory.startsWith('..') || path.isAbsolute(relativeDesignSystemDirectory)) {
+  throw new Error('AIC_DESIGN_SYSTEM_DIR must point inside the current repository');
+}
+if (relativeDesignSystemDirectory.startsWith('ai-context/baseline')) {
+  throw new Error('AIC_DESIGN_SYSTEM_DIR cannot point inside immutable ai-context/baseline');
+}
+const dataPath = path.join(designSystemDirectory, 'studio.json');
 const value = JSON.parse(await readFile(dataPath, 'utf8'));
 const errors = validateStudio(value);
 

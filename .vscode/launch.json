@@ -30,6 +30,7 @@
       "cwd": "${workspaceFolder}",
       "env": {
         "AIC_REPO_ROOT": "${workspaceFolder}",
+        "AIC_DESIGN_SYSTEM_DIR": "${input:aicDesignSystemDirectory}",
         "PORT": "4174"
       },
       "preLaunchTask": "AIC: install design-system-studio dependencies",
@@ -42,6 +43,14 @@
         "uriFormat": "%s",
         "action": "openExternally"
       }
+    }
+  ],
+  "inputs": [
+    {
+      "id": "aicDesignSystemDirectory",
+      "type": "promptString",
+      "description": "Project-owned directory ending with design-system",
+      "default": "design-system"
     }
   ]
 }

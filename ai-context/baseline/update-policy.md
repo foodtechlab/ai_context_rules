@@ -120,8 +120,6 @@ bootstrap-файлы в repo-owned зонах, если их еще нет.
    - `apps/backend-entity-map/README.md`
    - `apps/backend-entity-map/data/generated.json`
    - `apps/backend-entity-map/data/user.json`
-   - `apps/design-system-studio/README.md`
-   - `apps/design-system-studio/data/studio.json`
    - `mcp/README.md`
    - `parameters/repository-parameters.yaml`
    - `parameters/local-machine/.gitignore`
@@ -132,6 +130,11 @@ bootstrap-файлы в repo-owned зонах, если их еще нет.
    - `epics/epic-list.md`
 5. не придумывай project-specific содержимое для `rules`, `apps`, `mcp/`,
    `tasks`, `changelog` и `epics`.
+
+Design System Studio не bootstrap-ится в `ai-context/apps`. Его project-owned
+директория `<project-path>/design-system/` создаётся только skill-ом
+`aic-design-system-studio` после явного определения project path и никогда не
+управляется baseline-sync.
 
 ## 6. Правило обновления
 

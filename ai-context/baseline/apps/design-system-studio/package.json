@@ -3,6 +3,12 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
+  "exports": {
+    ".": "./src/public-api.ts",
+    "./types": "./src/types.ts",
+    "./renderers": "./src/renderers.tsx",
+    "./schema": "./schemas/studio.schema.json"
+  },
   "scripts": {
     "dev": "node server.mjs",
     "build": "vite build",
