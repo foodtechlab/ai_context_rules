@@ -30,7 +30,7 @@
       "cwd": "${workspaceFolder}",
       "env": {
         "AIC_REPO_ROOT": "${workspaceFolder}",
-        "AIC_DESIGN_SYSTEM_DIR": "examples/design-system-example",
+        "AIC_DESIGN_SYSTEM_DIR": "design-system/admin-console",
         "PORT": "4174"
       },
       "preLaunchTask": "AIC: install design-system-studio dependencies",

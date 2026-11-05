@@ -2,23 +2,10 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { loadProjectStudio } from '../src/file-model.mjs';
+import { resolveProjectDesignSystemDirectory } from '../src/project-path.mjs';
 
 const appRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const repositoryRoot = path.resolve(process.env.AIC_REPO_ROOT || path.join(appRoot, '../../../..'));
-const configuredProjectDirectory = process.env.AIC_DESIGN_SYSTEM_DIR;
-if (!configuredProjectDirectory) throw new Error('AIC_DESIGN_SYSTEM_DIR is required');
-const designSystemDirectory = path.resolve(repositoryRoot, configuredProjectDirectory);
-const relativeDesignSystemDirectory = path.relative(repositoryRoot, designSystemDirectory);
-const isRepositoryExample = relativeDesignSystemDirectory.split(path.sep)[0] === 'examples'
-  && path.basename(designSystemDirectory).startsWith('design-system-');
-if (path.basename(designSystemDirectory) !== 'design-system' && !isRepositoryExample) {
-  throw new Error('AIC_DESIGN_SYSTEM_DIR must end with design-system; named examples are allowed under examples/design-system-*');
-}
-if (relativeDesignSystemDirectory.startsWith('..') || path.isAbsolute(relativeDesignSystemDirectory)) {
-  throw new Error('AIC_DESIGN_SYSTEM_DIR must point inside the current repository');
-}
-if (relativeDesignSystemDirectory.startsWith('ai-context/baseline')) {
-  throw new Error('AIC_DESIGN_SYSTEM_DIR cannot point inside immutable ai-context/baseline');
-}
+const { designSystemDirectory } = resolveProjectDesignSystemDirectory(repositoryRoot, process.env.AIC_DESIGN_SYSTEM_DIR);
 const value = await loadProjectStudio(designSystemDirectory);
 console.log(`Project files: valid (${value.components.length} components, ${value.layouts.length} layouts, ${value.screens.length} screens, ${value.flows.length} flows, ${value.mockups.length} mockups)`);

@@ -4,13 +4,13 @@
 
 `ai-context/baseline/apps/design-system-studio/` is an immutable runtime and
 library delivered by AI Context. Product data and implementations always live
-outside `ai-context/baseline` in a project-owned directory whose last segment
-is `design-system` (named examples may use `examples/design-system-<name>`).
+outside `ai-context/baseline` in one or more named project-owned directories
+under the repository root `design-system/`.
 
 ## Mandatory file layout
 
 ```text
-apps/mobile/design-system/
+design-system/mobile/
   design-system.json
   base-system/
     base-system.json
@@ -73,7 +73,7 @@ The project consumes the runtime from
 `ai-context/baseline/apps/design-system-studio`; it does not copy or fork it:
 
 ```bash
-AIC_DESIGN_SYSTEM_DIR="apps/mobile/design-system" \
+AIC_DESIGN_SYSTEM_DIR="design-system/mobile" \
   npm --prefix ai-context/baseline/apps/design-system-studio run dev
 ```
 
@@ -82,7 +82,7 @@ For JavaScript or TypeScript, a project package may use a local dependency:
 ```json
 {
   "devDependencies": {
-    "@ai-context/design-system-studio": "file:../../../ai-context/baseline/apps/design-system-studio"
+    "@ai-context/design-system-studio": "file:../../ai-context/baseline/apps/design-system-studio"
   }
 }
 ```
@@ -101,13 +101,13 @@ and never prompt for the path at runtime.
 ## Update and conversion rule
 
 AI Context updates may replace every baseline runtime file but must never edit
-or delete the project `…/design-system/` directory.
+or delete any project `design-system/<id>/` directory.
 
 If a pre-standard project still has `studio.json`, split it once with:
 
 ```bash
 npm --prefix ai-context/baseline/apps/design-system-studio run split:data -- \
-  <project-path>/design-system
+  design-system/<id>
 ```
 
 The command validates the aggregate, writes all separate files, verifies the

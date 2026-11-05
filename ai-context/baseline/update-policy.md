@@ -132,7 +132,7 @@ bootstrap-файлы в repo-owned зонах, если их еще нет.
    `tasks`, `changelog` и `epics`.
 
 Design System Studio не bootstrap-ится в `ai-context/apps`. Его project-owned
-директория `<project-path>/design-system/` создаётся только skill-ом
+директория `design-system/<id>/` создаётся только skill-ом
 `aic-design-system-studio` после явного определения project path и никогда не
 управляется baseline-sync.
 

@@ -1,7 +1,7 @@
 # Design System Studio Project Template
 
-Этот template копируется skill-ом в выбранную проектную директорию вида
-`<project-path>/design-system/`. Он не используется прямо из baseline.
+Этот template копируется skill-ом в выбранную именованную директорию вида
+`design-system/<id>/`. Он не используется прямо из baseline.
 
 - `project/design-system.json` — project-wide manifest без коллекций сущностей.
 - Каждый token, component, layout, screen, flow и mockup уже разложен в

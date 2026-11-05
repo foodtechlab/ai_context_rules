@@ -38,7 +38,7 @@ ai_context:
         user_data_file: ai-context/apps/backend-entity-map/data/user.json
       design_system_studio:
         runtime_directory: ai-context/baseline/apps/design-system-studio
-        # Required in a target repository, for example apps/mobile/design-system.
+        # Required in a target repository, for example design-system/mobile.
         project_directory: null
         model_file: design-system.json
   skills:

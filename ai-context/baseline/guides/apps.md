@@ -36,8 +36,8 @@ ai-context/
 Текущий baseline-набор:
 
 - `backend-entity-map` — React Flow-интерфейс карты backend-сущностей.
-- `design-system-studio` — неизменяемые runtime/library для проектной
-  code-first дизайн-системы, расположенной в `<project-path>/design-system/`.
+- `design-system-studio` — неизменяемые runtime/library для проектных
+  code-first дизайн-систем, расположенных в `design-system/<id>/`.
 
 ## Именование
 
@@ -82,15 +82,18 @@ Design System Studio не хранит проектную дизайн-сист�
 
 - `ai-context/baseline/apps/design-system-studio/` — только неизменяемые
   runtime, library, schema, adapters и templates;
-- `<project-path>/design-system/` — проектные tokens, компоненты, layouts,
+- `design-system/<id>/` — project-owned tokens, компоненты, layouts,
   screens, flows и mockups;
-- путь `<project-path>/design-system` задаётся в
+- путь выбранной системы `design-system/<id>` задаётся в
   `apps.catalog.design_system_studio.project_directory` файла
   `ai-context/parameters/repository-parameters.yaml`;
 - локальная директория обязана повторять семь разделов модели и дополнительно
   делить tokens на три группы, а components — на atoms, molecules и organisms;
 - AI Context sync не управляет проектной директорией и никогда её не
   перезаписывает.
+- В одном репозитории может быть несколько соседних систем, например
+  `design-system/mobile` и `design-system/admin`; каждая запускается своим
+  literal `AIC_DESIGN_SYSTEM_DIR`.
 - При bootstrap AI создаёт или обновляет VS Code-конфигурацию
   `AIC: design-system-studio` с literal repo-relative project path. Один `F5`
   обязан выполнить установку зависимостей, запуск Studio и открытие браузера;

@@ -6,7 +6,7 @@ description: Создавать project-owned директорию design-system
 # Design System Studio
 
 Работать с code-first дизайн-системой текущего репозитория через неизменяемую
-baseline library и отдельную проектную директорию `<project-path>/design-system`.
+baseline library и отдельную именованную директорию `design-system/<id>`.
 
 ## Подготовка
 
@@ -32,15 +32,14 @@ baseline library и отдельную проектную директорию `
 2. Если значение задано, разрешить его относительно корня репозитория и
    проверить, что путь:
    - находится внутри репозитория;
-   - заканчивается сегментом `design-system`; для named examples допустим
-     только путь `examples/design-system-<name>`;
-   - не находится внутри `ai-context/baseline`.
-3. Если параметр не задан, найти существующие `*/design-system/design-system.json` и
-   `examples/design-system-*/design-system.json`, исключив `.git`, build output,
-   dependencies и `ai-context/baseline`.
+   - имеет ровно два сегмента `design-system/<id>` от корня репозитория;
+   - `<id>` является portable именем: буквы, цифры, `.`, `_` и `-`;
+   - не указывает на сам каталог `design-system` без id.
+3. Если параметр не задан, найти существующие
+   `design-system/*/design-system.json`, исключив build output и dependencies.
 4. Если найден ровно один путь, использовать его и предложить записать в
    repository parameters. Если не найдено ни одного или найдено несколько,
-   запросить у пользователя конкретный `<project-path>/design-system`.
+   запросить у пользователя конкретный `design-system/<id>`.
 
 Если в выбранной директории существует legacy `studio.json`, не запускать
 Studio и не редактировать монолит. Разделить его штатной командой `split:data`,
@@ -58,7 +57,7 @@ Studio и не редактировать монолит. Разделить е�
 Обязательные директории:
 
 ```text
-<project-path>/design-system/
+design-system/<id>/
   design-system.json
   base-system/base-system.json
   tokens/themes/
@@ -109,7 +108,7 @@ npm --prefix ai-context/baseline/apps/design-system-studio install
 Из корня репозитория запустить:
 
 ```bash
-PROJECT_DESIGN_SYSTEM="<project-path>/design-system"
+PROJECT_DESIGN_SYSTEM="design-system/<id>"
 AIC_REPO_ROOT="$PWD" AIC_DESIGN_SYSTEM_DIR="$PROJECT_DESIGN_SYSTEM" \
   npm --prefix ai-context/baseline/apps/design-system-studio run dev
 ```
@@ -120,7 +119,7 @@ AIC_REPO_ROOT="$PWD" AIC_DESIGN_SYSTEM_DIR="$PROJECT_DESIGN_SYSTEM" \
 ## Изменение дизайн-системы
 
 - Канонический контракт — отдельные файлы внутри
-  `<project-path>/design-system/`, а не baseline React runtime и не агрегат.
+  `design-system/<id>/`, а не baseline React runtime и не агрегат.
 - Жёстко соблюдать правило «одна сущность — один файл»: одна theme, token,
   component, layout, screen, flow или mockup записывается только в собственный
   `<id>.json`. Имя файла обязано совпадать с `id`.

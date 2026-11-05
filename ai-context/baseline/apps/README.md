@@ -11,4 +11,4 @@ templates и общие schemas.
 - `backend-entity-map/` — интерактивная карта domain-сущностей backend.
 - `design-system-studio/` — неизменяемые runtime/library для проектной
   code-first дизайн-системы; project-owned реализация находится в отдельной
-  директории `<project-path>/design-system/`.
+  именованной директории `design-system/<id>/`.

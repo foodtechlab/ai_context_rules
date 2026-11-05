@@ -66,24 +66,24 @@ Code-first дизайн-система, responsive-экраны, React Flow-ка
 
 ```bash
 npm --prefix ai-context/baseline/apps/design-system-studio install
-AIC_REPO_ROOT="$PWD" AIC_DESIGN_SYSTEM_DIR="<project-path>/design-system" \
+AIC_REPO_ROOT="$PWD" AIC_DESIGN_SYSTEM_DIR="design-system/<id>" \
   npm --prefix ai-context/baseline/apps/design-system-studio run dev
 ```
 
 Открыть `http://localhost:4174`. Baseline runtime не изменяется. Tokens,
 реализации компонентов, layouts, screens, flows и mockups сохраняются в
-проектной директории `<project-path>/design-system/`, которая повторяет семь
+именованной директории `design-system/<id>/`, которая повторяет семь
 разделов дизайн-системы. Для bootstrap, запуска и развития можно использовать
 `$aic-design-system-studio`.
 
 Готовый адаптивный пример дизайн-системы админ-панели находится в
-`examples/design-system-example/`. Он включает восемь экранов, desktop/mobile
+`design-system/admin-console/`. Он включает восемь экранов, desktop/mobile
 варианты, пользовательские flow и воспроизводимые mockup-сценарии. Запуск из
 корня репозитория:
 
 ```bash
 npm --prefix ai-context/baseline/apps/design-system-studio install
-AIC_REPO_ROOT="$PWD" AIC_DESIGN_SYSTEM_DIR="examples/design-system-example" \
+AIC_REPO_ROOT="$PWD" AIC_DESIGN_SYSTEM_DIR="design-system/admin-console" \
   npm --prefix ai-context/baseline/apps/design-system-studio run dev
 ```
 

@@ -20,7 +20,7 @@ Project-owned пример дизайн-системы адаптивной ад
 
 ```bash
 npm --prefix ai-context/baseline/apps/design-system-studio install
-AIC_REPO_ROOT="$PWD" AIC_DESIGN_SYSTEM_DIR="examples/design-system-example" \
+AIC_REPO_ROOT="$PWD" AIC_DESIGN_SYSTEM_DIR="design-system/admin-console" \
   npm --prefix ai-context/baseline/apps/design-system-studio run dev
 ```
 

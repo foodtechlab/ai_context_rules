@@ -9,7 +9,7 @@ import { DEFAULT_STUDIO_SETTINGS, getStudioSettings, resolveTheme, resolveViewpo
 type Mode = 'base' | 'tokens' | 'components' | 'layouts' | 'screens' | 'flows' | 'mockup' | 'settings';
 type ZoomableMode = 'components' | 'layouts' | 'screens';
 type FlowNode = Node<{ node: FlowDefinition['nodes'][number]; studio: StudioData; theme: Theme }, 'screen'>;
-type ProjectContext = { repositoryRoot: string; designSystemDirectory: string; designSystemManifestPath: string };
+type ProjectContext = { repositoryRoot: string; designSystemDirectory: string; designSystemId: string; designSystemManifestPath: string };
 const NODE_TYPES = { screen: ScreenMapNodeView };
 const NAVIGATION: Array<[Mode, string, string]> = [
   ['base', 'Базовая система', '◉'], ['tokens', 'Токены', '◫'], ['components', 'Компоненты', '◇'],
@@ -290,7 +290,7 @@ export default function App() {
   const toggleTreeNode = (id: string) => setExpandedTreeIds((current) => { const next = new Set(current); if (next.has(id)) next.delete(id); else next.add(id); return next; });
   const zoomMode: ZoomableMode | null = mode === 'components' || mode === 'layouts' || mode === 'screens' ? mode : null;
   const updateZoom = (value: number) => { if (zoomMode) setZoomLevels((current) => ({ ...current, [zoomMode]: value })); };
-  const projectTree: ProjectTreeNode = { id: 'project-root', label: 'design-system', tone: 'project', children: [
+  const projectTree: ProjectTreeNode = { id: 'project-root', label: projectContext ? `design-system/${projectContext.designSystemId}` : 'design-system/…', tone: 'project', children: [
     { id: 'base', label: 'base-system', tone: 'base', active: mode === 'base', onSelect: () => openStructureItem('base') },
     { id: 'tokens', label: 'tokens', tone: 'tokens', count: TOKEN_GROUPS.reduce((total, [category]) => total + TOKEN_TIERS.reduce((subtotal, [tier]) => subtotal + studio.tokens[category][tier].length, 0), 0), active: mode === 'tokens' && !activeStructureId, onSelect: () => openStructureItem('tokens', 'tokens-colors'), children: TOKEN_PAGES.map(([page]) => ({ id: `tree-tokens-${page}`, label: page, tone: 'tokens', count: TOKEN_TIERS.reduce((total, [tier]) => total + tokensForPage(studio, page, tier).length, 0), active: mode === 'tokens' && activeTokenPage === page, onSelect: () => openStructureItem('tokens', `tokens-${page}`) })) },
     { id: 'components', label: 'components', tone: 'components', count: studio.components.length, active: mode === 'components' && !activeStructureId, onSelect: () => openStructureItem('components'), children: (['atom', 'molecule', 'organism'] as const).map((classification) => ({ id: `components-${classification}`, label: classification === 'atom' ? 'atoms' : classification === 'molecule' ? 'molecules' : 'organisms', tone: 'components', count: studio.components.filter((item) => item.classification === classification).length, active: mode === 'components' && activeStructureId === `components-${classification}`, onSelect: () => openStructureItem('components', `components-${classification}`), children: studio.components.filter((item) => item.classification === classification).map((component) => ({ id: `tree-component-${component.id}`, label: component.name, tone: 'component-file', active: mode === 'components' && activeStructureId === `component-${component.id}`, onSelect: () => openStructureItem('components', `component-${component.id}`) })) })) },

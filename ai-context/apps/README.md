@@ -18,6 +18,6 @@ ai-context/apps/<app-name>/
 - `backend-entity-map/` — repo-local данные карты backend-сущностей; runtime
   приложения находится в `ai-context/baseline/apps/backend-entity-map/`.
 Design System Studio является исключением: его проектные данные и реализации
-лежат вне `ai-context/apps`, в настраиваемой директории вида
-`<project-path>/design-system/`. В `ai-context` хранится только неизменяемый
+лежат вне `ai-context/apps`, в именованных директориях вида
+`design-system/<id>/`. В `ai-context` хранится только неизменяемый
 runtime/library: `ai-context/baseline/apps/design-system-studio/`.

@@ -40,8 +40,8 @@ ai_context:
         user_data_file: ai-context/apps/backend-entity-map/data/user.json
       design_system_studio:
         runtime_directory: ai-context/baseline/apps/design-system-studio
-        # Named example used to exercise the immutable baseline library.
-        project_directory: examples/design-system-example
+        # Named design system below the repository design-system root.
+        project_directory: design-system/admin-console
         model_file: design-system.json
   skills:
     canonical_directory: ai-context/baseline/skills

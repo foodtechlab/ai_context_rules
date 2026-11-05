@@ -9,7 +9,8 @@ Code-first React-приложение для семи связанных раз�
   baseline, считаются неизменяемыми в целевом репозитории и могут быть целиком
   заменены при обновлении AI Context.
 - Дизайн и реализации текущего проекта находятся вне `ai-context/baseline` в
-  настраиваемой директории вида `<project-path>/design-system/`.
+  именованной директории вида `design-system/<id>/`. В одном репозитории может
+  быть несколько независимых дизайн-систем.
 - Проектная директория использует runtime/library из baseline, но не копирует и
   не изменяет её.
 - Полный обязательный layout описан в
@@ -30,7 +31,7 @@ bootstrap и записывается в launch-конфигурацию; инт
 
 ```bash
 npm --prefix ai-context/baseline/apps/design-system-studio install
-AIC_REPO_ROOT="$PWD" AIC_DESIGN_SYSTEM_DIR="<project-path>/design-system" \
+AIC_REPO_ROOT="$PWD" AIC_DESIGN_SYSTEM_DIR="design-system/<id>" \
   npm --prefix ai-context/baseline/apps/design-system-studio run dev
 ```
 
@@ -47,7 +48,7 @@ AIC_REPO_ROOT="$PWD" AIC_DESIGN_SYSTEM_DIR="<project-path>/design-system" \
 ```bash
 npm --prefix ai-context/baseline/apps/design-system-studio run typecheck
 npm --prefix ai-context/baseline/apps/design-system-studio test
-AIC_REPO_ROOT="$PWD" AIC_DESIGN_SYSTEM_DIR="<project-path>/design-system" \
+AIC_REPO_ROOT="$PWD" AIC_DESIGN_SYSTEM_DIR="design-system/<id>" \
   npm --prefix ai-context/baseline/apps/design-system-studio run validate:data
 npm --prefix ai-context/baseline/apps/design-system-studio run build
 ```
@@ -56,7 +57,7 @@ Production-like запуск:
 
 ```bash
 npm --prefix ai-context/baseline/apps/design-system-studio run build
-AIC_REPO_ROOT="$PWD" AIC_DESIGN_SYSTEM_DIR="<project-path>/design-system" \
+AIC_REPO_ROOT="$PWD" AIC_DESIGN_SYSTEM_DIR="design-system/<id>" \
   npm --prefix ai-context/baseline/apps/design-system-studio start
 ```
 
@@ -64,7 +65,7 @@ AIC_REPO_ROOT="$PWD" AIC_DESIGN_SYSTEM_DIR="<project-path>/design-system" \
 
 ## Модель
 
-`<project-path>/design-system/` содержит обязательную versioned
+`design-system/<id>/` содержит обязательную versioned
 platform-neutral модель в отдельных project-owned файлах:
 
 - project settings: default viewport и именованные Mobile/Desktop presets с
